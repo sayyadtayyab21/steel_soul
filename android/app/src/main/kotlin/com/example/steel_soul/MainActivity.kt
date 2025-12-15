@@ -1,4 +1,4 @@
-package com.example.steel_soul
+package in.easycloud.steel_soul
 
 import io.flutter.embedding.android.FlutterActivity
 
