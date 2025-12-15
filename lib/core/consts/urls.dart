@@ -4,8 +4,8 @@ final _reqisteredUrl = $sl.get<Urls>(instanceName: 'baseUrl');
 
 class Urls {
 
-  factory Urls.steel_soulUAT() => const Urls('https://steel_souluat.easycloud.co.in/api');
-  factory Urls.live() => const Urls('https://steel_soullive.easycloud.co.in/api');
+  factory Urls.uat() => const Urls('https://mtaruat.easycloud.co.in/api');
+  factory Urls.live() => const Urls('https://mtarlive.easycloud.co.in/api');
 
   //   factory Urls.steel_soulUAT() => const Urls('https://steel_soullive.easycloud.co.in/api');
     
@@ -34,10 +34,10 @@ class Urls {
     return 'Debug info logged';
   }
 
-  static final uploadFiles = '$cusWs/steel_soul.api.upload_files';
+  static final uploadFiles = '$cusWs/mtar.api.upload_files';
   static final appUpdate = '$cusWs/steel_soul_erp.api.common.get_app_version';
-  static final login = '$cusWs/steel_soul_erp.auth.user_login.custom_login';
-  static final getUsers = '$cusWs/steel_soul_erp.auth.user_login.custom_login';
+  static final login = '$cusWs/mtar.auth.user_login.custom_login';
+  static final getUsers = '$cusWs/mtar_erp.auth.user_login.custom_login';
   static final getFinishedGoodsBins = '$cusWs/steel_soul_erp.api.inward.get_finished_goods_bins';
   static final getFinishedGoodsBinsTest = '$cusWs/frappe.client.get_list';
   static final binInward = '$cusWs/steel_soul_erp.api.inward.post_finished_goods_bin_inward';

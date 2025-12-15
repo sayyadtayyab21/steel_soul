@@ -4,7 +4,7 @@ class RestUtils {
     String cleanUrl = baseUrl;
     if (cleanUrl.startsWith('https://')) {
       cleanUrl = cleanUrl.substring(8);
-    } else if (cleanUrl.startsWith('http://')) {
+    } else if (cleanUrl.startsWith('https://')) {
       cleanUrl = cleanUrl.substring(7);
     }
 

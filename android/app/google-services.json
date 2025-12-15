@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "177872037232",
+    "project_id": "steelsoul-9e68a",
+    "storage_bucket": "steelsoul-9e68a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177872037232:android:6d6f14c64e59f0750c9bb5",
+        "android_client_info": {
+          "package_name": "in.easycloud.steel_soul"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNDIOw-Ptey42RZfb_frlHyvDVeLFSl0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

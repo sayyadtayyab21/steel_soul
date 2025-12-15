@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBKlO2Wm8ad1kBH1i0NW9cAV5yP-wDXjmI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>177872037232</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.steelSoul</string>
+	<key>PROJECT_ID</key>
+	<string>steelsoul-9e68a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>steelsoul-9e68a.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:177872037232:ios:3358af320f096bc60c9bb5</string>
+</dict>
+</plist>

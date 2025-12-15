@@ -1,14 +1,11 @@
 
 import 'package:steel_soul/core/ext/context_ext.dart';
 import 'package:steel_soul/features/auth/presentation/bloc/auth/auth_cubit.dart';
-import 'package:steel_soul/styles/app_colors.dart';
-import 'package:steel_soul/styles/app_text_styles.dart';
-import 'package:steel_soul/widgets/app_spacer.dart';
-import 'package:steel_soul/widgets/buttons/app_btn.dart';
-import 'package:steel_soul/widgets/spaced_column.dart';
+
+
 import 'package:flutter/material.dart';
 
-import 'dart:math' as math;
+
 
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -51,7 +48,7 @@ class AppProfilePage extends StatelessWidget {
           Column(
             children: [
               Image.asset(
-                'assets/logo/steel_soul_logo.png',
+                'assets/images/app_logo.png',
                 height: 180,
                 width: 200,
               ),
@@ -116,7 +113,7 @@ class AppProfilePage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => context.cubit<AuthCubit>().signOut(),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF05A297),
+                      backgroundColor: const Color(0xFF1744AB),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -200,7 +197,7 @@ class _ProfileItem extends StatelessWidget {
             value,
             style: const TextStyle(
               fontSize: 16,
-              color: Color(0xFF23D4C8),
+              color: Color(0xFF1744AB),
               fontWeight: FontWeight.normal,
             ),
           ),

@@ -26,13 +26,12 @@ class _AuthenticationScrnState extends State<AuthenticationScrn> {
     username = TextEditingController();
     pswd = TextEditingController();
 
-    // ✅ Add listeners to update the button color when text changes
+
     username.addListener(_onTextChanged);
     pswd.addListener(_onTextChanged);
   }
 
-  void _onTextChanged() => setState(() {}); // refresh UI when typing
-
+  void _onTextChanged() => setState(() {}); 
   @override
   void dispose() {
     username.dispose();
@@ -107,11 +106,11 @@ class _AuthenticationScrnState extends State<AuthenticationScrn> {
   Widget _buildMTARLogo() {
     return Column(
       children: [
-        // MTAR Logo Image
+
         SizedBox(
           height: 160,
           child: Image.asset(
-            'assets/logo/mtar_logo.png',
+            'assets/images/app_logo.png',
             fit: BoxFit.contain,
           ),
         ),
@@ -243,7 +242,7 @@ class _AuthenticationScrnState extends State<AuthenticationScrn> {
               },
         style: ElevatedButton.styleFrom(
           backgroundColor:
-              isEnabled ? const Color(0xFF05A297) : Colors.grey[600],
+              isEnabled ? const Color(0xFF1744AB) : Colors.grey[600],
           foregroundColor: Colors.grey[600],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

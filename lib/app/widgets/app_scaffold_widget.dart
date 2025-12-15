@@ -297,7 +297,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
         ],
       ),
       child: Image.asset(
-        'assets/icons/$assetName',
+        'assets/images/$assetName',
         width: 32,
         height: 32,
         fit: BoxFit.contain,

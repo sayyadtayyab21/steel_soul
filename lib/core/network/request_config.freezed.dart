@@ -12,7 +12,8 @@ part of 'request_config.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$RequestConfig<T> {
@@ -25,7 +26,9 @@ mixin _$RequestConfig<T> {
       throw _privateConstructorUsedError;
   String? get body => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RequestConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RequestConfigCopyWith<T, RequestConfig<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -33,16 +36,18 @@ mixin _$RequestConfig<T> {
 /// @nodoc
 abstract class $RequestConfigCopyWith<T, $Res> {
   factory $RequestConfigCopyWith(
-          RequestConfig<T> value, $Res Function(RequestConfig<T>) then) =
-      _$RequestConfigCopyWithImpl<T, $Res, RequestConfig<T>>;
+    RequestConfig<T> value,
+    $Res Function(RequestConfig<T>) then,
+  ) = _$RequestConfigCopyWithImpl<T, $Res, RequestConfig<T>>;
   @useResult
-  $Res call(
-      {String url,
-      T Function(Map<String, dynamic>) parser,
-      Map<String, dynamic>? reqParams,
-      Map<String, String>? headers,
-      ApiResponseParser<T>? apiResponseParser,
-      String? body});
+  $Res call({
+    String url,
+    T Function(Map<String, dynamic>) parser,
+    Map<String, dynamic>? reqParams,
+    Map<String, String>? headers,
+    ApiResponseParser<T>? apiResponseParser,
+    String? body,
+  });
 }
 
 /// @nodoc
@@ -55,6 +60,8 @@ class _$RequestConfigCopyWithImpl<T, $Res, $Val extends RequestConfig<T>>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RequestConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -65,60 +72,68 @@ class _$RequestConfigCopyWithImpl<T, $Res, $Val extends RequestConfig<T>>
     Object? apiResponseParser = freezed,
     Object? body = freezed,
   }) {
-    return _then(_value.copyWith(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      parser: null == parser
-          ? _value.parser
-          : parser // ignore: cast_nullable_to_non_nullable
-              as T Function(Map<String, dynamic>),
-      reqParams: freezed == reqParams
-          ? _value.reqParams
-          : reqParams // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      headers: freezed == headers
-          ? _value.headers
-          : headers // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>?,
-      apiResponseParser: freezed == apiResponseParser
-          ? _value.apiResponseParser
-          : apiResponseParser // ignore: cast_nullable_to_non_nullable
-              as ApiResponseParser<T>?,
-      body: freezed == body
-          ? _value.body
-          : body // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            url: null == url
+                ? _value.url
+                : url // ignore: cast_nullable_to_non_nullable
+                      as String,
+            parser: null == parser
+                ? _value.parser
+                : parser // ignore: cast_nullable_to_non_nullable
+                      as T Function(Map<String, dynamic>),
+            reqParams: freezed == reqParams
+                ? _value.reqParams
+                : reqParams // ignore: cast_nullable_to_non_nullable
+                      as Map<String, dynamic>?,
+            headers: freezed == headers
+                ? _value.headers
+                : headers // ignore: cast_nullable_to_non_nullable
+                      as Map<String, String>?,
+            apiResponseParser: freezed == apiResponseParser
+                ? _value.apiResponseParser
+                : apiResponseParser // ignore: cast_nullable_to_non_nullable
+                      as ApiResponseParser<T>?,
+            body: freezed == body
+                ? _value.body
+                : body // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$RequestConfigImplCopyWith<T, $Res>
     implements $RequestConfigCopyWith<T, $Res> {
-  factory _$$RequestConfigImplCopyWith(_$RequestConfigImpl<T> value,
-          $Res Function(_$RequestConfigImpl<T>) then) =
-      __$$RequestConfigImplCopyWithImpl<T, $Res>;
+  factory _$$RequestConfigImplCopyWith(
+    _$RequestConfigImpl<T> value,
+    $Res Function(_$RequestConfigImpl<T>) then,
+  ) = __$$RequestConfigImplCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call(
-      {String url,
-      T Function(Map<String, dynamic>) parser,
-      Map<String, dynamic>? reqParams,
-      Map<String, String>? headers,
-      ApiResponseParser<T>? apiResponseParser,
-      String? body});
+  $Res call({
+    String url,
+    T Function(Map<String, dynamic>) parser,
+    Map<String, dynamic>? reqParams,
+    Map<String, String>? headers,
+    ApiResponseParser<T>? apiResponseParser,
+    String? body,
+  });
 }
 
 /// @nodoc
 class __$$RequestConfigImplCopyWithImpl<T, $Res>
     extends _$RequestConfigCopyWithImpl<T, $Res, _$RequestConfigImpl<T>>
     implements _$$RequestConfigImplCopyWith<T, $Res> {
-  __$$RequestConfigImplCopyWithImpl(_$RequestConfigImpl<T> _value,
-      $Res Function(_$RequestConfigImpl<T>) _then)
-      : super(_value, _then);
+  __$$RequestConfigImplCopyWithImpl(
+    _$RequestConfigImpl<T> _value,
+    $Res Function(_$RequestConfigImpl<T>) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of RequestConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,47 +144,49 @@ class __$$RequestConfigImplCopyWithImpl<T, $Res>
     Object? apiResponseParser = freezed,
     Object? body = freezed,
   }) {
-    return _then(_$RequestConfigImpl<T>(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      parser: null == parser
-          ? _value.parser
-          : parser // ignore: cast_nullable_to_non_nullable
-              as T Function(Map<String, dynamic>),
-      reqParams: freezed == reqParams
-          ? _value._reqParams
-          : reqParams // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      headers: freezed == headers
-          ? _value._headers
-          : headers // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>?,
-      apiResponseParser: freezed == apiResponseParser
-          ? _value.apiResponseParser
-          : apiResponseParser // ignore: cast_nullable_to_non_nullable
-              as ApiResponseParser<T>?,
-      body: freezed == body
-          ? _value.body
-          : body // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$RequestConfigImpl<T>(
+        url: null == url
+            ? _value.url
+            : url // ignore: cast_nullable_to_non_nullable
+                  as String,
+        parser: null == parser
+            ? _value.parser
+            : parser // ignore: cast_nullable_to_non_nullable
+                  as T Function(Map<String, dynamic>),
+        reqParams: freezed == reqParams
+            ? _value._reqParams
+            : reqParams // ignore: cast_nullable_to_non_nullable
+                  as Map<String, dynamic>?,
+        headers: freezed == headers
+            ? _value._headers
+            : headers // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>?,
+        apiResponseParser: freezed == apiResponseParser
+            ? _value.apiResponseParser
+            : apiResponseParser // ignore: cast_nullable_to_non_nullable
+                  as ApiResponseParser<T>?,
+        body: freezed == body
+            ? _value.body
+            : body // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$RequestConfigImpl<T> implements _RequestConfig<T> {
-  _$RequestConfigImpl(
-      {required this.url,
-      required this.parser,
-      final Map<String, dynamic>? reqParams,
-      final Map<String, String>? headers,
-      this.apiResponseParser,
-      this.body})
-      : _reqParams = reqParams,
-        _headers = headers;
+  _$RequestConfigImpl({
+    required this.url,
+    required this.parser,
+    final Map<String, dynamic>? reqParams,
+    final Map<String, String>? headers,
+    this.apiResponseParser,
+    this.body,
+  }) : _reqParams = reqParams,
+       _headers = headers;
 
   @override
   final String url;
@@ -212,8 +229,10 @@ class _$RequestConfigImpl<T> implements _RequestConfig<T> {
             other is _$RequestConfigImpl<T> &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.parser, parser) || other.parser == parser) &&
-            const DeepCollectionEquality()
-                .equals(other._reqParams, _reqParams) &&
+            const DeepCollectionEquality().equals(
+              other._reqParams,
+              _reqParams,
+            ) &&
             const DeepCollectionEquality().equals(other._headers, _headers) &&
             (identical(other.apiResponseParser, apiResponseParser) ||
                 other.apiResponseParser == apiResponseParser) &&
@@ -222,30 +241,36 @@ class _$RequestConfigImpl<T> implements _RequestConfig<T> {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      url,
-      parser,
-      const DeepCollectionEquality().hash(_reqParams),
-      const DeepCollectionEquality().hash(_headers),
-      apiResponseParser,
-      body);
+    runtimeType,
+    url,
+    parser,
+    const DeepCollectionEquality().hash(_reqParams),
+    const DeepCollectionEquality().hash(_headers),
+    apiResponseParser,
+    body,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RequestConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RequestConfigImplCopyWith<T, _$RequestConfigImpl<T>> get copyWith =>
       __$$RequestConfigImplCopyWithImpl<T, _$RequestConfigImpl<T>>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _RequestConfig<T> implements RequestConfig<T> {
-  factory _RequestConfig(
-      {required final String url,
-      required final T Function(Map<String, dynamic>) parser,
-      final Map<String, dynamic>? reqParams,
-      final Map<String, String>? headers,
-      final ApiResponseParser<T>? apiResponseParser,
-      final String? body}) = _$RequestConfigImpl<T>;
+  factory _RequestConfig({
+    required final String url,
+    required final T Function(Map<String, dynamic>) parser,
+    final Map<String, dynamic>? reqParams,
+    final Map<String, String>? headers,
+    final ApiResponseParser<T>? apiResponseParser,
+    final String? body,
+  }) = _$RequestConfigImpl<T>;
 
   @override
   String get url;
@@ -259,8 +284,11 @@ abstract class _RequestConfig<T> implements RequestConfig<T> {
   ApiResponseParser<T>? get apiResponseParser;
   @override
   String? get body;
+
+  /// Create a copy of RequestConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RequestConfigImplCopyWith<T, _$RequestConfigImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

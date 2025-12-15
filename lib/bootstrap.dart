@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:isolate';
-
 import 'package:steel_soul/core/consts/urls.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/logger/app_logger.dart';
@@ -10,7 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
-// import 'package:steel_soul/firebase_options.dart';
+import 'package:steel_soul/firebase_options.dart';
+
 
 
 Future<void> bootstrap(void Function() runApp) async {
@@ -19,9 +19,9 @@ Future<void> bootstrap(void Function() runApp) async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await _initInjector();
   if(kDebugMode) {
-    await register<Urls>(Urls.steel_soulUAT(), instanceName: 'baseUrl');
+    await register<Urls>(Urls.uat(), instanceName: 'baseUrl');
   } else {
-    await register<Urls>(Urls.steel_soulUAT(), instanceName: 'baseUrl');
+    await register<Urls>(Urls.uat(), instanceName: 'baseUrl');
   }
   await _initFirebase(); 
   _setupErrorHandling(runApp);

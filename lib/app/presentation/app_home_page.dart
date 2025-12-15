@@ -147,7 +147,7 @@ class AppHomePage extends StatelessWidget {
         title: 'Laser Cutting',
         color: const Color.fromARGB(255, 100, 203, 241), // Light Blue
         icon: Icons.inbox_outlined,
-        imagePath: 'assets/logo/inward.png',
+        imagePath: 'assets/images/laserCutting.png',
       ),
 
       _buildFeatureCard(
@@ -168,7 +168,7 @@ class AppHomePage extends StatelessWidget {
         title: 'Floding',
         color: const Color.fromARGB(255, 255, 152, 93), // ✅ Vibrant Orange
         icon: Icons.inventory_2_outlined,
-        imagePath: 'assets/logo/picking.png',
+        imagePath: 'assets/images/folding.png',
       ),
 
       _buildFeatureCard(
@@ -188,7 +188,7 @@ class AppHomePage extends StatelessWidget {
         title: 'Power Coating',
         color: const Color.fromARGB(255, 234, 163, 101), // Orange
         icon: Icons.engineering_outlined,
-        imagePath: 'assets/logo/pdi.png',
+        imagePath: 'assets/images/powdercoat.png',
       ),
 
       _buildFeatureCard(
@@ -209,7 +209,7 @@ class AppHomePage extends StatelessWidget {
         title: 'Plastic Film',
         color: const Color.fromARGB(255, 157, 152, 237), // Purple
         icon: Icons.category_outlined,
-        imagePath: 'assets/logo/kitting.png',
+        imagePath: 'assets/images/plasticfilm.png',
       ),
 
       _buildFeatureCard(
@@ -228,9 +228,9 @@ class AppHomePage extends StatelessWidget {
         },
         context,
         title: 'PUF',
-        color: const Color.fromARGB(255, 91, 156, 202), // ✅ Teal Blue
+        color: const Color(0xFF1AD0D0), 
         icon: Icons.construction_outlined,
-        imagePath: 'assets/logo/wooden_crating.png',
+        imagePath: 'assets/images/puf.png',
       ),
        _buildFeatureCard(
         onTap: () {
@@ -248,9 +248,9 @@ class AppHomePage extends StatelessWidget {
         },
         context,
         title: 'Riveting',
-        color: const Color.fromARGB(255, 91, 156, 202), // ✅ Teal Blue
+        color: const Color(0xFF6EA7FF), // ✅ Teal Blue
         icon: Icons.construction_outlined,
-        imagePath: 'assets/logo/wooden_crating.png',
+        imagePath: 'assets/images/riveting.png',
       ),
       _buildFeatureCard(
         onTap: () {
@@ -268,9 +268,9 @@ class AppHomePage extends StatelessWidget {
         },
         context,
         title: 'Packing',
-        color: const Color.fromARGB(255, 91, 156, 202), // ✅ Teal Blue
+        color: const Color(0xFFF6997F), // ✅ Teal Blue
         icon: Icons.construction_outlined,
-        imagePath: 'assets/logo/wooden_crating.png',
+        imagePath: 'assets/images/packing.png',
       ),
     ],
   );
@@ -323,8 +323,8 @@ class AppHomePage extends StatelessWidget {
                         child: imagePath != null
                             ? Image.asset(
                                 imagePath,
-                                width: 250,
-                                height: 250,
+                                width: 170,
+                                height: 170,
                                 fit: BoxFit.contain,
                               )
                             : Icon(

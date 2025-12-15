@@ -13,7 +13,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   cupertino_icons: ^1.0.8
   firebase_crashlytics: ^5.0.5
   flutter_bloc: ^9.1.1
@@ -22,7 +21,8 @@ dependencies:
   url_launcher: ^6.3.2
   photo_view: ^0.15.0
   dartz: ^0.10.1
-  freezed_annotation: ^3.1.0
+  freezed_annotation: ^2.4.4
+
   injectable: ^2.7.1+2
   package_info_plus: ^9.0.0
   connectivity_plus: ^7.0.0
@@ -35,15 +35,27 @@ dependencies:
   logger: ^2.6.2
   google_fonts: ^6.3.3
 
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
- 
+  build_runner: ^2.4.8
+  json_serializable: ^6.7.1
+
+  freezed: ^2.4.6
+  injectable_generator: ^2.4.1
+
   flutter_lints: ^4.0.0
 
 
 flutter:
+  assets:
+    - assets/images/
+    - assets/logo/
+    - assets/icons/
 
   
   uses-material-design: true
