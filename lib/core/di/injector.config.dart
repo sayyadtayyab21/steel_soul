@@ -25,6 +25,10 @@ import '../../features/auth/data/auth_repo_impl.dart' as _i328;
 import '../../features/auth/presentation/bloc/auth/auth_cubit.dart' as _i190;
 import '../../features/auth/presentation/bloc/sign_in/sign_in_cubit.dart'
     as _i140;
+import '../../features/laser_cutting/data/laser_cutting_repo.dart' as _i137;
+import '../../features/laser_cutting/data/laser_cutting_repo_imp.dart' as _i147;
+import '../../features/laser_cutting/presentation/bloc/bloc_provider.dart'
+    as _i158;
 import '../core.dart' as _i351;
 import '../local_storage/key_vale_storage.dart' as _i1012;
 import '../network/api_client.dart' as _i557;
@@ -77,6 +81,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i351.KeyValueStorage>(),
       ),
     );
+    gh.lazySingleton<_i137.LaserCuttingRepo>(
+      () => _i147.LaserCuttingRepoImp(gh<_i351.ApiClient>()),
+    );
     gh.lazySingleton<_i691.AppRepository>(
       () => _i691.AppRepository(gh<_i351.ApiClient>(), gh<_i346.AppVersion>()),
     );
@@ -87,6 +94,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i140.SignInCubit(gh<_i585.AuthRepo>()),
     );
     gh.factory<_i190.AuthCubit>(() => _i190.AuthCubit(gh<_i585.AuthRepo>()));
+    gh.lazySingleton<_i158.LaserCuttingBlocProvider>(
+      () => _i158.LaserCuttingBlocProvider(gh<_i137.LaserCuttingRepo>()),
+    );
     return this;
   }
 }

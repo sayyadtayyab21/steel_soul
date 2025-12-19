@@ -11,19 +11,19 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:steel_soul/firebase_options.dart';
 
-
-
 Future<void> bootstrap(void Function() runApp) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await _initInjector();
-  if(kDebugMode) {
+  if (kDebugMode) {
     await register<Urls>(Urls.uat(), instanceName: 'baseUrl');
   } else {
     await register<Urls>(Urls.uat(), instanceName: 'baseUrl');
   }
-  await _initFirebase(); 
+  await _initFirebase();
   _setupErrorHandling(runApp);
 }
 
@@ -37,7 +37,6 @@ Future<void> _initFirebase() async {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   }
 }
-
 
 void _setupErrorHandling(void Function() runApp) {
   Isolate.current.addErrorListener(
@@ -54,11 +53,8 @@ void _setupErrorHandling(void Function() runApp) {
     }).sendPort,
   );
 
-  runZonedGuarded<Future<void>>(
-    () async {
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-      runApp();
-    },
-    FirebaseCrashlytics.instance.recordError,
-  );
+  runZonedGuarded<Future<void>>(() async {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    runApp();
+  }, FirebaseCrashlytics.instance.recordError);
 }

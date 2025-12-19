@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/features/auth/presentation/bloc/sign_in/sign_in_cubit.dart';
 
-class AparnaApp extends StatelessWidget {
-  const AparnaApp({super.key});
+class SteelSoul extends StatelessWidget {
+  const SteelSoul({super.key});
 
   @override
   Widget build(BuildContext context) {

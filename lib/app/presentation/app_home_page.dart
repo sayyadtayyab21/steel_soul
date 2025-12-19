@@ -5,6 +5,8 @@ import 'package:steel_soul/app/widgets/app_update_dailog.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/features/auth/model/logged_in_user.dart';
 import 'package:steel_soul/features/folding/presentation/ui/folding_screen.dart';
+import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
+import 'package:steel_soul/features/laser_cutting/presentation/ui/item_details.dart';
 
 import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_coating_screen.dart';
 import 'package:steel_soul/features/packing/presentation/ui/packing_screen.dart';
@@ -134,26 +136,26 @@ class AppHomePage extends StatelessWidget {
       childAspectRatio: 1.0,
       children: [
         _buildFeatureCard(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const LaserCuttingScreen()),
-            );
-          },
           // onTap: () {
           //   Navigator.push(
           //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) =>
-          //       // BlocProvider(
-          //       //   create: (context) =>
-          //       //       BinBlocProvider.get().createTestListCubit()
-          //       //         ..fetchInitial(),
-          //       //   child: const TestBinInwardPage(),
-          //       // ),
-          //     ),
+          //     MaterialPageRoute(builder: (context) => const LaserCuttingScreen()),
           //   );
           // },
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                BlocProvider(
+                  create: (context) =>
+                      LaserCuttingBlocProvider.get().fetchLaserList()
+                        ..request(),
+                  child: const LaserCuttingScreen(),
+                ),
+              ),
+            );
+          },
           context,
           title: 'Laser Cutting',
           color: const Color.fromARGB(255, 100, 203, 241), // Light Blue

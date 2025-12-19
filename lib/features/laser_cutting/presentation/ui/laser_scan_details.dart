@@ -20,6 +20,8 @@ class LaserScanDetails extends StatefulWidget {
 }
 
 class _LaserScanDetailsState extends State<LaserScanDetails> {
+
+  
   // Dummy list of items for the project
   final List<ScanDetail> items = [
     ScanDetail('001 TV1 FIP', 'Part 1', true),

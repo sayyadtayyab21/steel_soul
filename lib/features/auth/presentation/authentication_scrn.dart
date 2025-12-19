@@ -44,7 +44,8 @@ class _AuthenticationScrnState extends State<AuthenticationScrn> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: 
+      SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -65,7 +66,6 @@ class _AuthenticationScrnState extends State<AuthenticationScrn> {
 
                 _buildMTARLogo(),
                 const SizedBox(height: 20),
-
                 _buildEmailField(),
                 const SizedBox(height: 20),
                 _buildPasswordField(),
@@ -104,20 +104,18 @@ class _AuthenticationScrnState extends State<AuthenticationScrn> {
       });
 
   Widget _buildMTARLogo() {
-    return Column(
-      children: [
+  return Container(
+    width: double.infinity,
+    color: Colors.white, 
+    alignment: Alignment.center,
+    child: Image.asset(
+      'assets/images/app_logo.png',
+      height: 160,
+      fit: BoxFit.contain, 
+    ),
+  );
+}
 
-        SizedBox(
-          height: 160,
-          child: Image.asset(
-            'assets/images/app_logo.png',
-            fit: BoxFit.contain,
-          ),
-        ),
-        const SizedBox(height: 12),
-      ],
-    );
-  }
 
   Widget _buildEmailField() {
     return Column(
