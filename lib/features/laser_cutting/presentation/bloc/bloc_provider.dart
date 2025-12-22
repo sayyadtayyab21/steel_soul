@@ -7,6 +7,7 @@ import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
 
 import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
+import 'package:steel_soul/features/laser_cutting/model/panel_status_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
 
 typedef LaserCuttingCubit = NetworkRequestCubit<List<LaserCuttingList>,None>;
@@ -19,6 +20,19 @@ typedef LaserCuttingItemsCubitState = NetworkRequestState<List<LaserItemModel>>;
 
 typedef LaserCuttingScanCubit = NetworkRequestCubit<List<SacnnerDetailsModel>,Pair<String,String>>;
 typedef LaserCuttingScanCubitState = NetworkRequestState<List<SacnnerDetailsModel>>;
+
+
+
+
+// T is PanelStatusModel
+// RP is Triple<String, String, String>
+typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Triple<String, String, String>>;
+
+typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
+
+
+
+
 
 
 
@@ -43,6 +57,11 @@ class LaserCuttingBlocProvider{
 
      LaserCuttingScanCubit fetchLaserScanList() => LaserCuttingScanCubit(
     onRequest: (params, state) => repository.fetchLaserCuttingScanDetails(params!.first,params.second),
+    );
+
+
+     LaserCuttingPanelCubit fetchLaserPanelStatus() => LaserCuttingPanelCubit(
+    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first,params.second,params.third),
     );
 
     

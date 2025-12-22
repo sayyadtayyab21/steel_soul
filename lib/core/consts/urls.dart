@@ -39,6 +39,9 @@ class Urls {
  static final getUnits = '$cusWs/steelsoul.api.api.get_unit_list';
   static final scannerCubit = '$cusWs/easy_reader.text_scanner.upload_image';
    static final getPanleList='$cusWs/steelsoul.api.api.get_panel_list';
+      static final getPanel='$cusWs/steelsoul.api.api.update_panel_status';
+
+
 
 
 

@@ -12,12 +12,15 @@ import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
 
 import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
+import 'package:steel_soul/features/laser_cutting/model/panel_status_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/text_scanner_model.dart';
 
 @LazySingleton(as: LaserCuttingRepo)
 class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
   const LaserCuttingRepoImp(super.client);
+
+
   @override
   AsyncValueOf<List<LaserCuttingList>> fetchLaserCuttings() async{
    final requestConfig = RequestConfig(
@@ -161,5 +164,43 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
     return response.process((r)=> right(r.data!));
 
   }
+
+
+
+@override
+AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
+  String project, String unitId, String scannerPanelId
+) async {
+  final requestConfig = RequestConfig(
+    url: Urls.getPanel,
+    parser: (json) {
+      // The JSON structure is: {"message": {"status": "success", "message": "..."}}
+      // We extract the Map inside 'message'
+      final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
+      
+      // Pass that map to your fromJson factory
+      return PanelStatusModel.fromJson(data);
+    },
+    reqParams: {
+      'section_name': 'Laser Cutting',
+      'project': project,
+      'unit_id': unitId,
+      'scanned_panel_id': scannerPanelId,
+    },
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json'
+    },
+  );
+
+
+  log('.....................................$requestConfig');
+
+  $logger.devLog('laser cutting scan details requesting...: $requestConfig');
+  
+  final response = await post(requestConfig);
+  
+  // response.process usually handles the Left/Right (Failure/Success) conversion
+  return response.process((r) => right(r.data!));
+}
   
 }

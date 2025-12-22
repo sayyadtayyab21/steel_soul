@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
+import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
@@ -36,6 +37,11 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                 ..request(Pair<String, String>(widget.projectId, widget.unit)),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
+         BlocProvider(
+          create: (_) =>
+              LaserCuttingBlocProvider.get().fetchLaserPanelStatus()
+                
+        ),
       ],
       // Use a Builder to ensure context has access to the Providers above
       child: Builder(
@@ -52,6 +58,8 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
               }
 
               if (state.extractedWeight != null) {
+
+                       LaserCuttingBlocProvider.get().fetchLaserPanelStatus()..request(Triple<String, String,String>(widget.projectId, widget.unit,state.extractedWeight??''));
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Extracted: ${state.extractedWeight}'),
@@ -62,7 +70,7 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
               if (state.error != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(state.error!.error ?? 'Error occurred'),
+                    content: Text(state.error!.error ),
                   ),
                 );
               }
