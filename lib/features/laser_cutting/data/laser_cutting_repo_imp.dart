@@ -74,6 +74,15 @@ class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
   }
   @override
 AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
+  // Encode the data as JSON body instead of reqParams
+  final bodyData = jsonEncode({
+    'files': [
+      {
+        'filedata': base64DataUri,
+      }
+    ],
+  });
+  
   final requestConfig = RequestConfig(
     url: Urls.scannerCubit,
     parser: (json) {
@@ -81,22 +90,13 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
       final data = json['message'] as Map<String, dynamic>;
       return TextScannerModel.fromJson(data);
     },
-    // Pass the structure as a Map/List. Do NOT use jsonEncode here.
-    reqParams: {
-      'files': [
-        {
-          'filedata': base64DataUri,
-
-        }
-      ],
-    },
+    // Send data in body, not reqParams (reqParams go to URL query string)
+    body: bodyData,
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json',
-      // Ensure your token is included
-
     },
   );
-log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$requestConfig');
+  log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$requestConfig');
 
   final response = await post(requestConfig);
   return response.process((r) => right(r.data!));
