@@ -29,6 +29,8 @@ import '../../features/laser_cutting/data/laser_cutting_repo.dart' as _i137;
 import '../../features/laser_cutting/data/laser_cutting_repo_imp.dart' as _i147;
 import '../../features/laser_cutting/presentation/bloc/bloc_provider.dart'
     as _i158;
+import '../../features/laser_cutting/presentation/bloc/scanner_cubit.dart'
+    as _i955;
 import '../core.dart' as _i351;
 import '../local_storage/key_vale_storage.dart' as _i1012;
 import '../network/api_client.dart' as _i557;
@@ -96,6 +98,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i190.AuthCubit>(() => _i190.AuthCubit(gh<_i585.AuthRepo>()));
     gh.lazySingleton<_i158.LaserCuttingBlocProvider>(
       () => _i158.LaserCuttingBlocProvider(gh<_i137.LaserCuttingRepo>()),
+    );
+    gh.factory<_i955.ScannerCubit>(
+      () => _i955.ScannerCubit(gh<_i137.LaserCuttingRepo>()),
     );
     return this;
   }

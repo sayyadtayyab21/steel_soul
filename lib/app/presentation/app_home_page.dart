@@ -6,7 +6,6 @@ import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/features/auth/model/logged_in_user.dart';
 import 'package:steel_soul/features/folding/presentation/ui/folding_screen.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/ui/item_details.dart';
 
 import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_coating_screen.dart';
 import 'package:steel_soul/features/packing/presentation/ui/packing_screen.dart';
@@ -14,7 +13,6 @@ import 'package:steel_soul/features/plastic_film/presentation/ui/plastic_film_sc
 import 'package:steel_soul/features/powder_coating/presentation/ui/powder_coating_screen.dart';
 import 'package:steel_soul/features/puf/presentation/ui/puf_screen.dart';
 import 'package:steel_soul/features/riveting/presentation%20/ui/riveting_screen.dart';
-
 
 class AppHomePage extends StatelessWidget {
   const AppHomePage({super.key});
@@ -146,8 +144,7 @@ class AppHomePage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                BlocProvider(
+                builder: (context) => BlocProvider(
                   create: (context) =>
                       LaserCuttingBlocProvider.get().fetchLaserList()
                         ..request(),
@@ -164,7 +161,7 @@ class AppHomePage extends StatelessWidget {
         ),
 
         _buildFeatureCard(
-           onTap: () {
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const FoldingScreen()),
@@ -191,10 +188,12 @@ class AppHomePage extends StatelessWidget {
         ),
 
         _buildFeatureCard(
-            onTap: () {
+          onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PowderCoatingScreen()),
+              MaterialPageRoute(
+                builder: (context) => const PowderCoatingScreen(),
+              ),
             );
           },
           // onTap: () {
@@ -210,18 +209,19 @@ class AppHomePage extends StatelessWidget {
           //   // );
           // },
           context,
-          title: 'Power Coating',
+          title: 'Powder Coating',
           color: const Color.fromARGB(255, 234, 163, 101), // Orange
           icon: Icons.engineering_outlined,
           imagePath: 'assets/images/powdercoat.png',
         ),
 
         _buildFeatureCard(
-
-           onTap: () {
+          onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PlasticFilmScreen()),
+              MaterialPageRoute(
+                builder: (context) => const PlasticFilmScreen(),
+              ),
             );
           },
           // onTap: () {
@@ -245,7 +245,7 @@ class AppHomePage extends StatelessWidget {
         ),
 
         _buildFeatureCard(
-             onTap: () {
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const PufScreen()),
@@ -271,7 +271,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/puf.png',
         ),
         _buildFeatureCard(
-           onTap: () {
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const RivetingScreen()),
@@ -297,7 +297,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/riveting.png',
         ),
         _buildFeatureCard(
-           onTap: () {
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const PackingScreen()),
@@ -369,8 +369,9 @@ class AppHomePage extends StatelessWidget {
                         child: imagePath != null
                             ? Image.asset(
                                 imagePath,
-                                width: 170,
-                                height: 170,
+                                width: 110,
+                                height: 110,
+
                                 fit: BoxFit.contain,
                               )
                             : Icon(icon, color: Colors.white, size: 150),
@@ -411,7 +412,7 @@ class AppHomePage extends StatelessWidget {
                             title,
                             style: const TextStyle(
                               color: Colors.black,
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.left,

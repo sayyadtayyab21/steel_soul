@@ -4,6 +4,7 @@ import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class ItemCards extends StatelessWidget {
   final String id;
+  final String scan;
   
   final Function() onTap;
 
@@ -11,17 +12,23 @@ class ItemCards extends StatelessWidget {
     super.key,
     required this.id,
   
-    required this.onTap,
+    required this.onTap, 
+    required this.scan,
   });
 
   @override
   Widget build(BuildContext context) {
+ 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xFFE6F3FF),
-          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: scan == 'Scanned' ? Colors.green : Colors.grey.shade200,
+            width: 3,
+          ),
+          borderRadius: BorderRadius.all( Radius.circular(16)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -56,7 +63,7 @@ class ItemCards extends StatelessWidget {
                             id, // Use the actual project ID
                             style: const TextStyle(
                               fontSize: 16,
-                              fontFamily: "Urbanist",
+                              fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w600,
                             ),
                           ),

@@ -3,7 +3,7 @@ import 'package:steel_soul/core/di/injector.dart';
 final _reqisteredUrl = $sl.get<Urls>(instanceName: 'baseUrl');
 
 class Urls {
-  factory Urls.uat() => const Urls('http://192.168.245.66:8001/api');
+  factory Urls.uat() => const Urls('http://192.168.245.247:8001/api');
   factory Urls.live() => const Urls('https://mtarlive.easycloud.co.in/api');
 
   //   factory Urls.steel_soulUAT() => const Urls('https://steel_soullive.easycloud.co.in/api');
@@ -33,7 +33,16 @@ class Urls {
 
   static final appUpdate = '$cusWs/steel_soul_erp.api.common.get_app_version';
   static final getUsers = '$cusWs/steelsoul.auth.user_login.custom_login';
+
+
   static final projectList = '$cusWs/steelsoul.api.api.get_project_list';
+ static final getUnits = '$cusWs/steelsoul.api.api.get_unit_list';
+  static final scannerCubit = '$cusWs/easy_reader.text_scanner.upload_image';
+   static final getPanleList='$cusWs/steelsoul.api.api.get_panel_list';
+
+
+
+
   static String filepath(String path) {
     return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';
   }

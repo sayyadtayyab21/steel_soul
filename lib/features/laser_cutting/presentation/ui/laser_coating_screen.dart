@@ -149,7 +149,7 @@
 // }
 
 
-import 'package:dartz/dartz.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart';
@@ -168,7 +168,7 @@ class LaserCuttingScreen extends StatelessWidget {
       create: (_) =>
     LaserCuttingBlocProvider.get()
         .fetchLaserList()
-      ..request(None()),
+      ..request(),
 
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -207,7 +207,7 @@ class LaserCuttingScreen extends StatelessWidget {
                       loading: () =>
                           const Center(child: CircularProgressIndicator()),
                       failure: (e) =>
-                          Center(child: Text("$e.message")),
+                          Center(child: Text('$e.message')),
                       success: (List<LaserCuttingList> projects) {
                         return ListView.builder(
                           itemCount: projects.length,
@@ -224,7 +224,10 @@ class LaserCuttingScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => ItemDetails(),
+                                      builder: (_) => ItemDetails(
+                                        id: project.projectId ?? '',
+
+                                      ),
                                     ),
                                   );
                                 },
@@ -275,15 +278,15 @@ class LaserCuttingScreen extends StatelessWidget {
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
       ),
-      child: TextField(
+      child: const TextField(
         decoration: InputDecoration(
           hintText: 'Search Project ID',
           prefixIcon:
-              const Icon(Icons.search, color: Color(0xFF5FD6FF)),
+              Icon(Icons.search, color: Color(0xFF5FD6FF)),
           border: InputBorder.none,
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        ),
+              EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        ),   
       ),
     );
   }
