@@ -1,116 +1,252 @@
+import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:steel_soul/core/di/injector.dart';
+import 'package:steel_soul/core/model/pair.dart' show Pair;
+import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/powder_coating/model/scanner_details_model.dart';
+import 'package:steel_soul/features/powder_coating/presentation/bloc/bloc_provider.dart';
+import 'package:steel_soul/features/powder_coating/presentation/bloc/scanner_cubit.dart';
+import 'package:steel_soul/features/powder_coating/presentation/widgets/scanner_button.dart';
+
+
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-
-class ScanDetail {
-  final String itemId;
-  final String itemDescription;
-  final bool isScanned;
-
-  ScanDetail(this.itemId, this.itemDescription, this.isScanned);
-}
-
 class PowderCoatingScanDetails extends StatefulWidget {
   final String projectId;
-  const PowderCoatingScanDetails({super.key, required this.projectId});
+  final String unit;
+  const PowderCoatingScanDetails({
+    super.key,
+    required this.projectId,
+    required this.unit,
+  });
 
   @override
   State<PowderCoatingScanDetails> createState() => _PowderCoatingScanDetailsState();
 }
+// ... (imports remain the same)
 
 class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
-  // Dummy list of items for the project
-  final List<ScanDetail> items = [
-    ScanDetail('001 TV1 FIP', 'Part 1', true),
-    ScanDetail('001 TV1 WEP', 'Part 2', false),
-    ScanDetail('001 TV1 IHS', 'Part 3', true),
-    ScanDetail('001 TV1 LHS', 'Part 4', false),
-    ScanDetail('001 TV1 UFS', 'Part 5', true),
-    ScanDetail('001 TV1 BFP', 'Part 6', false),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: Container(
-          margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFb23f),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
-          ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              PowderCoatingBlocProvider.get().fetchLaserScanList()
+                ..request(Pair<String, String>(widget.projectId, widget.unit)),
         ),
-        title: Text(
-          widget.projectId,
-          style: UrbanistTextStyles.heading3,
+        BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
+        // This provides the Panel Status Cubit to the tree
+        BlocProvider(
+          create: (_) => PowderCoatingBlocProvider.get().fetchLaserPanelStatus(),
         ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Column(
-          children: [
-            // List of Scannable Items
-            Expanded(
-              child: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  final item = items[index];
-                  return _buildScanDetailCard(context, item);
+      ],
+      child: Builder(
+        builder: (context) {
+          return MultiBlocListener(
+            listeners: [
+              // 1. Listen to the Image Scanner (OCR)
+              BlocListener<ScannerCubit, ScannerState>(
+                listener: (context, state) {
+                  if (state.isExtracting) {
+                    _showLoadingDialog(context);
+                  } else {
+                    if (Navigator.of(context, rootNavigator: true).canPop()) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                  }
+
+                  if (state.extractedWeight != null) {
+                    // Trigger the second API call using the extracted text
+                    context.read<LaserCuttingPanelCubit>().request(
+                      Triple<String, String, String>(
+                        widget.projectId,
+                        widget.unit,
+                        state.extractedWeight!,
+                      ),
+                    );
+                  }
+
+                  if (state.error != null) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.error!.error)));
+                  }
                 },
               ),
+              // 2. Listen to the Panel Status API (The one you just triggered)
+              BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
+                listener: (context, state) {
+                  state.whenOrNull(
+                    success: (data) {
+                      // Refresh the list first
+                      context.read<LaserCuttingScanCubit>().request(
+                        Pair<String, String>(widget.projectId, widget.unit),
+                      );
+                      // Show the Blur Dialog
+                      _showBlurredStatusDialog(
+                        context,
+                        "Success",
+                        data.message ?? "Scan Successful",
+                        Colors.green,
+                      );
+                    },
+                    failure: (error) {
+                      _showBlurredStatusDialog(
+                        context,
+                        "Error",
+                        error.toString(),
+                        Colors.red,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: Container(
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFffb23f),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+                title: Text(widget.unit, style: UrbanistTextStyles.heading3),
+                centerTitle: true,
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child:
+                          BlocBuilder<
+                            LaserCuttingScanCubit,
+                            LaserCuttingScanCubitState
+                          >(
+                            builder: (context, state) {
+                              return state.when(
+                                initial: () => const SizedBox(),
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                failure: (e) =>
+                                    Center(child: Text('//${e.error}')),
+                                success: (items) {
+                                  final scannedItems = items
+                                      .cast<SacnnerDetailsModel>();
+                                  if (scannedItems.isEmpty) {
+                                    return const Center(
+                                      child: Text('No items found'),
+                                    );
+                                  }
+                                  return ListView.builder(
+                                    itemCount: scannedItems.length,
+                                    itemBuilder: (context, index) {
+                                      return _buildScanDetailCard(
+                                        context,
+                                        scannedItems[index],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              floatingActionButton: const ScannerButton(),
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: SizedBox(
-        width: 108,
-        height: 42,
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            // Navigate to the Barcode Scanner Page
-           
-          },
-          backgroundColor: const Color(0xFFFFb23f),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: const BorderSide(
-              color: Colors.white,
-              width: 1,
-            ),
-          ),
-          icon: const Icon(Icons.add, color: Colors.white),
-          label: const Text(
-            'Scan',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildScanDetailCard(BuildContext context, ScanDetail item) {
-    final bool isScanned = item.isScanned;
-    final Color statusColor = isScanned ? Colors.green : Colors.red;
+  void _showBlurredStatusDialog(
+    BuildContext context,
+    String title,
+    String message,
+    Color color,
+  ) {
+    showDialog(
+      context: context,
+      barrierDismissible: true, // Allow tapping outside to close
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ColorFilter.mode(
+            Colors.black.withOpacity(0.2),
+            BlendMode.darken,
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 5,
+              sigmaY: 5,
+            ), // Adjust blur intensity here
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Text(
+                title,
+                style: UrbanistTextStyles.heading3.copyWith(color: color),
+              ),
+              content: Text(message, style: UrbanistTextStyles.bodyMedium),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Simple loading helper
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget _buildScanDetailCard(BuildContext context, SacnnerDetailsModel item) {
+    final bool isScanned = item.status == 'Scanned';
+    final Color statusColor = isScanned
+        ? const Color(0xff3db678)
+        : const Color(0xff858585);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFdf2e3),
+        color: const Color(0xFFfdf2e3),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: isScanned ? Colors.green : Colors.grey.shade200,
+          width: 3,
+        ),
       ),
       child: Row(
         children: [
@@ -118,18 +254,24 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  item.itemId,
-                  style: UrbanistTextStyles.bodyMedium.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15,
+                Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      left: BorderSide(
+                        color: Color(0xFFffb23f),
+                        width: 3,
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  item.itemDescription,
-                  style: UrbanistTextStyles.bodySmall.copyWith(
-                    color: Colors.grey[600],
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      item.panelName ?? 'Unknown Panel',
+                      style: UrbanistTextStyles.bodyMedium.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -137,17 +279,18 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
           ),
           Container(
             height: 32,
-            width: 80,
+            width: 100,
             decoration: BoxDecoration(
-              color: statusColor.withOpacity(0.15),
+              color: statusColor,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
               child: Text(
-                isScanned ? 'Scanned' : 'Not Scanned',
+                item.status ?? 'Unknown',
                 style: UrbanistTextStyles.bodySmall.copyWith(
-                  color: statusColor,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontSize: 11,
                 ),
               ),
             ),

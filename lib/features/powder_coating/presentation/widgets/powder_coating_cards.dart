@@ -42,7 +42,7 @@ class PowderCoatingCards extends StatelessWidget {
                     decoration: const BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color:Color(0xFFffb23f),
+                          color: Color(0xFFffb23f),
                           width: 3,
                         ),
                       ),
@@ -86,7 +86,7 @@ class PowderCoatingCards extends StatelessWidget {
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Color.fromARGB(255, 255, 190, 133), Color(0xFFffb23f)],
+                    colors: [Color.fromARGB(255, 255, 200, 152), Color(0xFFffb23f)],
                       ),
                       borderRadius: BorderRadius.circular(8), // Match button shape
                     ),

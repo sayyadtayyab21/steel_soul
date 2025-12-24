@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +9,7 @@ import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/ui/scanner_button.dart';
+import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_button.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class LaserScanDetails extends StatefulWidget {
@@ -23,10 +24,9 @@ class LaserScanDetails extends StatefulWidget {
   @override
   State<LaserScanDetails> createState() => _LaserScanDetailsState();
 }
+// ... (imports remain the same)
 
 class _LaserScanDetailsState extends State<LaserScanDetails> {
-  
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -37,44 +37,73 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                 ..request(Pair<String, String>(widget.projectId, widget.unit)),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
-         BlocProvider(
-          create: (_) =>
-              LaserCuttingBlocProvider.get().fetchLaserPanelStatus()
-                
+        // This provides the Panel Status Cubit to the tree
+        BlocProvider(
+          create: (_) => LaserCuttingBlocProvider.get().fetchLaserPanelStatus(),
         ),
       ],
-      // Use a Builder to ensure context has access to the Providers above
       child: Builder(
         builder: (context) {
-          return BlocListener<ScannerCubit, ScannerState>(
-            listener: (context, state) {
-              if (state.isExtracting) {
-                _showLoadingDialog(context);
-              } else {
-                // Close loading dialog if it's open
-                if (Navigator.of(context, rootNavigator: true).canPop()) {
-                  Navigator.of(context, rootNavigator: true).pop();
-                }
-              }
+          return MultiBlocListener(
+            listeners: [
+              // 1. Listen to the Image Scanner (OCR)
+              BlocListener<ScannerCubit, ScannerState>(
+                listener: (context, state) {
+                  if (state.isExtracting) {
+                    _showLoadingDialog(context);
+                  } else {
+                    if (Navigator.of(context, rootNavigator: true).canPop()) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                  }
 
-              if (state.extractedWeight != null) {
+                  if (state.extractedWeight != null) {
+                    // Trigger the second API call using the extracted text
+                    context.read<LaserCuttingPanelCubit>().request(
+                      Triple<String, String, String>(
+                        widget.projectId,
+                        widget.unit,
+                        state.extractedWeight!,
+                      ),
+                    );
+                  }
 
-                       LaserCuttingBlocProvider.get().fetchLaserPanelStatus()..request(Triple<String, String,String>(widget.projectId, widget.unit,state.extractedWeight??''));
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Extracted: ${state.extractedWeight}'),
-                  ),
-                );
-              }
-
-              if (state.error != null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.error!.error ),
-                  ),
-                );
-              }
-            },
+                  if (state.error != null) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.error!.error)));
+                  }
+                },
+              ),
+              // 2. Listen to the Panel Status API (The one you just triggered)
+              BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
+                listener: (context, state) {
+                  state.whenOrNull(
+                    success: (data) {
+                      // Refresh the list first
+                      context.read<LaserCuttingScanCubit>().request(
+                        Pair<String, String>(widget.projectId, widget.unit),
+                      );
+                      // Show the Blur Dialog
+                      _showBlurredStatusDialog(
+                        context,
+                        "Success",
+                        data.message ?? "Scan Successful",
+                        Colors.green,
+                      );
+                    },
+                    failure: (error) {
+                      _showBlurredStatusDialog(
+                        context,
+                        "Error",
+                        error.toString(),
+                        Colors.red,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
             child: Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
@@ -140,11 +169,53 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                   ],
                 ),
               ),
-              floatingActionButton: const ScannerButton()
-            )
+              floatingActionButton: const ScannerButton(),
+            ),
           );
         },
       ),
+    );
+  }
+
+  void _showBlurredStatusDialog(
+    BuildContext context,
+    String title,
+    String message,
+    Color color,
+  ) {
+    showDialog(
+      context: context,
+      barrierDismissible: true, // Allow tapping outside to close
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ColorFilter.mode(
+            Colors.black.withOpacity(0.2),
+            BlendMode.darken,
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 5,
+              sigmaY: 5,
+            ), // Adjust blur intensity here
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Text(
+                title,
+                style: UrbanistTextStyles.heading3.copyWith(color: color),
+              ),
+              content: Text(message, style: UrbanistTextStyles.bodyMedium),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -192,7 +263,7 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: Text(
-                      item.name ?? 'Unknown Panel',
+                      item.panelName ?? 'Unknown Panel',
                       style: UrbanistTextStyles.bodyMedium.copyWith(
                         fontWeight: FontWeight.w600,
                         fontSize: 15,

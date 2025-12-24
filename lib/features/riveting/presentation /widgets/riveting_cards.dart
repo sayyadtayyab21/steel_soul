@@ -20,7 +20,7 @@ class RivetingCards extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFf0f6ff),
+          color: const Color(0xFFE6F3FF),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -42,7 +42,7 @@ class RivetingCards extends StatelessWidget {
                     decoration: const BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color:Color(0xFF3181ff),
+                          color: Color(0xFF3181ff),
                           width: 3,
                         ),
                       ),
@@ -86,7 +86,7 @@ class RivetingCards extends StatelessWidget {
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Color(0xFF6ea7ff), Color(0xFF3181ff),],
+                        colors: [Color(0xFF6ea7ff), Color(0xFF3181ff)],
                       ),
                       borderRadius: BorderRadius.circular(8), // Match button shape
                     ),

@@ -23,7 +23,7 @@ SacnnerDetailsModel _$SacnnerDetailsModelFromJson(Map<String, dynamic> json) {
 mixin _$SacnnerDetailsModel {
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'panel_name')
+  @JsonKey(name: 'panel_code')
   String? get panelName => throw _privateConstructorUsedError;
   @JsonKey(name: 'project')
   String? get project => throw _privateConstructorUsedError;
@@ -51,7 +51,7 @@ abstract class $SacnnerDetailsModelCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'panel_name') String? panelName,
+    @JsonKey(name: 'panel_code') String? panelName,
     @JsonKey(name: 'project') String? project,
     @JsonKey(name: 'unit') String? unit,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
@@ -118,7 +118,7 @@ abstract class _$$SacnnerDetailsModelImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'panel_name') String? panelName,
+    @JsonKey(name: 'panel_code') String? panelName,
     @JsonKey(name: 'project') String? project,
     @JsonKey(name: 'unit') String? unit,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
@@ -177,7 +177,7 @@ class __$$SacnnerDetailsModelImplCopyWithImpl<$Res>
 class _$SacnnerDetailsModelImpl extends _SacnnerDetailsModel {
   const _$SacnnerDetailsModelImpl({
     @JsonKey(name: 'name') this.name,
-    @JsonKey(name: 'panel_name') this.panelName,
+    @JsonKey(name: 'panel_code') this.panelName,
     @JsonKey(name: 'project') this.project,
     @JsonKey(name: 'unit') this.unit,
     @JsonKey(name: 'laser_cutting_status') this.laserCuttingStatus,
@@ -190,7 +190,7 @@ class _$SacnnerDetailsModelImpl extends _SacnnerDetailsModel {
   @JsonKey(name: 'name')
   final String? name;
   @override
-  @JsonKey(name: 'panel_name')
+  @JsonKey(name: 'panel_code')
   final String? panelName;
   @override
   @JsonKey(name: 'project')
@@ -252,7 +252,7 @@ class _$SacnnerDetailsModelImpl extends _SacnnerDetailsModel {
 abstract class _SacnnerDetailsModel extends SacnnerDetailsModel {
   const factory _SacnnerDetailsModel({
     @JsonKey(name: 'name') final String? name,
-    @JsonKey(name: 'panel_name') final String? panelName,
+    @JsonKey(name: 'panel_code') final String? panelName,
     @JsonKey(name: 'project') final String? project,
     @JsonKey(name: 'unit') final String? unit,
     @JsonKey(name: 'laser_cutting_status') final String? laserCuttingStatus,
@@ -266,7 +266,7 @@ abstract class _SacnnerDetailsModel extends SacnnerDetailsModel {
   @JsonKey(name: 'name')
   String? get name;
   @override
-  @JsonKey(name: 'panel_name')
+  @JsonKey(name: 'panel_code')
   String? get panelName;
   @override
   @JsonKey(name: 'project')

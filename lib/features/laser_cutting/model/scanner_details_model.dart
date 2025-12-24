@@ -8,7 +8,7 @@ class SacnnerDetailsModel with _$SacnnerDetailsModel{
   const SacnnerDetailsModel._();
   const factory SacnnerDetailsModel({
    @JsonKey(name: 'name')String? name,
-   @JsonKey(name: 'panel_name')String? panelName,
+   @JsonKey(name: 'panel_code')String? panelName,
    @JsonKey(name: 'project')String? project,
       @JsonKey(name: 'unit')String? unit,
  

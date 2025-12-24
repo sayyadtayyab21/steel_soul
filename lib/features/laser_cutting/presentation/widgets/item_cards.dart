@@ -25,10 +25,10 @@ class ItemCards extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFE6F3FF),
           border: Border.all(
-            color: scan == 'Scanned' ? Colors.green : Colors.grey.shade200,
+            color: scan == 'Completed' ? Colors.green : Colors.grey.shade200,
             width: 3,
           ),
-          borderRadius: BorderRadius.all( Radius.circular(16)),
+          borderRadius: const BorderRadius.all( Radius.circular(16)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),

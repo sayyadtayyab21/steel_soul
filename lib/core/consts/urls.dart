@@ -3,7 +3,7 @@ import 'package:steel_soul/core/di/injector.dart';
 final _reqisteredUrl = $sl.get<Urls>(instanceName: 'baseUrl');
 
 class Urls {
-  factory Urls.uat() => const Urls('http://192.168.245.247:8001/api');
+  factory Urls.uat() => const Urls('https://steelsouluat.easycloud.co.in/api');
   factory Urls.live() => const Urls('https://mtarlive.easycloud.co.in/api');
 
   //   factory Urls.steel_soulUAT() => const Urls('https://steel_soullive.easycloud.co.in/api');

@@ -158,6 +158,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_scan_details.dart';
+import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_button.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/widgets/item_cards.dart';
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
@@ -251,31 +252,7 @@ class _ItemDetailsState extends State<ItemDetails> {
             ],
           ),
         ),
-        floatingActionButton: SizedBox(
-        width: 108,
-        height: 42,
-        child: FloatingActionButton.extended(
-          onPressed: () {
-
-          },
-          backgroundColor: const Color(0xFF62CEFF),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), 
-            side: const BorderSide(
-              color: Colors.white, 
-              width: 1, 
-            ),
-          ),
-          icon: const Icon(Icons.add, color: Colors.white),
-          label: const Text(
-            'Scan',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
-          ),
-        ),
-      ),
+         floatingActionButton: const ScannerButton(),
       ),
     );
   }
@@ -286,14 +263,14 @@ class _ItemDetailsState extends State<ItemDetails> {
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
       ),
-      child: TextField(
+      child: const TextField(
         decoration: InputDecoration(
           hintText: 'Search Project ID',
           prefixIcon:
-              const Icon(Icons.search, color: Color(0xFF5FD6FF)),
+              Icon(Icons.search, color: Color(0xFF5FD6FF)),
           border: InputBorder.none,
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
       ),
     );

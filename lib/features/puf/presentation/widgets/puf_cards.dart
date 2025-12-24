@@ -42,7 +42,7 @@ class PufCards extends StatelessWidget {
                     decoration: const BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color:Color(0xFF1ad0d0),
+                               color: Color(0xFF1ad0d0),
                           width: 3,
                         ),
                       ),
@@ -86,7 +86,7 @@ class PufCards extends StatelessWidget {
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Color(0xFF1ad0d0), Color(0xFF1ad0d0),],
+                        colors: [Color(0xFF1ad0d0),Color(0xFF1ad0d0),],
                       ),
                       borderRadius: BorderRadius.circular(8), // Match button shape
                     ),

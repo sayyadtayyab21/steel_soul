@@ -25,12 +25,20 @@ class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
   AsyncValueOf<List<LaserCuttingList>> fetchLaserCuttings() async{
    final requestConfig = RequestConfig(
     url: Urls.projectList , 
-    parser: (json){
-    print(json);
-    final data = json['message'];
-    final listdata = data as List<dynamic>;
-          return listdata.map((e) => LaserCuttingList.fromJson(e)).toList();
-    },
+   parser: (json) {
+  print(json);
+  final data = json['message'];
+
+  // Check if data is actually a List
+  if (data is List) {
+    return data
+        .map((e) => LaserCuttingList.fromJson(e as Map<String, dynamic>))
+        .toList();
+  } else {
+    // Return empty list if data is null or not a list to avoid crashes
+    return <LaserCuttingList>[];
+  }
+},
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json'
     },
@@ -183,7 +191,7 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
     },
     reqParams: {
       'section_name': 'Laser Cutting',
-      'project': project,
+      'project_id': project,
       'unit_id': unitId,
       'scanned_panel_id': scannerPanelId,
     },
