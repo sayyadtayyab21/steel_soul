@@ -19,7 +19,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ScannerState {
   bool get isExtracting => throw _privateConstructorUsedError;
   String? get extractedWeight => throw _privateConstructorUsedError;
-  File? get capturedImage => throw _privateConstructorUsedError;
   Failure? get error => throw _privateConstructorUsedError;
 
   /// Create a copy of ScannerState
@@ -36,12 +35,7 @@ abstract class $ScannerStateCopyWith<$Res> {
     $Res Function(ScannerState) then,
   ) = _$ScannerStateCopyWithImpl<$Res, ScannerState>;
   @useResult
-  $Res call({
-    bool isExtracting,
-    String? extractedWeight,
-    File? capturedImage,
-    Failure? error,
-  });
+  $Res call({bool isExtracting, String? extractedWeight, Failure? error});
 
   $FailureCopyWith<$Res>? get error;
 }
@@ -63,7 +57,6 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
   $Res call({
     Object? isExtracting = null,
     Object? extractedWeight = freezed,
-    Object? capturedImage = freezed,
     Object? error = freezed,
   }) {
     return _then(
@@ -76,10 +69,6 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
                 ? _value.extractedWeight
                 : extractedWeight // ignore: cast_nullable_to_non_nullable
                       as String?,
-            capturedImage: freezed == capturedImage
-                ? _value.capturedImage
-                : capturedImage // ignore: cast_nullable_to_non_nullable
-                      as File?,
             error: freezed == error
                 ? _value.error
                 : error // ignore: cast_nullable_to_non_nullable
@@ -113,12 +102,7 @@ abstract class _$$ScannerStateImplCopyWith<$Res>
   ) = __$$ScannerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    bool isExtracting,
-    String? extractedWeight,
-    File? capturedImage,
-    Failure? error,
-  });
+  $Res call({bool isExtracting, String? extractedWeight, Failure? error});
 
   @override
   $FailureCopyWith<$Res>? get error;
@@ -140,7 +124,6 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isExtracting = null,
     Object? extractedWeight = freezed,
-    Object? capturedImage = freezed,
     Object? error = freezed,
   }) {
     return _then(
@@ -153,10 +136,6 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
             ? _value.extractedWeight
             : extractedWeight // ignore: cast_nullable_to_non_nullable
                   as String?,
-        capturedImage: freezed == capturedImage
-            ? _value.capturedImage
-            : capturedImage // ignore: cast_nullable_to_non_nullable
-                  as File?,
         error: freezed == error
             ? _value.error
             : error // ignore: cast_nullable_to_non_nullable
@@ -172,7 +151,6 @@ class _$ScannerStateImpl implements _ScannerState {
   const _$ScannerStateImpl({
     required this.isExtracting,
     this.extractedWeight,
-    this.capturedImage,
     this.error,
   });
 
@@ -181,13 +159,11 @@ class _$ScannerStateImpl implements _ScannerState {
   @override
   final String? extractedWeight;
   @override
-  final File? capturedImage;
-  @override
   final Failure? error;
 
   @override
   String toString() {
-    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, capturedImage: $capturedImage, error: $error)';
+    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, error: $error)';
   }
 
   @override
@@ -199,19 +175,12 @@ class _$ScannerStateImpl implements _ScannerState {
                 other.isExtracting == isExtracting) &&
             (identical(other.extractedWeight, extractedWeight) ||
                 other.extractedWeight == extractedWeight) &&
-            (identical(other.capturedImage, capturedImage) ||
-                other.capturedImage == capturedImage) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    isExtracting,
-    extractedWeight,
-    capturedImage,
-    error,
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, isExtracting, extractedWeight, error);
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.
@@ -226,7 +195,6 @@ abstract class _ScannerState implements ScannerState {
   const factory _ScannerState({
     required final bool isExtracting,
     final String? extractedWeight,
-    final File? capturedImage,
     final Failure? error,
   }) = _$ScannerStateImpl;
 
@@ -234,8 +202,6 @@ abstract class _ScannerState implements ScannerState {
   bool get isExtracting;
   @override
   String? get extractedWeight;
-  @override
-  File? get capturedImage;
   @override
   Failure? get error;
 

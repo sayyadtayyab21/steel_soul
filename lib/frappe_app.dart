@@ -43,7 +43,7 @@ class SteelSoul extends StatelessWidget {
         },
         builder: (_, state) {
           return MaterialApp.router(
-            title: "Cool Tech",
+            title: 'Steel Soul',
             // theme: AppMaterialTheme.lightTheme,
             // darkTheme: AppMaterialTheme.lightTheme,
             routerConfig: AppRouterConfig.router,

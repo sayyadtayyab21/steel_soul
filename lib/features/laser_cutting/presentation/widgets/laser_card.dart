@@ -3,16 +3,18 @@ import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 
 class LaserCard extends StatelessWidget {
-  final String id;
-  final String date;
-  final Function() onTap;
 
   const LaserCard({
     super.key,
     required this.id,
     required this.date,
     required this.onTap,
+     required this.scan,
   });
+  final String id;
+  final String date;
+  final String scan;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,10 @@ class LaserCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xFFE6F3FF),
+          border: Border.all(
+            color: scan == 'Completed' ? Colors.green : Colors.grey.shade200,
+            width: 3,
+          ),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -60,7 +66,7 @@ class LaserCard extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const SizedBox(height: 4),
+               
                           // Optional: Add a placeholder for a second line of text if needed
                         ],
                       ),

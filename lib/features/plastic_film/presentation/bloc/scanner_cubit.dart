@@ -6,25 +6,21 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path/path.dart' as p;
 import 'package:steel_soul/core/model/failure.dart';
-import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
+import 'package:steel_soul/features/folding/data/folding_repo.dart';
+
+
 
 part 'scanner_cubit.freezed.dart';
-@injectable
 
+@injectable
 class ScannerCubit extends Cubit<ScannerState> {
   ScannerCubit(this.repo) : super(ScannerState.initial());
-  final LaserCuttingRepo repo;
+  final FoldingRepo repo;
 
   Future<void> extractWeight(File file) async {
     try {
-      // Start loading and store the file in state immediately
-      emit(state.copyWith(
-        isExtracting: true, 
-        error: null, 
-        extractedWeight: null,
-        capturedImage: file,
-        // base64Image: // <--- Store the file here
-      ));
+      // Start loading and clear previous data/errors
+      emit(state.copyWith(isExtracting: true, error: null, extractedWeight: null));
 
       final bytes = await file.readAsBytes();
       final base64Image = base64Encode(bytes);
@@ -46,12 +42,10 @@ class ScannerCubit extends Cubit<ScannerState> {
         (l) => emit(state.copyWith(
           isExtracting: false,
           error: Failure(error: l.error, title: 'Extraction Failed'),
-          // Note: capturedImage remains in state from the previous emit
         )),
         (r) => emit(state.copyWith(
           isExtracting: false,
           extractedWeight: r.ocrData.text,
-
         )),
       );
     } catch (e) {
@@ -62,14 +56,15 @@ class ScannerCubit extends Cubit<ScannerState> {
     }
   }
 
+  // Resets the state to initial (isExtracting: false, weight: null, error: null)
   void reset() => emit(ScannerState.initial());
 }
+
 @freezed
 class ScannerState with _$ScannerState {
   const factory ScannerState({
     required bool isExtracting,
     String? extractedWeight,
-    File? capturedImage,
     Failure? error,
   }) = _ScannerState;
 

@@ -3,51 +3,41 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:steel_soul/core/consts/urls.dart';
+
 import 'package:steel_soul/core/core.dart';
-import 'package:steel_soul/core/logger/app_logger.dart';
-import 'package:steel_soul/core/network/network.dart';
-import 'package:steel_soul/core/utils/typedefs.dart';
-import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
+import 'package:steel_soul/features/plastic_film/data/plastic_film_repo.dart';
+import 'package:steel_soul/features/plastic_film/model/panel_status_model.dart';
+import 'package:steel_soul/features/plastic_film/model/riveting_item_model.dart';
+import 'package:steel_soul/features/plastic_film/model/riveting_model.dart';
+import 'package:steel_soul/features/plastic_film/model/scanner_details_model.dart';
+import 'package:steel_soul/features/plastic_film/model/text_scanner_model.dart';
 
-import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart';
-import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
-import 'package:steel_soul/features/laser_cutting/model/panel_status_model.dart';
-import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
-import 'package:steel_soul/features/laser_cutting/model/text_scanner_model.dart';
 
-@LazySingleton(as: LaserCuttingRepo)
-class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
-  const LaserCuttingRepoImp(super.client);
+
+@LazySingleton(as: PlasticFilmRepo)
+class PlasticFilmRepoImp extends BaseApiRepository implements PlasticFilmRepo{
+  const PlasticFilmRepoImp(super.client);
 
 
   @override
-  AsyncValueOf<List<LaserCuttingList>> fetchLaserCuttings() async{
+  AsyncValueOf<List<RivetingModel>> fetchProjectList() async{
    final requestConfig = RequestConfig(
     url: Urls.projectList , 
-   parser: (json) {
-  print(json);
-  final data = json['message'];
-
-  // Check if data is actually a List
-  if (data is List) {
-    return data
-        .map((e) => LaserCuttingList.fromJson(e as Map<String, dynamic>))
-        .toList();
-  } else {
-    // Return empty list if data is null or not a list to avoid crashes
-    return <LaserCuttingList>[];
-  }
-},
+    parser: (json){
+    print(json);
+    final data = json['message'];
+    final listdata = data as List<dynamic>;
+          return listdata.map((e) => RivetingModel.fromJson(e)).toList();
+    },
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json'
     },
   reqParams: {
-      'section_name':'Laser Cutting',
+      'section_name':'Folding',
   
       },
     );
-    log('laser cutting requesting...:$requestConfig');
+    $logger.devLog('Folding requesting...:$requestConfig');
     final response = await post(requestConfig);
     print(response);
     return response.process((r)=> right(r.data!));
@@ -56,7 +46,7 @@ class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
 
 
    @override
-  AsyncValueOf<List<LaserItemModel>> fetchLaserCuttingItemDetails(
+  AsyncValueOf<List<RivetingItemModel>> fetchLaserCuttingItemDetails(
     String project
   ) async{
    final requestConfig = RequestConfig(
@@ -65,10 +55,10 @@ class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
     print(json);
     final data = json['message'];
     final listdata = data as List<dynamic>;
-          return listdata.map((e) => LaserItemModel.fromJson(e)).toList();
+          return listdata.map((e) => RivetingItemModel.fromJson(e)).toList();
     },
      reqParams: {
-      'section_name':'Laser Cutting',
+      'section_name':'Folding',
         'project': project,
       },
     headers: {
@@ -77,7 +67,7 @@ class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
     
    
     );
-    log('laser cutting item details requesting...:$requestConfig');
+    $logger.devLog('Folding item details requesting...:$requestConfig');
     final response = await post(requestConfig);
     print(response);
     return response.process((r)=> right(r.data!));
@@ -155,7 +145,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
           return listdata.map((e) => SacnnerDetailsModel.fromJson(e)).toList();
     },
      reqParams: {
-      'section_name':'Laser Cutting',
+      'section_name':'Folding',
         'project': project,
          'unit': unit,
 
@@ -166,7 +156,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
     
    
     );
-    log('laser cutting scan details requesting...:$requestConfig');
+    $logger.devLog('puf scan details requesting...:$requestConfig');
     final response = await post(requestConfig);
     print(response);
     return response.process((r)=> right(r.data!));
@@ -177,8 +167,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
 
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  // String project, String unitId, 
-  String scannerPanelId
+  String project, String unitId, String scannerPanelId
 ) async {
   final requestConfig = RequestConfig(
     url: Urls.getPanel,
@@ -191,12 +180,10 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
       return PanelStatusModel.fromJson(data);
     },
     reqParams: {
-      'section_name': 'Laser Cutting',
-      // 'project_id': project,
-      // 'unit_id': unitId,
+      'section_name': 'Folding',
+      'project_id': project,
+      'unit_id': unitId,
       'scanned_panel_id': scannerPanelId,
-      // 'file'
-     
     },
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json'
@@ -206,7 +193,7 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
 
   log('.....................................$requestConfig');
 
-  log('laser cutting scan details requesting...: $requestConfig');
+  $logger.devLog('Folding scan details requesting...: $requestConfig');
   
   final response = await post(requestConfig);
   

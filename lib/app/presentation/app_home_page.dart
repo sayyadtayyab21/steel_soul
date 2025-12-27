@@ -7,7 +7,7 @@ import 'package:steel_soul/features/auth/model/logged_in_user.dart';
 import 'package:steel_soul/features/folding/presentation/ui/folding_screen.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
 
-import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_coating_screen.dart';
+import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_cutting_screen.dart';
 import 'package:steel_soul/features/packing/presentation/ui/packing_screen.dart';
 import 'package:steel_soul/features/plastic_film/presentation/ui/plastic_film_screen.dart';
 import 'package:steel_soul/features/powder_coating/presentation/ui/powder_coating_screen.dart';

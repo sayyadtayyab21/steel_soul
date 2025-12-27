@@ -49,29 +49,43 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
               // 1. Listen to the Image Scanner (OCR)
               BlocListener<ScannerCubit, ScannerState>(
                 listener: (context, state) {
+                  // 1. Handle Loading Dialog logic
                   if (state.isExtracting) {
                     _showLoadingDialog(context);
                   } else {
+                    // Pop the loading dialog when extraction stops
                     if (Navigator.of(context, rootNavigator: true).canPop()) {
                       Navigator.of(context, rootNavigator: true).pop();
                     }
                   }
 
+                  // 2. Handle Success (Text Extracted + Image Available)
                   if (state.extractedWeight != null) {
-                    // Trigger the second API call using the extracted text
+                    // You now have the file reference here if needed
+                    final File? imageFile = state.capturedImage;
+
+                    // Trigger the status update API
                     context.read<LaserCuttingPanelCubit>().request(
-                      Triple<String, String, String>(
-                        widget.projectId,
-                        widget.unit,
+                 
                         state.extractedWeight!,
-                      ),
+
+                        // If your Triple or Cubit is updated to accept the File,
+                        // you would pass imageFile here.
+                      
                     );
+
+                    // Optional: Reset scanner after processing to prevent duplicate triggers
+                    // context.read<ScannerCubit>().reset();
                   }
 
+                  // 3. Handle Errors
                   if (state.error != null) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.error!.error)));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.error!.error),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
                   }
                 },
               ),
@@ -87,15 +101,15 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                       // Show the Blur Dialog
                       _showBlurredStatusDialog(
                         context,
-                        "Success",
-                        data.message ?? "Scan Successful",
+                        'Success',
+                        data.message ?? 'Scan Successful',
                         Colors.green,
                       );
                     },
                     failure: (error) {
                       _showBlurredStatusDialog(
                         context,
-                        "Error",
+                        'Error',
                         error.toString(),
                         Colors.red,
                       );
@@ -209,7 +223,7 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("OK"),
+                  child: const Text('OK'),
                 ),
               ],
             ),
