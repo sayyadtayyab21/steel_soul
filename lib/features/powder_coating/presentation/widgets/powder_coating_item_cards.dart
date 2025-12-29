@@ -4,6 +4,7 @@ import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class PowderCoatingItemCards extends StatelessWidget {
   final String id;
+  final String scan;
   
   final Function() onTap;
 
@@ -12,6 +13,7 @@ class PowderCoatingItemCards extends StatelessWidget {
     required this.id,
   
     required this.onTap,
+     required this.scan,
   });
 
   @override
@@ -22,6 +24,10 @@ class PowderCoatingItemCards extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFfdf2e3),
           borderRadius: BorderRadius.circular(12),
+           border: Border.all(
+          color: scan=='Completed' ? Colors.green : Colors.grey.shade200,
+          width: 3,
+        ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),

@@ -12,11 +12,13 @@ class ScannerButton extends StatelessWidget {
   Future<void> _onScanPressed(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
 
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 85,
-    );
-
+   // Update your _onScanPressed logic
+final XFile? image = await picker.pickImage(
+  source: ImageSource.camera,
+  imageQuality: 25, // Reduced from 85 to prevent memory spikes
+  maxWidth: 1000,   // Ensures the image isn't unnecessarily large
+  maxHeight: 1000,
+);
     if (image != null && context.mounted) {
       debugPrint('Image selected: ${image.path}');
       // Access the Cubit from the context provided by MultiBlocProvider in the parent
@@ -38,7 +40,7 @@ class ScannerButton extends StatelessWidget {
         ),
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text(
-          'scan',
+          'Scan',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),

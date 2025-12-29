@@ -1,21 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:steel_soul/core/core.dart';
-import 'package:steel_soul/core/cubit/network_request/network_request_cubit.dart';
-import 'package:steel_soul/core/di/injector.dart';
+
 import 'package:steel_soul/features/folding/data/folding_repo.dart';
+import 'package:steel_soul/features/folding/model/folding_item_model.dart';
 import 'package:steel_soul/features/folding/model/panel_status_model.dart';
-import 'package:steel_soul/features/folding/model/riveting_item_model.dart';
-import 'package:steel_soul/features/folding/model/riveting_model.dart';
+
+import 'package:steel_soul/features/folding/model/project_details_model.dart';
 import 'package:steel_soul/features/folding/model/scanner_details_model.dart';
 
 
 
-typedef LaserCuttingCubit = NetworkRequestCubit<List<RivetingModel>,None>;
-typedef LaserCuttingCubitState = NetworkRequestState<List<RivetingModel>>;
+typedef LaserCuttingCubit = NetworkRequestCubit<List<ProjectDetailsModel>,None>;
+typedef LaserCuttingCubitState = NetworkRequestState<List<ProjectDetailsModel>>;
 
-typedef LaserCuttingItemsCubit = NetworkRequestCubit<List<RivetingItemModel>,String>;
-typedef LaserCuttingItemsCubitState = NetworkRequestState<List<RivetingItemModel>>;
+typedef LaserCuttingItemsCubit = NetworkRequestCubit<List<FoldingItemModel>,String>;
+typedef LaserCuttingItemsCubitState = NetworkRequestState<List<FoldingItemModel>>;
 
 
 
@@ -27,8 +27,7 @@ typedef LaserCuttingScanCubitState = NetworkRequestState<List<SacnnerDetailsMode
 
 // T is PanelStatusModel
 // RP is Triple<String, String, String>
-typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Triple<String, String, String>>;
-
+typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Pair<String, String?>>;
 typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
 
 
@@ -61,8 +60,8 @@ class FoldingBlocProvider{
     );
 
 
-     LaserCuttingPanelCubit fetchLaserPanelStatus() => LaserCuttingPanelCubit(
-    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first,params.second,params.third),
+    LaserCuttingPanelCubit fetchLaserPanelStatus() => LaserCuttingPanelCubit(
+    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first, params.second),
     );
 
     

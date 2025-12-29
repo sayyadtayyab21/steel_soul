@@ -3,19 +3,21 @@ import 'package:injectable/injectable.dart';
 import 'package:steel_soul/core/core.dart';
 import 'package:steel_soul/core/cubit/network_request/network_request_cubit.dart';
 import 'package:steel_soul/core/di/injector.dart';
-import 'package:steel_soul/features/folding/data/folding_repo.dart';
-import 'package:steel_soul/features/folding/model/panel_status_model.dart';
-import 'package:steel_soul/features/folding/model/riveting_item_model.dart';
-import 'package:steel_soul/features/folding/model/riveting_model.dart';
-import 'package:steel_soul/features/folding/model/scanner_details_model.dart';
+import 'package:steel_soul/features/plastic_film/data/plastic_film_repo.dart';
+import 'package:steel_soul/features/plastic_film/model/panel_status_model.dart';
+import 'package:steel_soul/features/plastic_film/model/plastic_film_item_model.dart';
+import 'package:steel_soul/features/plastic_film/model/project_details_model.dart';
+
+import 'package:steel_soul/features/plastic_film/model/scanner_details_model.dart';
 
 
 
-typedef LaserCuttingCubit = NetworkRequestCubit<List<RivetingModel>,None>;
-typedef LaserCuttingCubitState = NetworkRequestState<List<RivetingModel>>;
 
-typedef LaserCuttingItemsCubit = NetworkRequestCubit<List<RivetingItemModel>,String>;
-typedef LaserCuttingItemsCubitState = NetworkRequestState<List<RivetingItemModel>>;
+typedef LaserCuttingCubit = NetworkRequestCubit<List<ProjectDetailsModel>,None>;
+typedef LaserCuttingCubitState = NetworkRequestState<List<ProjectDetailsModel>>;
+
+typedef LaserCuttingItemsCubit = NetworkRequestCubit<List<PlasticFilmItemModel>,String>;
+typedef LaserCuttingItemsCubitState = NetworkRequestState<List<PlasticFilmItemModel>>;
 
 
 
@@ -27,7 +29,7 @@ typedef LaserCuttingScanCubitState = NetworkRequestState<List<SacnnerDetailsMode
 
 // T is PanelStatusModel
 // RP is Triple<String, String, String>
-typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Triple<String, String, String>>;
+typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Pair< String, String>>;
 
 typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
 
@@ -38,11 +40,11 @@ typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
 
 
 @lazySingleton
-class FoldingBlocProvider{
-  FoldingBlocProvider(this.repository);
-  final FoldingRepo repository;
+class PlasticFilmBlocProvider{
+  PlasticFilmBlocProvider(this.repository);
+  final PlasticFilmRepo repository;
 
-  static FoldingBlocProvider get() => $sl.get<FoldingBlocProvider>();
+  static PlasticFilmBlocProvider get() => $sl.get<PlasticFilmBlocProvider>();
 
 
   LaserCuttingCubit fetchLaserList() => LaserCuttingCubit(
@@ -62,7 +64,7 @@ class FoldingBlocProvider{
 
 
      LaserCuttingPanelCubit fetchLaserPanelStatus() => LaserCuttingPanelCubit(
-    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first,params.second,params.third),
+    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first,params.second),
     );
 
     

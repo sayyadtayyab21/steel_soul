@@ -21,6 +21,7 @@ mixin _$ScannerState {
   String? get extractedWeight => throw _privateConstructorUsedError;
   File? get capturedImage => throw _privateConstructorUsedError;
   Failure? get error => throw _privateConstructorUsedError;
+  String? get base64Image => throw _privateConstructorUsedError;
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.
@@ -41,6 +42,7 @@ abstract class $ScannerStateCopyWith<$Res> {
     String? extractedWeight,
     File? capturedImage,
     Failure? error,
+    String? base64Image,
   });
 
   $FailureCopyWith<$Res>? get error;
@@ -65,6 +67,7 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
     Object? extractedWeight = freezed,
     Object? capturedImage = freezed,
     Object? error = freezed,
+    Object? base64Image = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -84,6 +87,10 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
                 ? _value.error
                 : error // ignore: cast_nullable_to_non_nullable
                       as Failure?,
+            base64Image: freezed == base64Image
+                ? _value.base64Image
+                : base64Image // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -118,6 +125,7 @@ abstract class _$$ScannerStateImplCopyWith<$Res>
     String? extractedWeight,
     File? capturedImage,
     Failure? error,
+    String? base64Image,
   });
 
   @override
@@ -142,6 +150,7 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
     Object? extractedWeight = freezed,
     Object? capturedImage = freezed,
     Object? error = freezed,
+    Object? base64Image = freezed,
   }) {
     return _then(
       _$ScannerStateImpl(
@@ -161,6 +170,10 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
             ? _value.error
             : error // ignore: cast_nullable_to_non_nullable
                   as Failure?,
+        base64Image: freezed == base64Image
+            ? _value.base64Image
+            : base64Image // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -174,6 +187,7 @@ class _$ScannerStateImpl implements _ScannerState {
     this.extractedWeight,
     this.capturedImage,
     this.error,
+    this.base64Image,
   });
 
   @override
@@ -184,10 +198,12 @@ class _$ScannerStateImpl implements _ScannerState {
   final File? capturedImage;
   @override
   final Failure? error;
+  @override
+  final String? base64Image;
 
   @override
   String toString() {
-    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, capturedImage: $capturedImage, error: $error)';
+    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, capturedImage: $capturedImage, error: $error, base64Image: $base64Image)';
   }
 
   @override
@@ -201,7 +217,9 @@ class _$ScannerStateImpl implements _ScannerState {
                 other.extractedWeight == extractedWeight) &&
             (identical(other.capturedImage, capturedImage) ||
                 other.capturedImage == capturedImage) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.base64Image, base64Image) ||
+                other.base64Image == base64Image));
   }
 
   @override
@@ -211,6 +229,7 @@ class _$ScannerStateImpl implements _ScannerState {
     extractedWeight,
     capturedImage,
     error,
+    base64Image,
   );
 
   /// Create a copy of ScannerState
@@ -228,6 +247,7 @@ abstract class _ScannerState implements ScannerState {
     final String? extractedWeight,
     final File? capturedImage,
     final Failure? error,
+    final String? base64Image,
   }) = _$ScannerStateImpl;
 
   @override
@@ -238,6 +258,8 @@ abstract class _ScannerState implements ScannerState {
   File? get capturedImage;
   @override
   Failure? get error;
+  @override
+  String? get base64Image;
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'riveting_item_model.dart';
+part of 'plastic_film_item_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,57 +15,60 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-RivetingItemModel _$RivetingItemModelFromJson(Map<String, dynamic> json) {
-  return _RivetingItemModel.fromJson(json);
+PlasticFilmItemModel _$PlasticFilmItemModelFromJson(Map<String, dynamic> json) {
+  return _PlasticFilmItemModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RivetingItemModel {
+mixin _$PlasticFilmItemModel {
   @JsonKey(name: 'unit_name')
   String? get unitName => throw _privateConstructorUsedError;
   @JsonKey(name: 'unit_code')
   String? get unitCode => throw _privateConstructorUsedError;
   @JsonKey(name: 'project')
   String? get project => throw _privateConstructorUsedError;
-  @JsonKey(name: 'folding_status')
+  @JsonKey(name: 'plastic_film_status')
   String? get status => throw _privateConstructorUsedError;
 
-  /// Serializes this RivetingItemModel to a JSON map.
+  /// Serializes this PlasticFilmItemModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PlasticFilmItemModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $RivetingItemModelCopyWith<RivetingItemModel> get copyWith =>
+  $PlasticFilmItemModelCopyWith<PlasticFilmItemModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RivetingItemModelCopyWith<$Res> {
-  factory $RivetingItemModelCopyWith(
-    RivetingItemModel value,
-    $Res Function(RivetingItemModel) then,
-  ) = _$RivetingItemModelCopyWithImpl<$Res, RivetingItemModel>;
+abstract class $PlasticFilmItemModelCopyWith<$Res> {
+  factory $PlasticFilmItemModelCopyWith(
+    PlasticFilmItemModel value,
+    $Res Function(PlasticFilmItemModel) then,
+  ) = _$PlasticFilmItemModelCopyWithImpl<$Res, PlasticFilmItemModel>;
   @useResult
   $Res call({
     @JsonKey(name: 'unit_name') String? unitName,
     @JsonKey(name: 'unit_code') String? unitCode,
     @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'folding_status') String? status,
+    @JsonKey(name: 'plastic_film_status') String? status,
   });
 }
 
 /// @nodoc
-class _$RivetingItemModelCopyWithImpl<$Res, $Val extends RivetingItemModel>
-    implements $RivetingItemModelCopyWith<$Res> {
-  _$RivetingItemModelCopyWithImpl(this._value, this._then);
+class _$PlasticFilmItemModelCopyWithImpl<
+  $Res,
+  $Val extends PlasticFilmItemModel
+>
+    implements $PlasticFilmItemModelCopyWith<$Res> {
+  _$PlasticFilmItemModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PlasticFilmItemModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -100,32 +103,32 @@ class _$RivetingItemModelCopyWithImpl<$Res, $Val extends RivetingItemModel>
 }
 
 /// @nodoc
-abstract class _$$RivetingItemModelImplCopyWith<$Res>
-    implements $RivetingItemModelCopyWith<$Res> {
-  factory _$$RivetingItemModelImplCopyWith(
-    _$RivetingItemModelImpl value,
-    $Res Function(_$RivetingItemModelImpl) then,
-  ) = __$$RivetingItemModelImplCopyWithImpl<$Res>;
+abstract class _$$PlasticFilmItemModelImplCopyWith<$Res>
+    implements $PlasticFilmItemModelCopyWith<$Res> {
+  factory _$$PlasticFilmItemModelImplCopyWith(
+    _$PlasticFilmItemModelImpl value,
+    $Res Function(_$PlasticFilmItemModelImpl) then,
+  ) = __$$PlasticFilmItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
     @JsonKey(name: 'unit_name') String? unitName,
     @JsonKey(name: 'unit_code') String? unitCode,
     @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'folding_status') String? status,
+    @JsonKey(name: 'plastic_film_status') String? status,
   });
 }
 
 /// @nodoc
-class __$$RivetingItemModelImplCopyWithImpl<$Res>
-    extends _$RivetingItemModelCopyWithImpl<$Res, _$RivetingItemModelImpl>
-    implements _$$RivetingItemModelImplCopyWith<$Res> {
-  __$$RivetingItemModelImplCopyWithImpl(
-    _$RivetingItemModelImpl _value,
-    $Res Function(_$RivetingItemModelImpl) _then,
+class __$$PlasticFilmItemModelImplCopyWithImpl<$Res>
+    extends _$PlasticFilmItemModelCopyWithImpl<$Res, _$PlasticFilmItemModelImpl>
+    implements _$$PlasticFilmItemModelImplCopyWith<$Res> {
+  __$$PlasticFilmItemModelImplCopyWithImpl(
+    _$PlasticFilmItemModelImpl _value,
+    $Res Function(_$PlasticFilmItemModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PlasticFilmItemModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -136,7 +139,7 @@ class __$$RivetingItemModelImplCopyWithImpl<$Res>
     Object? status = freezed,
   }) {
     return _then(
-      _$RivetingItemModelImpl(
+      _$PlasticFilmItemModelImpl(
         unitName: freezed == unitName
             ? _value.unitName
             : unitName // ignore: cast_nullable_to_non_nullable
@@ -160,16 +163,16 @@ class __$$RivetingItemModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RivetingItemModelImpl extends _RivetingItemModel {
-  const _$RivetingItemModelImpl({
+class _$PlasticFilmItemModelImpl extends _PlasticFilmItemModel {
+  const _$PlasticFilmItemModelImpl({
     @JsonKey(name: 'unit_name') this.unitName,
     @JsonKey(name: 'unit_code') this.unitCode,
     @JsonKey(name: 'project') this.project,
-    @JsonKey(name: 'folding_status') this.status,
+    @JsonKey(name: 'plastic_film_status') this.status,
   }) : super._();
 
-  factory _$RivetingItemModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RivetingItemModelImplFromJson(json);
+  factory _$PlasticFilmItemModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlasticFilmItemModelImplFromJson(json);
 
   @override
   @JsonKey(name: 'unit_name')
@@ -181,19 +184,19 @@ class _$RivetingItemModelImpl extends _RivetingItemModel {
   @JsonKey(name: 'project')
   final String? project;
   @override
-  @JsonKey(name: 'folding_status')
+  @JsonKey(name: 'plastic_film_status')
   final String? status;
 
   @override
   String toString() {
-    return 'RivetingItemModel(unitName: $unitName, unitCode: $unitCode, project: $project, status: $status)';
+    return 'PlasticFilmItemModel(unitName: $unitName, unitCode: $unitCode, project: $project, status: $status)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RivetingItemModelImpl &&
+            other is _$PlasticFilmItemModelImpl &&
             (identical(other.unitName, unitName) ||
                 other.unitName == unitName) &&
             (identical(other.unitCode, unitCode) ||
@@ -207,34 +210,35 @@ class _$RivetingItemModelImpl extends _RivetingItemModel {
   int get hashCode =>
       Object.hash(runtimeType, unitName, unitCode, project, status);
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PlasticFilmItemModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RivetingItemModelImplCopyWith<_$RivetingItemModelImpl> get copyWith =>
-      __$$RivetingItemModelImplCopyWithImpl<_$RivetingItemModelImpl>(
+  _$$PlasticFilmItemModelImplCopyWith<_$PlasticFilmItemModelImpl>
+  get copyWith =>
+      __$$PlasticFilmItemModelImplCopyWithImpl<_$PlasticFilmItemModelImpl>(
         this,
         _$identity,
       );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RivetingItemModelImplToJson(this);
+    return _$$PlasticFilmItemModelImplToJson(this);
   }
 }
 
-abstract class _RivetingItemModel extends RivetingItemModel {
-  const factory _RivetingItemModel({
+abstract class _PlasticFilmItemModel extends PlasticFilmItemModel {
+  const factory _PlasticFilmItemModel({
     @JsonKey(name: 'unit_name') final String? unitName,
     @JsonKey(name: 'unit_code') final String? unitCode,
     @JsonKey(name: 'project') final String? project,
-    @JsonKey(name: 'folding_status') final String? status,
-  }) = _$RivetingItemModelImpl;
-  const _RivetingItemModel._() : super._();
+    @JsonKey(name: 'plastic_film_status') final String? status,
+  }) = _$PlasticFilmItemModelImpl;
+  const _PlasticFilmItemModel._() : super._();
 
-  factory _RivetingItemModel.fromJson(Map<String, dynamic> json) =
-      _$RivetingItemModelImpl.fromJson;
+  factory _PlasticFilmItemModel.fromJson(Map<String, dynamic> json) =
+      _$PlasticFilmItemModelImpl.fromJson;
 
   @override
   @JsonKey(name: 'unit_name')
@@ -246,13 +250,13 @@ abstract class _RivetingItemModel extends RivetingItemModel {
   @JsonKey(name: 'project')
   String? get project;
   @override
-  @JsonKey(name: 'folding_status')
+  @JsonKey(name: 'plastic_film_status')
   String? get status;
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PlasticFilmItemModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RivetingItemModelImplCopyWith<_$RivetingItemModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$PlasticFilmItemModelImplCopyWith<_$PlasticFilmItemModelImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }

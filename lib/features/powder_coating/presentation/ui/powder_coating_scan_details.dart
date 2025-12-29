@@ -61,14 +61,20 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                   }
 
                   if (state.extractedWeight != null) {
-                    // Trigger the second API call using the extracted text
+                    // You now have the file reference here if needed
+                    final File? imageFile = state.capturedImage;
+
+                    // Trigger the status update API
                     context.read<LaserCuttingPanelCubit>().request(
-                      Triple<String, String, String>(
-                        widget.projectId,
-                        widget.unit,
-                        state.extractedWeight!,
-                      ),
+                 
+                        Pair(state.extractedWeight!, state.base64Image??''),
+
+
+                        // If your Triple or Cubit is updated to accept the File,
+                        // you would pass imageFile here.
+                      
                     );
+         
                   }
 
                   if (state.error != null) {
@@ -90,16 +96,16 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                       // Show the Blur Dialog
                       _showBlurredStatusDialog(
                         context,
-                        "Success",
-                        data.message ?? "Scan Successful",
+                        'Success',
+                        data.message ?? 'Scan Successful',
                         Colors.green,
                       );
                     },
                     failure: (error) {
                       _showBlurredStatusDialog(
                         context,
-                        "Error",
-                        error.toString(),
+                        'Error',
+                        error.error,
                         Colors.red,
                       );
                     },
@@ -212,7 +218,7 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("OK"),
+                  child: const Text('OK'),
                 ),
               ],
             ),

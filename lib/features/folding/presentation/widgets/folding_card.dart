@@ -1,27 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 
-class FoldingCard extends StatelessWidget {
-  final String id;
-  final String date;
-  final Function() onTap;
+class FoldingCard extends StatefulWidget {
 
   const FoldingCard({
     super.key,
     required this.id,
     required this.date,
-    required this.onTap,
+    required this.onTap, 
+    required this.scan,
   });
+  final String id;
+  final String date;
+  final String scan;
+  final Function() onTap;
 
   @override
+  State<FoldingCard> createState() => _FoldingCardState();
+}
+
+class _FoldingCardState extends State<FoldingCard> {
+  @override
   Widget build(BuildContext context) {
+        // Date formatting logic
+    String formattedDate = '';
+    try {
+      // widget.date is accessed via the State object
+      DateTime parsedDate = DateTime.parse(widget.date);
+      formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+    } catch (e) {
+      // Fallback to raw string if parsing fails (e.g. if already formatted)
+      formattedDate = widget.date;
+    }
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xFFfeeded),
           borderRadius: BorderRadius.circular(12),
+           border: Border.all(
+            color: widget.scan == 'Completed'
+                ? Colors.green
+                : Colors.grey.shade200,
+            width: 3,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -53,7 +77,7 @@ class FoldingCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            id, // Use the actual project ID
+                            widget.id, // Use the actual project ID
                             style: const TextStyle(
                               fontSize: 16,
                               fontFamily: "Urbanist",
@@ -74,7 +98,7 @@ class FoldingCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    date, // Use the actual date
+                    formattedDate, // Displaying the formatted date here
                     style: UrbanistTextStyles.bodySmall.copyWith(
                       color: Colors.black,
                     ),
@@ -91,7 +115,7 @@ class FoldingCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8), // Match button shape
                     ),
                     child: ElevatedButton(
-                      onPressed: onTap,
+                      onPressed: widget.onTap,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         foregroundColor: Colors.white,

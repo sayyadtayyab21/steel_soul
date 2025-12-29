@@ -2,10 +2,10 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
-import 'package:steel_soul/core/model/triple.dart';
+
 import 'package:steel_soul/features/folding/model/scanner_details_model.dart';
 import 'package:steel_soul/features/folding/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/folding/presentation/bloc/scanner_cubit.dart';
@@ -62,13 +62,18 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                   }
 
                   if (state.extractedWeight != null) {
-                    // Trigger the second API call using the extracted text
+                    // You now have the file reference here if needed
+                    final File? imageFile = state.capturedImage;
+
+                    // Trigger the status update API
                     context.read<LaserCuttingPanelCubit>().request(
-                      Triple<String, String, String>(
-                        widget.projectId,
-                        widget.unit,
-                        state.extractedWeight!,
-                      ),
+                 
+                        Pair(state.extractedWeight!, state.base64Image),
+
+
+                        // If your Triple or Cubit is updated to accept the File,
+                        // you would pass imageFile here.
+                      
                     );
                   }
 
@@ -100,7 +105,7 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                       _showBlurredStatusDialog(
                         context,
                         "Error",
-                        error.toString(),
+                      error.error,
                         Colors.red,
                       );
                     },

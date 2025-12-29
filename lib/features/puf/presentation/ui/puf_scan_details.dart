@@ -60,16 +60,21 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                   }
 
                   if (state.extractedWeight != null) {
-                    // Trigger the second API call using the extracted text
-                    context.read<LaserCuttingPanelCubit>().request(
-                      Triple<String, String, String>(
-                        widget.projectId,
-                        widget.unit,
-                        state.extractedWeight!,
-                      ),
-                    );
-                  }
+                    // You now have the file reference here if needed
+                    final File? imageFile = state.capturedImage;
 
+                    // Trigger the status update API
+                    context.read<LaserCuttingPanelCubit>().request(
+                 
+                        Pair(state.extractedWeight!, state.base64Image??''),
+
+
+                        // If your Triple or Cubit is updated to accept the File,
+                        // you would pass imageFile here.
+                      
+                    );
+         
+                  }
                   if (state.error != null) {
                     ScaffoldMessenger.of(
                       context,
@@ -89,16 +94,16 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                       // Show the Blur Dialog
                       _showBlurredStatusDialog(
                         context,
-                        "Success",
-                        data.message ?? "Scan Successful",
+                        'Success',
+                        data.message ?? 'Scan Successful',
                         Colors.green,
                       );
                     },
                     failure: (error) {
                       _showBlurredStatusDialog(
                         context,
-                        "Error",
-                        error.toString(),
+                        'Error',
+                        error.error,
                         Colors.red,
                       );
                     },
@@ -114,7 +119,7 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                 leading: Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Color(0xFF1ad0d0),
+                    color: const Color(0xFF1ad0d0),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: IconButton(
@@ -211,7 +216,7 @@ class _PufScanDetailsState extends State<PufScanDetails> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("OK"),
+                  child: const Text('OK'),
                 ),
               ],
             ),

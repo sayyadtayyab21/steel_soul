@@ -24,6 +24,7 @@ class ScannerCubit extends Cubit<ScannerState> {
         extractedWeight: null,
         capturedImage: file,
         // base64Image: // <--- Store the file here
+        base64Image: null,
       ));
 
       final bytes = await file.readAsBytes();
@@ -51,6 +52,7 @@ class ScannerCubit extends Cubit<ScannerState> {
         (r) => emit(state.copyWith(
           isExtracting: false,
           extractedWeight: r.ocrData.text,
+          base64Image: r.baseImage, // Store the base64 image here
 
         )),
       );
@@ -71,6 +73,7 @@ class ScannerState with _$ScannerState {
     String? extractedWeight,
     File? capturedImage,
     Failure? error,
+    String? base64Image,
   }) = _ScannerState;
 
   factory ScannerState.initial() => const ScannerState(

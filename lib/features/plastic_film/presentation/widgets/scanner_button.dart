@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
+import 'package:steel_soul/features/folding/presentation/bloc/scanner_cubit.dart';
+
 
 class ScannerButton extends StatelessWidget {
   const ScannerButton({super.key});
@@ -11,16 +12,16 @@ class ScannerButton extends StatelessWidget {
   Future<void> _onScanPressed(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
 
-    // Use lower quality and constraints to prevent "Failed to allocate" Gralloc errors
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 30, // Dramatically reduced to save memory
-      maxWidth: 1200, // Prevents huge buffers
-      maxHeight: 1200,
-    );
+   final XFile? image = await picker.pickImage(
+  source: ImageSource.camera,
+  imageQuality: 25, // Lower quality = less RAM
+  maxWidth: 1000,   // Limit dimensions
+  maxHeight: 1000,
+);
 
     if (image != null && context.mounted) {
       debugPrint('Image selected: ${image.path}');
+      // Access the Cubit from the context provided by MultiBlocProvider in the parent
       context.read<ScannerCubit>().extractWeight(File(image.path));
     }
   }
@@ -32,7 +33,7 @@ class ScannerButton extends StatelessWidget {
       height: 42,
       child: FloatingActionButton.extended(
         onPressed: () => _onScanPressed(context),
-        backgroundColor: const Color(0xFF5fd6ff),
+        backgroundColor: const  Color(0xFf8490ff),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: Colors.white, width: 1),

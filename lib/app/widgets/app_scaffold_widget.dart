@@ -1,7 +1,7 @@
-import 'package:steel_soul/styles/app_colors.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:steel_soul/core/app_router/app_route.dart';
+
 import 'package:steel_soul/core/app_router/route_config.dart';
 
 class AppScaffoldWidget extends StatelessWidget {

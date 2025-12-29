@@ -37,7 +37,7 @@ class ScannerButton extends StatelessWidget {
         ),
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text(
-          'scan',
+          'Scan',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),

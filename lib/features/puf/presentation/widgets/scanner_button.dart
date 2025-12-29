@@ -3,11 +3,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
+import 'package:steel_soul/features/puf/presentation/bloc/scanner_cubit.dart';
 
-class ScannerButton extends StatelessWidget {
+
+class ScannerButton extends StatefulWidget {
   const ScannerButton({super.key});
 
+  @override
+  State<ScannerButton> createState() => _ScannerButtonState();
+}
+
+class _ScannerButtonState extends State<ScannerButton> {
   Future<void> _onScanPressed(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
 
@@ -37,7 +43,7 @@ class ScannerButton extends StatelessWidget {
         ),
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text(
-          'scan',
+          'Scan',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),

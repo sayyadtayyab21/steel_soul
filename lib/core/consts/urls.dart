@@ -31,7 +31,7 @@ class Urls {
   }
 
 
-  static final appUpdate = '$cusWs/steel_soul_erp.api.common.get_app_version';
+  static final appUpdate = '$cusWs/steelsoul.api.app_version.get_app_version';
   static final getUsers = '$cusWs/steelsoul.auth.user_login.custom_login';
 
 

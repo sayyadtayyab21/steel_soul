@@ -1,0 +1,29 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'project_details_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$ProjectDetailsModelImpl _$$ProjectDetailsModelImplFromJson(
+  Map<String, dynamic> json,
+) => _$ProjectDetailsModelImpl(
+  name: json['name'] as String?,
+  customerName: json['customer_name'] as String?,
+  projectId: json['project_id'] as String?,
+  date: json['date'] as String?,
+  customerPhoneNumber: json['customer_phone_number'] as String?,
+  status: json['puf_status'] as String?,
+);
+
+Map<String, dynamic> _$$ProjectDetailsModelImplToJson(
+  _$ProjectDetailsModelImpl instance,
+) => <String, dynamic>{
+  'name': instance.name,
+  'customer_name': instance.customerName,
+  'project_id': instance.projectId,
+  'date': instance.date,
+  'customer_phone_number': instance.customerPhoneNumber,
+  'puf_status': instance.status,
+};

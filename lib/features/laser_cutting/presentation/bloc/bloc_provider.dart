@@ -1,8 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:steel_soul/core/core.dart';
-import 'package:steel_soul/core/cubit/network_request/network_request_cubit.dart';
-import 'package:steel_soul/core/di/injector.dart';
+
 import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
 
 import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart';
@@ -27,7 +26,7 @@ typedef LaserCuttingScanCubitState = NetworkRequestState<List<SacnnerDetailsMode
 // T is PanelStatusModel
 // RP is Triple<String, String, String>
 // Corrected typedefs
-typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, String>;
+typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Pair<String, String?>>;
 typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
 
 
@@ -61,7 +60,7 @@ class LaserCuttingBlocProvider{
 
 
      LaserCuttingPanelCubit fetchLaserPanelStatus() => LaserCuttingPanelCubit(
-    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!),
+    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first, params.second),
     );
 
     

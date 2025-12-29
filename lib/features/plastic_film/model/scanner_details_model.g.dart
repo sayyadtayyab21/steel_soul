@@ -13,7 +13,7 @@ _$SacnnerDetailsModelImpl _$$SacnnerDetailsModelImplFromJson(
   panelName: json['panel_code'] as String?,
   project: json['project'] as String?,
   unit: json['unit'] as String?,
-  status: json['folding_status'] as String?,
+  status: json['plastic_film_status'] as String?,
 );
 
 Map<String, dynamic> _$$SacnnerDetailsModelImplToJson(
@@ -23,5 +23,5 @@ Map<String, dynamic> _$$SacnnerDetailsModelImplToJson(
   'panel_code': instance.panelName,
   'project': instance.project,
   'unit': instance.unit,
-  'folding_status': instance.status,
+  'plastic_film_status': instance.status,
 };

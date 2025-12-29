@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'riveting_item_model.dart';
+part of 'powder_coating_item_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,14 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-RivetingItemModel _$RivetingItemModelFromJson(Map<String, dynamic> json) {
-  return _RivetingItemModel.fromJson(json);
+PowderCoatingItemModel _$PowderCoatingItemModelFromJson(
+  Map<String, dynamic> json,
+) {
+  return _PowderCoatingItemModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RivetingItemModel {
+mixin _$PowderCoatingItemModel {
   @JsonKey(name: 'unit_name')
   String? get unitName => throw _privateConstructorUsedError;
   @JsonKey(name: 'unit_code')
@@ -30,22 +32,22 @@ mixin _$RivetingItemModel {
   @JsonKey(name: 'powder_coating_status')
   String? get status => throw _privateConstructorUsedError;
 
-  /// Serializes this RivetingItemModel to a JSON map.
+  /// Serializes this PowderCoatingItemModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PowderCoatingItemModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $RivetingItemModelCopyWith<RivetingItemModel> get copyWith =>
+  $PowderCoatingItemModelCopyWith<PowderCoatingItemModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RivetingItemModelCopyWith<$Res> {
-  factory $RivetingItemModelCopyWith(
-    RivetingItemModel value,
-    $Res Function(RivetingItemModel) then,
-  ) = _$RivetingItemModelCopyWithImpl<$Res, RivetingItemModel>;
+abstract class $PowderCoatingItemModelCopyWith<$Res> {
+  factory $PowderCoatingItemModelCopyWith(
+    PowderCoatingItemModel value,
+    $Res Function(PowderCoatingItemModel) then,
+  ) = _$PowderCoatingItemModelCopyWithImpl<$Res, PowderCoatingItemModel>;
   @useResult
   $Res call({
     @JsonKey(name: 'unit_name') String? unitName,
@@ -56,16 +58,19 @@ abstract class $RivetingItemModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RivetingItemModelCopyWithImpl<$Res, $Val extends RivetingItemModel>
-    implements $RivetingItemModelCopyWith<$Res> {
-  _$RivetingItemModelCopyWithImpl(this._value, this._then);
+class _$PowderCoatingItemModelCopyWithImpl<
+  $Res,
+  $Val extends PowderCoatingItemModel
+>
+    implements $PowderCoatingItemModelCopyWith<$Res> {
+  _$PowderCoatingItemModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PowderCoatingItemModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -100,12 +105,12 @@ class _$RivetingItemModelCopyWithImpl<$Res, $Val extends RivetingItemModel>
 }
 
 /// @nodoc
-abstract class _$$RivetingItemModelImplCopyWith<$Res>
-    implements $RivetingItemModelCopyWith<$Res> {
-  factory _$$RivetingItemModelImplCopyWith(
-    _$RivetingItemModelImpl value,
-    $Res Function(_$RivetingItemModelImpl) then,
-  ) = __$$RivetingItemModelImplCopyWithImpl<$Res>;
+abstract class _$$PowderCoatingItemModelImplCopyWith<$Res>
+    implements $PowderCoatingItemModelCopyWith<$Res> {
+  factory _$$PowderCoatingItemModelImplCopyWith(
+    _$PowderCoatingItemModelImpl value,
+    $Res Function(_$PowderCoatingItemModelImpl) then,
+  ) = __$$PowderCoatingItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -117,15 +122,16 @@ abstract class _$$RivetingItemModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$RivetingItemModelImplCopyWithImpl<$Res>
-    extends _$RivetingItemModelCopyWithImpl<$Res, _$RivetingItemModelImpl>
-    implements _$$RivetingItemModelImplCopyWith<$Res> {
-  __$$RivetingItemModelImplCopyWithImpl(
-    _$RivetingItemModelImpl _value,
-    $Res Function(_$RivetingItemModelImpl) _then,
+class __$$PowderCoatingItemModelImplCopyWithImpl<$Res>
+    extends
+        _$PowderCoatingItemModelCopyWithImpl<$Res, _$PowderCoatingItemModelImpl>
+    implements _$$PowderCoatingItemModelImplCopyWith<$Res> {
+  __$$PowderCoatingItemModelImplCopyWithImpl(
+    _$PowderCoatingItemModelImpl _value,
+    $Res Function(_$PowderCoatingItemModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PowderCoatingItemModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -136,7 +142,7 @@ class __$$RivetingItemModelImplCopyWithImpl<$Res>
     Object? status = freezed,
   }) {
     return _then(
-      _$RivetingItemModelImpl(
+      _$PowderCoatingItemModelImpl(
         unitName: freezed == unitName
             ? _value.unitName
             : unitName // ignore: cast_nullable_to_non_nullable
@@ -160,16 +166,16 @@ class __$$RivetingItemModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RivetingItemModelImpl extends _RivetingItemModel {
-  const _$RivetingItemModelImpl({
+class _$PowderCoatingItemModelImpl extends _PowderCoatingItemModel {
+  const _$PowderCoatingItemModelImpl({
     @JsonKey(name: 'unit_name') this.unitName,
     @JsonKey(name: 'unit_code') this.unitCode,
     @JsonKey(name: 'project') this.project,
     @JsonKey(name: 'powder_coating_status') this.status,
   }) : super._();
 
-  factory _$RivetingItemModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RivetingItemModelImplFromJson(json);
+  factory _$PowderCoatingItemModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PowderCoatingItemModelImplFromJson(json);
 
   @override
   @JsonKey(name: 'unit_name')
@@ -186,14 +192,14 @@ class _$RivetingItemModelImpl extends _RivetingItemModel {
 
   @override
   String toString() {
-    return 'RivetingItemModel(unitName: $unitName, unitCode: $unitCode, project: $project, status: $status)';
+    return 'PowderCoatingItemModel(unitName: $unitName, unitCode: $unitCode, project: $project, status: $status)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RivetingItemModelImpl &&
+            other is _$PowderCoatingItemModelImpl &&
             (identical(other.unitName, unitName) ||
                 other.unitName == unitName) &&
             (identical(other.unitCode, unitCode) ||
@@ -207,34 +213,35 @@ class _$RivetingItemModelImpl extends _RivetingItemModel {
   int get hashCode =>
       Object.hash(runtimeType, unitName, unitCode, project, status);
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PowderCoatingItemModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RivetingItemModelImplCopyWith<_$RivetingItemModelImpl> get copyWith =>
-      __$$RivetingItemModelImplCopyWithImpl<_$RivetingItemModelImpl>(
+  _$$PowderCoatingItemModelImplCopyWith<_$PowderCoatingItemModelImpl>
+  get copyWith =>
+      __$$PowderCoatingItemModelImplCopyWithImpl<_$PowderCoatingItemModelImpl>(
         this,
         _$identity,
       );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RivetingItemModelImplToJson(this);
+    return _$$PowderCoatingItemModelImplToJson(this);
   }
 }
 
-abstract class _RivetingItemModel extends RivetingItemModel {
-  const factory _RivetingItemModel({
+abstract class _PowderCoatingItemModel extends PowderCoatingItemModel {
+  const factory _PowderCoatingItemModel({
     @JsonKey(name: 'unit_name') final String? unitName,
     @JsonKey(name: 'unit_code') final String? unitCode,
     @JsonKey(name: 'project') final String? project,
     @JsonKey(name: 'powder_coating_status') final String? status,
-  }) = _$RivetingItemModelImpl;
-  const _RivetingItemModel._() : super._();
+  }) = _$PowderCoatingItemModelImpl;
+  const _PowderCoatingItemModel._() : super._();
 
-  factory _RivetingItemModel.fromJson(Map<String, dynamic> json) =
-      _$RivetingItemModelImpl.fromJson;
+  factory _PowderCoatingItemModel.fromJson(Map<String, dynamic> json) =
+      _$PowderCoatingItemModelImpl.fromJson;
 
   @override
   @JsonKey(name: 'unit_name')
@@ -249,10 +256,10 @@ abstract class _RivetingItemModel extends RivetingItemModel {
   @JsonKey(name: 'powder_coating_status')
   String? get status;
 
-  /// Create a copy of RivetingItemModel
+  /// Create a copy of PowderCoatingItemModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RivetingItemModelImplCopyWith<_$RivetingItemModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$PowderCoatingItemModelImplCopyWith<_$PowderCoatingItemModelImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }

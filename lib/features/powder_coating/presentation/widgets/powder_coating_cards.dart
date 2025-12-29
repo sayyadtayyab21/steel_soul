@@ -1,27 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-
-class PowderCoatingCards extends StatelessWidget {
-  final String id;
-  final String date;
-  final Function() onTap;
-
+class PowderCoatingCards extends StatefulWidget {
   const PowderCoatingCards({
     super.key,
     required this.id,
     required this.date,
+
     required this.onTap,
+    required this.scan,
   });
+  final String id;
+  final String date;
+  final String scan;
+  final Function() onTap;
 
   @override
+  State<PowderCoatingCards> createState() => _PowderCoatingCardsState();
+}
+
+class _PowderCoatingCardsState extends State<PowderCoatingCards> {
+  @override
   Widget build(BuildContext context) {
+    // Date formatting logic
+    String formattedDate = '';
+    try {
+      // widget.date is accessed via the State object
+      DateTime parsedDate = DateTime.parse(widget.date);
+      formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+    } catch (e) {
+      // Fallback to raw string if parsing fails (e.g. if already formatted)
+      formattedDate = widget.date;
+    }
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xFFfdf2e3),
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: widget.scan == 'Completed'
+                ? Colors.green
+                : Colors.grey.shade200,
+            width: 3,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -41,19 +64,18 @@ class PowderCoatingCards extends StatelessWidget {
                   child: Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                        left: BorderSide(
-                          color: Color(0xFFffb23f),
-                          width: 3,
-                        ),
+                        left: BorderSide(color: Color(0xFFffb23f), width: 3),
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0), // Added padding for left border separation
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                      ), // Added padding for left border separation
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            id, // Use the actual project ID
+                            widget.id, // Use the actual project ID
                             style: const TextStyle(
                               fontSize: 16,
                               fontFamily: "Urbanist",
@@ -74,7 +96,7 @@ class PowderCoatingCards extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    date, // Use the actual date
+                    formattedDate, // Use the actual date
                     style: UrbanistTextStyles.bodySmall.copyWith(
                       color: Colors.black,
                     ),
@@ -86,12 +108,17 @@ class PowderCoatingCards extends StatelessWidget {
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                    colors: [Color.fromARGB(255, 255, 200, 152), Color(0xFFffb23f)],
+                        colors: [
+                          Color.fromARGB(255, 255, 200, 152),
+                          Color(0xFFffb23f),
+                        ],
                       ),
-                      borderRadius: BorderRadius.circular(8), // Match button shape
+                      borderRadius: BorderRadius.circular(
+                        8,
+                      ), // Match button shape
                     ),
                     child: ElevatedButton(
-                      onPressed: onTap,
+                      onPressed: widget.onTap,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         foregroundColor: Colors.white,

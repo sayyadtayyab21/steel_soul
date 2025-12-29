@@ -1,7 +1,8 @@
 import 'package:steel_soul/core/utils/utils.dart';
 import 'package:steel_soul/features/puf/model/panel_status_model.dart';
-import 'package:steel_soul/features/puf/model/riveting_item_model.dart';
-import 'package:steel_soul/features/puf/model/riveting_model.dart';
+import 'package:steel_soul/features/puf/model/project_details_model.dart';
+import 'package:steel_soul/features/puf/model/puf_item_model.dart';
+
 import 'package:steel_soul/features/puf/model/scanner_details_model.dart';
 import 'package:steel_soul/features/puf/model/text_scanner_model.dart';
 
@@ -10,8 +11,8 @@ import 'package:steel_soul/features/puf/model/text_scanner_model.dart';
 
 
 abstract interface class PufRepo{
-  AsyncValueOf<List<RivetingModel>> fetchProjectList();
-   AsyncValueOf<List<RivetingItemModel>> fetchLaserCuttingItemDetails(
+  AsyncValueOf<List<ProjectDetailsModel>> fetchProjectList();
+   AsyncValueOf<List<PufItemModel>> fetchLaserCuttingItemDetails(
     String project
   );
   AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri);
@@ -22,6 +23,7 @@ abstract interface class PufRepo{
   );
 
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-    String project,String unitId,String scannerPanelId
-  );
+  String scannerPanelId,
+  String? file,
+);
 }

@@ -3,16 +3,18 @@ import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 
 class PufItemCards extends StatelessWidget {
-  final String id;
-  
-  final Function() onTap;
 
   const PufItemCards({
     super.key,
     required this.id,
   
-    required this.onTap,
+    required this.onTap, 
+    required this.scan,
   });
+  final String id;
+  
+  final Function() onTap;
+  final String scan;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,10 @@ class PufItemCards extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFe4fcfc),
           borderRadius: BorderRadius.circular(12),
+           border: Border.all(
+          color: scan =='Completed' ? Colors.green : Colors.grey.shade200,
+          width: 3,
+        ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),

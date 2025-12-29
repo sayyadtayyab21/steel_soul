@@ -10,6 +10,7 @@ import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provide
 import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_cutting_screen.dart';
 import 'package:steel_soul/features/packing/presentation/ui/packing_screen.dart';
 import 'package:steel_soul/features/plastic_film/presentation/ui/plastic_film_screen.dart';
+
 import 'package:steel_soul/features/powder_coating/presentation/ui/powder_coating_screen.dart';
 import 'package:steel_soul/features/puf/presentation/ui/puf_screen.dart';
 import 'package:steel_soul/features/riveting/presentation%20/ui/riveting_screen.dart';
@@ -113,7 +114,7 @@ class AppHomePage extends StatelessWidget {
         // Main Title
         const Text(
           'Let\'s make this day\nProductive',
-          style: const TextStyle(
+          style:  TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Color(0xFF2C3E50),
@@ -456,7 +457,7 @@ class AppHomePage extends StatelessWidget {
 
     final user = $sl.get<LoggedInUser>();
     // Use name if available, otherwise use firstName, otherwise use username
-    userName = user.firstName ?? '';
+    userName = user.firstName;
 
     return '$greeting, $userName! $emoji';
   }

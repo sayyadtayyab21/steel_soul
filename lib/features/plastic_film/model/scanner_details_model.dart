@@ -12,7 +12,7 @@ class SacnnerDetailsModel with _$SacnnerDetailsModel{
    @JsonKey(name: 'project')String? project,
       @JsonKey(name: 'unit')String? unit,
  
-   @JsonKey(name: 'folding_status')String? status
+   @JsonKey(name: 'plastic_film_status')String? status
   })=_SacnnerDetailsModel;
 
   factory SacnnerDetailsModel.fromJson(Map<String, dynamic>json)=>_$SacnnerDetailsModelFromJson(json);

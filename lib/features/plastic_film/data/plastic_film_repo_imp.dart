@@ -7,8 +7,9 @@ import 'package:injectable/injectable.dart';
 import 'package:steel_soul/core/core.dart';
 import 'package:steel_soul/features/plastic_film/data/plastic_film_repo.dart';
 import 'package:steel_soul/features/plastic_film/model/panel_status_model.dart';
-import 'package:steel_soul/features/plastic_film/model/riveting_item_model.dart';
-import 'package:steel_soul/features/plastic_film/model/riveting_model.dart';
+import 'package:steel_soul/features/plastic_film/model/plastic_film_item_model.dart';
+import 'package:steel_soul/features/plastic_film/model/project_details_model.dart';
+
 import 'package:steel_soul/features/plastic_film/model/scanner_details_model.dart';
 import 'package:steel_soul/features/plastic_film/model/text_scanner_model.dart';
 
@@ -20,24 +21,24 @@ class PlasticFilmRepoImp extends BaseApiRepository implements PlasticFilmRepo{
 
 
   @override
-  AsyncValueOf<List<RivetingModel>> fetchProjectList() async{
+  AsyncValueOf<List<ProjectDetailsModel>> fetchProjectList() async{
    final requestConfig = RequestConfig(
     url: Urls.projectList , 
     parser: (json){
     print(json);
     final data = json['message'];
     final listdata = data as List<dynamic>;
-          return listdata.map((e) => RivetingModel.fromJson(e)).toList();
+          return listdata.map((e) => ProjectDetailsModel.fromJson(e)).toList();
     },
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json'
     },
   reqParams: {
-      'section_name':'Folding',
+      'section_name':'Plastic Film',
   
       },
     );
-    $logger.devLog('Folding requesting...:$requestConfig');
+    $logger.devLog('Plastic Film requesting...:$requestConfig');
     final response = await post(requestConfig);
     print(response);
     return response.process((r)=> right(r.data!));
@@ -46,7 +47,7 @@ class PlasticFilmRepoImp extends BaseApiRepository implements PlasticFilmRepo{
 
 
    @override
-  AsyncValueOf<List<RivetingItemModel>> fetchLaserCuttingItemDetails(
+  AsyncValueOf<List<PlasticFilmItemModel>> fetchLaserCuttingItemDetails(
     String project
   ) async{
    final requestConfig = RequestConfig(
@@ -55,10 +56,10 @@ class PlasticFilmRepoImp extends BaseApiRepository implements PlasticFilmRepo{
     print(json);
     final data = json['message'];
     final listdata = data as List<dynamic>;
-          return listdata.map((e) => RivetingItemModel.fromJson(e)).toList();
+          return listdata.map((e) => PlasticFilmItemModel.fromJson(e)).toList();
     },
      reqParams: {
-      'section_name':'Folding',
+      'section_name':'Plastic Film',
         'project': project,
       },
     headers: {
@@ -67,7 +68,7 @@ class PlasticFilmRepoImp extends BaseApiRepository implements PlasticFilmRepo{
     
    
     );
-    $logger.devLog('Folding item details requesting...:$requestConfig');
+    $logger.devLog('Plastic Film item details requesting...:$requestConfig');
     final response = await post(requestConfig);
     print(response);
     return response.process((r)=> right(r.data!));
@@ -145,7 +146,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
           return listdata.map((e) => SacnnerDetailsModel.fromJson(e)).toList();
     },
      reqParams: {
-      'section_name':'Folding',
+      'section_name':'Plastic Film',
         'project': project,
          'unit': unit,
 
@@ -167,37 +168,37 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
 
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String project, String unitId, String scannerPanelId
+  String scannerPanelId,
+  String? file,
 ) async {
+  // 1. Create the payload map
+  final Map<String, dynamic> payload = {
+    'section_name': 'Plastic Film',
+    'scanned_panel_id': scannerPanelId,
+    'file': file, 
+  };
+
   final requestConfig = RequestConfig(
     url: Urls.getPanel,
     parser: (json) {
-      // The JSON structure is: {"message": {"status": "success", "message": "..."}}
-      // We extract the Map inside 'message'
       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-      
-      // Pass that map to your fromJson factory
       return PanelStatusModel.fromJson(data);
     },
-    reqParams: {
-      'section_name': 'Folding',
-      'project_id': project,
-      'unit_id': unitId,
-      'scanned_panel_id': scannerPanelId,
-    },
+    // 2. LEAVE reqParams EMPTY (to keep the URL clean)
+    reqParams: null, 
+    // 3. PASS THE DATA AS A JSON STRING IN THE body FIELD
+    body: jsonEncode(payload), 
     headers: {
-      HttpHeaders.contentTypeHeader: 'application/json'
+      HttpHeaders.contentTypeHeader: 'application/json',
     },
   );
 
-
   log('.....................................$requestConfig');
 
-  $logger.devLog('Folding scan details requesting...: $requestConfig');
-  
+  // 4. Execute the post
   final response = await post(requestConfig);
+  log('Response for Panel Status: $response');
   
-  // response.process usually handles the Left/Right (Failure/Success) conversion
   return response.process((r) => right(r.data!));
 }
   

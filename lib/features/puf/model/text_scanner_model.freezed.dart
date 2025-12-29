@@ -27,6 +27,8 @@ mixin _$TextScannerModel {
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: 'ocr_data')
   OcrData get ocrData => throw _privateConstructorUsedError;
+  @JsonKey(name: 'base_image')
+  String? get baseImage => throw _privateConstructorUsedError;
 
   /// Serializes this TextScannerModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,6 +51,7 @@ abstract class $TextScannerModelCopyWith<$Res> {
     @JsonKey(name: 'status') String? status,
     @JsonKey(name: 'message') String? message,
     @JsonKey(name: 'ocr_data') OcrData ocrData,
+    @JsonKey(name: 'base_image') String? baseImage,
   });
 
   $OcrDataCopyWith<$Res> get ocrData;
@@ -72,6 +75,7 @@ class _$TextScannerModelCopyWithImpl<$Res, $Val extends TextScannerModel>
     Object? status = freezed,
     Object? message = freezed,
     Object? ocrData = null,
+    Object? baseImage = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -87,6 +91,10 @@ class _$TextScannerModelCopyWithImpl<$Res, $Val extends TextScannerModel>
                 ? _value.ocrData
                 : ocrData // ignore: cast_nullable_to_non_nullable
                       as OcrData,
+            baseImage: freezed == baseImage
+                ? _value.baseImage
+                : baseImage // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -116,6 +124,7 @@ abstract class _$$TextScannerModelImplCopyWith<$Res>
     @JsonKey(name: 'status') String? status,
     @JsonKey(name: 'message') String? message,
     @JsonKey(name: 'ocr_data') OcrData ocrData,
+    @JsonKey(name: 'base_image') String? baseImage,
   });
 
   @override
@@ -139,6 +148,7 @@ class __$$TextScannerModelImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? message = freezed,
     Object? ocrData = null,
+    Object? baseImage = freezed,
   }) {
     return _then(
       _$TextScannerModelImpl(
@@ -154,6 +164,10 @@ class __$$TextScannerModelImplCopyWithImpl<$Res>
             ? _value.ocrData
             : ocrData // ignore: cast_nullable_to_non_nullable
                   as OcrData,
+        baseImage: freezed == baseImage
+            ? _value.baseImage
+            : baseImage // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -166,6 +180,7 @@ class _$TextScannerModelImpl extends _TextScannerModel {
     @JsonKey(name: 'status') this.status,
     @JsonKey(name: 'message') this.message,
     @JsonKey(name: 'ocr_data') required this.ocrData,
+    @JsonKey(name: 'base_image') this.baseImage,
   }) : super._();
 
   factory _$TextScannerModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -180,10 +195,13 @@ class _$TextScannerModelImpl extends _TextScannerModel {
   @override
   @JsonKey(name: 'ocr_data')
   final OcrData ocrData;
+  @override
+  @JsonKey(name: 'base_image')
+  final String? baseImage;
 
   @override
   String toString() {
-    return 'TextScannerModel(status: $status, message: $message, ocrData: $ocrData)';
+    return 'TextScannerModel(status: $status, message: $message, ocrData: $ocrData, baseImage: $baseImage)';
   }
 
   @override
@@ -193,12 +211,15 @@ class _$TextScannerModelImpl extends _TextScannerModel {
             other is _$TextScannerModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.ocrData, ocrData) || other.ocrData == ocrData));
+            (identical(other.ocrData, ocrData) || other.ocrData == ocrData) &&
+            (identical(other.baseImage, baseImage) ||
+                other.baseImage == baseImage));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, status, message, ocrData);
+  int get hashCode =>
+      Object.hash(runtimeType, status, message, ocrData, baseImage);
 
   /// Create a copy of TextScannerModel
   /// with the given fields replaced by the non-null parameter values.
@@ -222,6 +243,7 @@ abstract class _TextScannerModel extends TextScannerModel {
     @JsonKey(name: 'status') final String? status,
     @JsonKey(name: 'message') final String? message,
     @JsonKey(name: 'ocr_data') required final OcrData ocrData,
+    @JsonKey(name: 'base_image') final String? baseImage,
   }) = _$TextScannerModelImpl;
   const _TextScannerModel._() : super._();
 
@@ -237,6 +259,9 @@ abstract class _TextScannerModel extends TextScannerModel {
   @override
   @JsonKey(name: 'ocr_data')
   OcrData get ocrData;
+  @override
+  @JsonKey(name: 'base_image')
+  String? get baseImage;
 
   /// Create a copy of TextScannerModel
   /// with the given fields replaced by the non-null parameter values.

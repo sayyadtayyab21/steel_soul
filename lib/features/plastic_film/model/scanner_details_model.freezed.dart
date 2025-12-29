@@ -29,7 +29,7 @@ mixin _$SacnnerDetailsModel {
   String? get project => throw _privateConstructorUsedError;
   @JsonKey(name: 'unit')
   String? get unit => throw _privateConstructorUsedError;
-  @JsonKey(name: 'folding_status')
+  @JsonKey(name: 'plastic_film_status')
   String? get status => throw _privateConstructorUsedError;
 
   /// Serializes this SacnnerDetailsModel to a JSON map.
@@ -54,7 +54,7 @@ abstract class $SacnnerDetailsModelCopyWith<$Res> {
     @JsonKey(name: 'panel_code') String? panelName,
     @JsonKey(name: 'project') String? project,
     @JsonKey(name: 'unit') String? unit,
-    @JsonKey(name: 'folding_status') String? status,
+    @JsonKey(name: 'plastic_film_status') String? status,
   });
 }
 
@@ -121,7 +121,7 @@ abstract class _$$SacnnerDetailsModelImplCopyWith<$Res>
     @JsonKey(name: 'panel_code') String? panelName,
     @JsonKey(name: 'project') String? project,
     @JsonKey(name: 'unit') String? unit,
-    @JsonKey(name: 'folding_status') String? status,
+    @JsonKey(name: 'plastic_film_status') String? status,
   });
 }
 
@@ -180,7 +180,7 @@ class _$SacnnerDetailsModelImpl extends _SacnnerDetailsModel {
     @JsonKey(name: 'panel_code') this.panelName,
     @JsonKey(name: 'project') this.project,
     @JsonKey(name: 'unit') this.unit,
-    @JsonKey(name: 'folding_status') this.status,
+    @JsonKey(name: 'plastic_film_status') this.status,
   }) : super._();
 
   factory _$SacnnerDetailsModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -199,7 +199,7 @@ class _$SacnnerDetailsModelImpl extends _SacnnerDetailsModel {
   @JsonKey(name: 'unit')
   final String? unit;
   @override
-  @JsonKey(name: 'folding_status')
+  @JsonKey(name: 'plastic_film_status')
   final String? status;
 
   @override
@@ -248,7 +248,7 @@ abstract class _SacnnerDetailsModel extends SacnnerDetailsModel {
     @JsonKey(name: 'panel_code') final String? panelName,
     @JsonKey(name: 'project') final String? project,
     @JsonKey(name: 'unit') final String? unit,
-    @JsonKey(name: 'folding_status') final String? status,
+    @JsonKey(name: 'plastic_film_status') final String? status,
   }) = _$SacnnerDetailsModelImpl;
   const _SacnnerDetailsModel._() : super._();
 
@@ -268,7 +268,7 @@ abstract class _SacnnerDetailsModel extends SacnnerDetailsModel {
   @JsonKey(name: 'unit')
   String? get unit;
   @override
-  @JsonKey(name: 'folding_status')
+  @JsonKey(name: 'plastic_film_status')
   String? get status;
 
   /// Create a copy of SacnnerDetailsModel

@@ -1,259 +1,232 @@
-// import 'package:flutter/material.dart';
-// import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_scan_details.dart';
-
-
-
-
-// import 'package:steel_soul/features/laser_cutting/presentation/widgets/item_cards.dart';
-// import 'package:steel_soul/features/plastic_film/presentation/ui/plastic_film_scan_details.dart';
-
- 
-// import 'package:steel_soul/styles/urbanist_text_styles.dart';
-
-
-// // --- Dummy Data Structure for Projects ---
-// class Laser{
-//   final String id;
- 
-
-//   Laser(this.id,);
-// }
-
-// // Dummy Project List
-// final List<Laser> dummyProjects = [
-//   Laser('001 TV1'),
-//    Laser('001 TV1'),
-//    Laser('001 TV1'),
-//  Laser('001 TV1'),
-//  Laser('001 TV1'),
-// ];
-
-
-// class PowderCoatingItemDetails extends StatefulWidget {
-//   const PowderCoatingItemDetails({super.key});
-
-//   @override
-//   State<PowderCoatingItemDetails> createState() => _PowderCoatingItemDetailsState();
-// }
-
-// class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
-//   // final BinApiService _binApiService = $sl<BinApiService>();
-//   // List<BinResponse> binData = <BinResponse>[];
-//   bool isLoading = false;
-//   String? errorMessage;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//         leading: Container(
-//           margin: const EdgeInsets.all(8),
-//           decoration: BoxDecoration(
-//             color: const Color(0xFF5FD6FF),
-//             borderRadius: BorderRadius.circular(8),
-//           ),
-//           child: IconButton(
-//             icon: const Icon(Icons.arrow_back, color: Colors.white),
-//             onPressed: () => Navigator.pop(context),
-//           ),
-//         ),
-//         title: Text(
-//           'Laser Cutting',
-//           style: UrbanistTextStyles.heading3,
-//         ),
-//         centerTitle: true,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             // Search Bar
-//             Container(
-//               decoration: BoxDecoration(
-//                 color: Colors.grey[100],
-//                 borderRadius: BorderRadius.circular(12),
-//               ),
-//               child: TextField(
-//                 decoration: InputDecoration(
-//                   hintText: 'Search Project ID', // Adjusted hint for relevance
-//                   hintStyle: TextStyle(color: Colors.grey[600]),
-//                  prefixIcon: Padding(
-//                           padding: const EdgeInsets.only(left: 4),
-//                           child: Icon(Icons.search,color: Color(0xFF5FD6FF),) // Used primary color
-//                         ),
-//                   border: InputBorder.none,
-//                   contentPadding: const EdgeInsets.symmetric(
-//                     horizontal: 16,
-//                     vertical: 12,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             const SizedBox(height: 20),
-
-//             // Project List (Using dummy data)
-//             Expanded(
-//               child: ListView.builder(
-//                 itemCount: dummyProjects.length,
-//                 itemBuilder: (context, index) {
-//                   final project = dummyProjects[index];
-//                   return Padding(
-//                     padding: const EdgeInsets.only(bottom: 12.0),
-//                     child: ItemCards(
-//                       id: project.id,
-//                       // date: project.date,
-//                       onTap: () {
-//                         // Navigate to the details page when a card is tapped
-//                         Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                             builder: (context) => LaserScanDetails(projectId: project.id),
-//                           ),
-//                         );
-//                       },
-//                     ),
-//                   );
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: SizedBox(
-//         width: 108,
-//         height: 42,
-//         child: FloatingActionButton.extended(
-//           onPressed: () {
-//             // Action for the Floating Action Button (Scan)
-//           },
-//           backgroundColor: const Color(0xFF62CEFF),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(20), // radius = 20px
-//             side: const BorderSide(
-//               color: Colors.white, // white border
-//               width: 1, // 1px border width
-//             ),
-//           ),
-//           icon: const Icon(Icons.add, color: Colors.white),
-//           label: const Text(
-//             'Scan',
-//             style: TextStyle(
-//               color: Colors.white,
-//               fontSize: 20,
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:steel_soul/features/powder_coating/model/riveting_item_model.dart';
+import 'package:steel_soul/core/di/injector.dart';
+import 'package:steel_soul/core/model/pair.dart';
+import 'package:steel_soul/features/powder_coating/model/powder_coating_item_model.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/bloc_provider.dart';
+import 'package:steel_soul/features/powder_coating/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/powder_coating/presentation/ui/powder_coating_scan_details.dart';
 import 'package:steel_soul/features/powder_coating/presentation/widgets/powder_coating_item_cards.dart';
 import 'package:steel_soul/features/powder_coating/presentation/widgets/scanner_button.dart';
 
-
-
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class PowderCoatingItemDetails extends StatefulWidget {
-  final String id;
   const PowderCoatingItemDetails({super.key, required this.id});
+  final String id;
 
   @override
-  State<PowderCoatingItemDetails> createState() => _PowderCoatingItemDetailsState();
+  State<PowderCoatingItemDetails> createState() =>
+      _PowderCoatingItemDetailsState();
 }
 
 class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
+  
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  // 2. Helper method to trigger Bloc refresh
+  Future<void> _onRefresh(BuildContext context) async {
+    context.read<LaserCuttingItemsCubit>().request(widget.id);
+    // Small delay to ensure the UI shows the refresh state
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    return BlocProvider(
-      create: (_) =>
-    PowderCoatingBlocProvider.get()
-        .fetchLaserItemsList()
-      ..request(widget.id),
-
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFffb23f),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
-          title: Text(
-            widget.id,
-            style: UrbanistTextStyles.heading3,
-          ),
-          centerTitle: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              PowderCoatingBlocProvider.get().fetchLaserItemsList()
+                ..request(widget.id),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              _searchBar(),
-              const SizedBox(height: 20),
+        BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
+        BlocProvider(
+          create: (_) =>
+              PowderCoatingBlocProvider.get().fetchLaserPanelStatus(),
+        ),
+      ],
+      child: Builder(
+        builder: (context) {
+          return MultiBlocListener(
+            listeners: [
+              BlocListener<ScannerCubit, ScannerState>(
+                listener: (context, state) {
+                  if (state.isExtracting) {
+                    _showLoadingDialog(context);
+                  } else {
+                    if (Navigator.of(context, rootNavigator: true).canPop()) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                  }
 
-              Expanded(
-                child: BlocBuilder<LaserCuttingItemsCubit, LaserCuttingItemsCubitState>(
-                  builder: (context, state) {
-                    return state.when(
-                      initial: () => const SizedBox(),
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
-                      failure: (e) =>
-                          Center(child: Text("$e.message")),
-                      success: (List<RivetingItemModel> projects) {
-                        return ListView.builder(
-                          itemCount: projects.length,
-                          itemBuilder: (context, index) {
-                            final project = projects[index];
-                            print(project);
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 12),
-                              child: PowderCoatingItemCards(
-                                id: project.unitCode ?? '',
-                         
-                         
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => PowderCoatingScanDetails(projectId: widget.id, unit: project.unitCode ?? '',),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          },
+                  if (state.extractedWeight != null) {
+                    final String scannedId = state.extractedWeight!.trim();
+                    context.read<LaserCuttingPanelCubit>().request(
+                          Pair(scannedId, state.base64Image??''),
                         );
-                      },
+                    context.read<ScannerCubit>().reset();
+                  }
+
+                  if (state.error != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.error!.error),
+                        backgroundColor: Colors.red,
+                      ),
                     );
-                  },
-                ),
+                  }
+                },
+              ),
+              BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
+                listener: (context, state) {
+                  state.whenOrNull(
+                    success: (data) {
+                      _onRefresh(context); // Refresh items after scan success
+                      _showBlurredStatusDialog(
+                        context,
+                        'Success',
+                        data.message ?? 'Panel successfully updated',
+                        Colors.green,
+                      );
+                    },
+                    failure: (error) {
+                      _showBlurredStatusDialog(
+                        context,
+                        'Match Failed',
+                      error.error,
+                        Colors.red,
+                      );
+                    },
+                  );
+                },
               ),
             ],
-          ),
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: Container(
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFffb23f),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+                title: Text(widget.id, style: UrbanistTextStyles.heading3),
+                centerTitle: true,
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    _searchBar(),
+                    const SizedBox(height: 20),
+
+                    Expanded(
+                      child:
+                          BlocBuilder<
+                            LaserCuttingItemsCubit,
+                            LaserCuttingItemsCubitState
+                          >(
+                            builder: (context, state) {
+                              return state.when(
+                                initial: () => const SizedBox(),
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                failure: (e) =>
+                                    const Center(child: Text('//.message')),
+                                success: (List<PowderCoatingItemModel> projects) {
+                                  return ListView.builder(
+                                    itemCount: projects.length,
+                                    itemBuilder: (context, index) {
+                                      final project = projects[index];
+                                      print(project);
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 12,
+                                        ),
+                                        child: PowderCoatingItemCards(
+                                          id: project.unitCode ?? '',
+                                          scan:project.status??'',
+
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    PowderCoatingScanDetails(
+                                                      projectId: widget.id,
+                                                      unit:
+                                                          project.unitCode ??
+                                                          '',
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              floatingActionButton: const ScannerButton(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  void _showBlurredStatusDialog(
+      BuildContext context, String title, String message, Color color) {
+    showDialog(
+      context: context,
+      builder: (context) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text(title,
+              style: UrbanistTextStyles.heading3.copyWith(color: color)),
+          content: Text(message, style: UrbanistTextStyles.bodyMedium),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
         ),
-         floatingActionButton: const ScannerButton(),
       ),
     );
   }
@@ -264,18 +237,26 @@ class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const TextField(
+      child: TextField(
+        controller: _searchController,
+        onChanged: (value) => setState(() => _searchQuery = value),
         decoration: InputDecoration(
-          hintText: 'Search Project ID',
-          prefixIcon:
-              Icon(Icons.search, color: Color(0xFFffb23f),),
+          hintText: 'Search Unit Code',
+          prefixIcon: const Icon(Icons.search, color: Color(0xFFffb23f),),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear, size: 20),
+                  onPressed: () {
+                    _searchController.clear();
+                    setState(() => _searchQuery = '');
+                  },
+                )
+              : null,
           border: InputBorder.none,
           contentPadding:
-              EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
       ),
     );
   }
 }
-
-

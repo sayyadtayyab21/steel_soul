@@ -19,7 +19,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ScannerState {
   bool get isExtracting => throw _privateConstructorUsedError;
   String? get extractedWeight => throw _privateConstructorUsedError;
+  File? get capturedImage => throw _privateConstructorUsedError;
   Failure? get error => throw _privateConstructorUsedError;
+  String? get base64Image => throw _privateConstructorUsedError;
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.
@@ -35,7 +37,13 @@ abstract class $ScannerStateCopyWith<$Res> {
     $Res Function(ScannerState) then,
   ) = _$ScannerStateCopyWithImpl<$Res, ScannerState>;
   @useResult
-  $Res call({bool isExtracting, String? extractedWeight, Failure? error});
+  $Res call({
+    bool isExtracting,
+    String? extractedWeight,
+    File? capturedImage,
+    Failure? error,
+    String? base64Image,
+  });
 
   $FailureCopyWith<$Res>? get error;
 }
@@ -57,7 +65,9 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
   $Res call({
     Object? isExtracting = null,
     Object? extractedWeight = freezed,
+    Object? capturedImage = freezed,
     Object? error = freezed,
+    Object? base64Image = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -69,10 +79,18 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
                 ? _value.extractedWeight
                 : extractedWeight // ignore: cast_nullable_to_non_nullable
                       as String?,
+            capturedImage: freezed == capturedImage
+                ? _value.capturedImage
+                : capturedImage // ignore: cast_nullable_to_non_nullable
+                      as File?,
             error: freezed == error
                 ? _value.error
                 : error // ignore: cast_nullable_to_non_nullable
                       as Failure?,
+            base64Image: freezed == base64Image
+                ? _value.base64Image
+                : base64Image // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -102,7 +120,13 @@ abstract class _$$ScannerStateImplCopyWith<$Res>
   ) = __$$ScannerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isExtracting, String? extractedWeight, Failure? error});
+  $Res call({
+    bool isExtracting,
+    String? extractedWeight,
+    File? capturedImage,
+    Failure? error,
+    String? base64Image,
+  });
 
   @override
   $FailureCopyWith<$Res>? get error;
@@ -124,7 +148,9 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isExtracting = null,
     Object? extractedWeight = freezed,
+    Object? capturedImage = freezed,
     Object? error = freezed,
+    Object? base64Image = freezed,
   }) {
     return _then(
       _$ScannerStateImpl(
@@ -136,10 +162,18 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
             ? _value.extractedWeight
             : extractedWeight // ignore: cast_nullable_to_non_nullable
                   as String?,
+        capturedImage: freezed == capturedImage
+            ? _value.capturedImage
+            : capturedImage // ignore: cast_nullable_to_non_nullable
+                  as File?,
         error: freezed == error
             ? _value.error
             : error // ignore: cast_nullable_to_non_nullable
                   as Failure?,
+        base64Image: freezed == base64Image
+            ? _value.base64Image
+            : base64Image // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -147,11 +181,13 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ScannerStateImpl implements _ScannerState {
+class _$ScannerStateImpl with DiagnosticableTreeMixin implements _ScannerState {
   const _$ScannerStateImpl({
     required this.isExtracting,
     this.extractedWeight,
+    this.capturedImage,
     this.error,
+    this.base64Image,
   });
 
   @override
@@ -159,11 +195,27 @@ class _$ScannerStateImpl implements _ScannerState {
   @override
   final String? extractedWeight;
   @override
+  final File? capturedImage;
+  @override
   final Failure? error;
+  @override
+  final String? base64Image;
 
   @override
-  String toString() {
-    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, error: $error)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, capturedImage: $capturedImage, error: $error, base64Image: $base64Image)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ScannerState'))
+      ..add(DiagnosticsProperty('isExtracting', isExtracting))
+      ..add(DiagnosticsProperty('extractedWeight', extractedWeight))
+      ..add(DiagnosticsProperty('capturedImage', capturedImage))
+      ..add(DiagnosticsProperty('error', error))
+      ..add(DiagnosticsProperty('base64Image', base64Image));
   }
 
   @override
@@ -175,12 +227,22 @@ class _$ScannerStateImpl implements _ScannerState {
                 other.isExtracting == isExtracting) &&
             (identical(other.extractedWeight, extractedWeight) ||
                 other.extractedWeight == extractedWeight) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.capturedImage, capturedImage) ||
+                other.capturedImage == capturedImage) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.base64Image, base64Image) ||
+                other.base64Image == base64Image));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isExtracting, extractedWeight, error);
+  int get hashCode => Object.hash(
+    runtimeType,
+    isExtracting,
+    extractedWeight,
+    capturedImage,
+    error,
+    base64Image,
+  );
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.
@@ -195,7 +257,9 @@ abstract class _ScannerState implements ScannerState {
   const factory _ScannerState({
     required final bool isExtracting,
     final String? extractedWeight,
+    final File? capturedImage,
     final Failure? error,
+    final String? base64Image,
   }) = _$ScannerStateImpl;
 
   @override
@@ -203,7 +267,11 @@ abstract class _ScannerState implements ScannerState {
   @override
   String? get extractedWeight;
   @override
+  File? get capturedImage;
+  @override
   Failure? get error;
+  @override
+  String? get base64Image;
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.

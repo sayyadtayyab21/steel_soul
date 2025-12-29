@@ -10,10 +10,10 @@ import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 // --- Dummy Data Structure for Projects ---
 class Packing {
-  final String id;
  
 
   Packing(this.id,);
+  final String id;
 }
 
 // Dummy Project List

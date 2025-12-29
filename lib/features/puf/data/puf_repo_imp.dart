@@ -8,8 +8,9 @@ import 'package:steel_soul/core/core.dart';
 
 import 'package:steel_soul/features/puf/data/puf_repo.dart';
 import 'package:steel_soul/features/puf/model/panel_status_model.dart';
-import 'package:steel_soul/features/puf/model/riveting_item_model.dart';
-import 'package:steel_soul/features/puf/model/riveting_model.dart';
+import 'package:steel_soul/features/puf/model/project_details_model.dart';
+import 'package:steel_soul/features/puf/model/puf_item_model.dart';
+
 import 'package:steel_soul/features/puf/model/scanner_details_model.dart';
 import 'package:steel_soul/features/puf/model/text_scanner_model.dart';
 
@@ -20,14 +21,14 @@ class PufRepoImp extends BaseApiRepository implements PufRepo{
 
 
   @override
-  AsyncValueOf<List<RivetingModel>> fetchProjectList() async{
+  AsyncValueOf<List<ProjectDetailsModel>> fetchProjectList() async{
    final requestConfig = RequestConfig(
     url: Urls.projectList , 
     parser: (json){
     print(json);
     final data = json['message'];
     final listdata = data as List<dynamic>;
-          return listdata.map((e) => RivetingModel.fromJson(e)).toList();
+          return listdata.map((e) => ProjectDetailsModel.fromJson(e)).toList();
     },
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json'
@@ -46,7 +47,7 @@ class PufRepoImp extends BaseApiRepository implements PufRepo{
 
 
    @override
-  AsyncValueOf<List<RivetingItemModel>> fetchLaserCuttingItemDetails(
+  AsyncValueOf<List<PufItemModel>> fetchLaserCuttingItemDetails(
     String project
   ) async{
    final requestConfig = RequestConfig(
@@ -55,7 +56,7 @@ class PufRepoImp extends BaseApiRepository implements PufRepo{
     print(json);
     final data = json['message'];
     final listdata = data as List<dynamic>;
-          return listdata.map((e) => RivetingItemModel.fromJson(e)).toList();
+          return listdata.map((e) => PufItemModel.fromJson(e)).toList();
     },
      reqParams: {
       'section_name':'PUF',
@@ -167,37 +168,37 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
 
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String project, String unitId, String scannerPanelId
+  String scannerPanelId,
+  String? file,
 ) async {
+  // 1. Create the payload map
+  final Map<String, dynamic> payload = {
+    'section_name': 'PUF',
+    'scanned_panel_id': scannerPanelId,
+    'file': file, 
+  };
+
   final requestConfig = RequestConfig(
     url: Urls.getPanel,
     parser: (json) {
-      // The JSON structure is: {"message": {"status": "success", "message": "..."}}
-      // We extract the Map inside 'message'
       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-      
-      // Pass that map to your fromJson factory
       return PanelStatusModel.fromJson(data);
     },
-    reqParams: {
-      'section_name': 'PUF',
-      'project_id': project,
-      'unit_id': unitId,
-      'scanned_panel_id': scannerPanelId,
-    },
+    // 2. LEAVE reqParams EMPTY (to keep the URL clean)
+    reqParams: null, 
+    // 3. PASS THE DATA AS A JSON STRING IN THE body FIELD
+    body: jsonEncode(payload), 
     headers: {
-      HttpHeaders.contentTypeHeader: 'application/json'
+      HttpHeaders.contentTypeHeader: 'application/json',
     },
   );
 
-
   log('.....................................$requestConfig');
 
-  $logger.devLog('PUF scan details requesting...: $requestConfig');
-  
+  // 4. Execute the post
   final response = await post(requestConfig);
+  log('Response for Panel Status: $response');
   
-  // response.process usually handles the Left/Right (Failure/Success) conversion
   return response.process((r) => right(r.data!));
 }
   

@@ -67,7 +67,8 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                     // Trigger the status update API
                     context.read<LaserCuttingPanelCubit>().request(
                  
-                        state.extractedWeight!,
+                        Pair(state.extractedWeight!, state.base64Image),
+
 
                         // If your Triple or Cubit is updated to accept the File,
                         // you would pass imageFile here.
@@ -110,7 +111,7 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                       _showBlurredStatusDialog(
                         context,
                         'Error',
-                        error.toString(),
+                        error.error,
                         Colors.red,
                       );
                     },

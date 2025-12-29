@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
+import 'package:steel_soul/core/model/model.dart';
 
 import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
@@ -86,7 +87,7 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                     // }
 
                     // Trigger the Panel Status API to update the backend
-                    context.read<LaserCuttingPanelCubit>().request(rawText);
+                    context.read<LaserCuttingPanelCubit>().request(Pair(rawText, state.base64Image));
                   }
 
                   if (state.error != null) {
@@ -120,7 +121,7 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                       _showBlurredStatusDialog(
                         context,
                         'Error',
-                        error.toString(),
+                        error.error,
                         Colors.red,
                       );
                     },

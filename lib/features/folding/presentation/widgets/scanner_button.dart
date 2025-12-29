@@ -12,10 +12,12 @@ class ScannerButton extends StatelessWidget {
   Future<void> _onScanPressed(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
 
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 85,
-    );
+   final XFile? image = await picker.pickImage(
+  source: ImageSource.camera,
+  imageQuality: 25, // Lower quality = less RAM
+  maxWidth: 1000,   // Limit dimensions
+  maxHeight: 1000,
+);
 
     if (image != null && context.mounted) {
       debugPrint('Image selected: ${image.path}');
@@ -38,7 +40,7 @@ class ScannerButton extends StatelessWidget {
         ),
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text(
-          'scan',
+          'Scan',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),

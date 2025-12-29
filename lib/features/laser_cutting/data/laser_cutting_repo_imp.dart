@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:steel_soul/core/consts/urls.dart';
 import 'package:steel_soul/core/core.dart';
@@ -49,7 +50,7 @@ class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
     );
     log('laser cutting requesting...:$requestConfig');
     final response = await post(requestConfig);
-    print(response);
+    log('................................$response');
     return response.process((r)=> right(r.data!));
 
   }
@@ -79,7 +80,7 @@ class LaserCuttingRepoImp extends BaseApiRepository implements LaserCuttingRepo{
     );
     log('laser cutting item details requesting...:$requestConfig');
     final response = await post(requestConfig);
-    print(response);
+    log('$response');
     return response.process((r)=> right(r.data!));
 
   }
@@ -154,6 +155,8 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
     final listdata = data as List<dynamic>;
           return listdata.map((e) => SacnnerDetailsModel.fromJson(e)).toList();
     },
+
+    
      reqParams: {
       'section_name':'Laser Cutting',
         'project': project,
@@ -168,49 +171,87 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
     );
     log('laser cutting scan details requesting...:$requestConfig');
     final response = await post(requestConfig);
-    print(response);
+  log('$response');
     return response.process((r)=> right(r.data!));
 
   }
 
 
 
+// @override
+// AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
+//   // String project, String unitId, 
+//   String scannerPanelId,
+//   String? file
+// ) async {
+//   final requestConfig = RequestConfig(
+//     url: Urls.getPanel,
+//     parser: (json) {
+//       // The JSON structure is: {"message": {"status": "success", "message": "..."}}
+//       // We extract the Map inside 'message'
+//       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
+      
+//       // Pass that map to your fromJson factory
+//       return PanelStatusModel.fromJson(data);
+//     },
+//     reqParams: {
+//       'section_name': 'Laser Cutting',
+//       // 'project_id': project,
+//       // 'unit_id': unitId,
+
+//       'scanned_panel_id': scannerPanelId,
+//       'file': file,
+//     },
+//     headers: {
+//       HttpHeaders.contentTypeHeader: 'application/json'
+//     },
+//   );
+
+
+//   log('.....................................$requestConfig');
+
+  
+//   final response = await post(requestConfig);
+
+//   log('Response for Panel Status: $response');
+  
+//   // response.process usually handles the Left/Right (Failure/Success) conversion
+//   return response.process((r) => right(r.data!));
+// }
+
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  // String project, String unitId, 
-  String scannerPanelId
+  String scannerPanelId,
+  String? file,
 ) async {
+  // 1. Create the payload map
+  final Map<String, dynamic> payload = {
+    'section_name': 'Laser Cutting',
+    'scanned_panel_id': scannerPanelId,
+    'file': file, // The base64 string goes here
+  };
+
   final requestConfig = RequestConfig(
     url: Urls.getPanel,
     parser: (json) {
-      // The JSON structure is: {"message": {"status": "success", "message": "..."}}
-      // We extract the Map inside 'message'
       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-      
-      // Pass that map to your fromJson factory
       return PanelStatusModel.fromJson(data);
     },
-    reqParams: {
-      'section_name': 'Laser Cutting',
-      // 'project_id': project,
-      // 'unit_id': unitId,
-      'scanned_panel_id': scannerPanelId,
-      // 'file'
-     
-    },
+    // 2. LEAVE reqParams EMPTY (to keep the URL clean)
+    reqParams: null, 
+    // 3. PASS THE DATA AS A JSON STRING IN THE body FIELD
+    body: jsonEncode(payload), 
     headers: {
-      HttpHeaders.contentTypeHeader: 'application/json'
+      HttpHeaders.contentTypeHeader: 'application/json',
     },
   );
 
-
   log('.....................................$requestConfig');
 
-  log('laser cutting scan details requesting...: $requestConfig');
-  
+  // 4. Execute the post
   final response = await post(requestConfig);
+  log('Response for Panel Status: $response');
   
-  // response.process usually handles the Left/Right (Failure/Success) conversion
   return response.process((r) => right(r.data!));
 }
   
