@@ -6,19 +6,20 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:steel_soul/core/core.dart';
+import 'package:steel_soul/features/packing/data/packing_repo.dart';
+import 'package:steel_soul/features/packing/model/laser_cutting_model.dart';
+import 'package:steel_soul/features/packing/model/laser_item_model.dart';
+import 'package:steel_soul/features/packing/model/panel_status_model.dart';
+import 'package:steel_soul/features/packing/model/scanner_details_model.dart';
+import 'package:steel_soul/features/packing/model/text_scanner_model.dart';
 
-import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
 
-import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart';
-import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
-import 'package:steel_soul/features/laser_cutting/model/panel_status_model.dart';
-import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
-import 'package:steel_soul/features/laser_cutting/model/text_scanner_model.dart';
 
-@LazySingleton(as: LaserCuttingRepo)
-class LaserCuttingRepoImp extends BaseApiRepository
-    implements LaserCuttingRepo {
-  const LaserCuttingRepoImp(super.client);
+
+@LazySingleton(as: PackingRepo)
+class PackingRepoImp extends BaseApiRepository
+    implements PackingRepo {
+  const PackingRepoImp(super.client);
 
   @override
   AsyncValueOf<List<LaserCuttingList>> fetchLaserCuttings() async {
@@ -39,9 +40,9 @@ class LaserCuttingRepoImp extends BaseApiRepository
         }
       },
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-      reqParams: {'section_name': 'Laser Cutting'},
+      reqParams: {'section_name': 'Packing'},
     );
-    log('laser cutting requesting...:$requestConfig');
+    log('Packing requesting...:$requestConfig');
     final response = await post(requestConfig);
     log('................................$response');
     return response.process((r) => right(r.data!));
@@ -59,10 +60,10 @@ class LaserCuttingRepoImp extends BaseApiRepository
         final listdata = data as List<dynamic>;
         return listdata.map((e) => LaserItemModel.fromJson(e)).toList();
       },
-      reqParams: {'section_name': 'Laser Cutting', 'project': project},
+      reqParams: {'section_name': 'Packing', 'project': project},
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     );
-    log('laser cutting item details requesting...:$requestConfig');
+    log('Packing item details requesting...:$requestConfig');
     final response = await post(requestConfig);
     log('$response');
     return response.process((r) => right(r.data!));
@@ -135,13 +136,13 @@ class LaserCuttingRepoImp extends BaseApiRepository
       },
 
       reqParams: {
-        'section_name': 'Laser Cutting',
+        'section_name': 'Packing',
         'project': project,
         'unit': unit,
       },
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     );
-    log('laser cutting scan details requesting...:$requestConfig');
+    log('Packing scan details requesting...:$requestConfig');
     final response = await post(requestConfig);
     log('$response');
     return response.process((r) => right(r.data!));
@@ -164,7 +165,7 @@ class LaserCuttingRepoImp extends BaseApiRepository
   //       return PanelStatusModel.fromJson(data);
   //     },
   //     reqParams: {
-  //       'section_name': 'Laser Cutting',
+  //       'section_name': 'Packing',
   //       // 'project_id': project,
   //       // 'unit_id': unitId,
 
@@ -193,7 +194,7 @@ class LaserCuttingRepoImp extends BaseApiRepository
   ) async {
     // 1. Create the payload map
     final Map<String, dynamic> payload = {
-      'section_name': 'Laser Cutting',
+      'section_name': 'Packing',
       'scanned_panel_id': scannerPanelId,
       'file': file, // The base64 string goes here
     };

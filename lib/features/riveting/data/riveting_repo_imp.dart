@@ -169,37 +169,37 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
 
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String project, String unitId, String scannerPanelId
+  String scannerPanelId,
+  String? file,
 ) async {
+  // 1. Create the payload map
+  final Map<String, dynamic> payload = {
+    'section_name': 'Riveting',
+    'scanned_panel_id': scannerPanelId,
+    'file': file, 
+  };
+
   final requestConfig = RequestConfig(
     url: Urls.getPanel,
     parser: (json) {
-      // The JSON structure is: {"message": {"status": "success", "message": "..."}}
-      // We extract the Map inside 'message'
       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-      
-      // Pass that map to your fromJson factory
       return PanelStatusModel.fromJson(data);
     },
-    reqParams: {
-      'section_name': 'Riveting',
-      'project_id': project,
-      'unit_id': unitId,
-      'scanned_panel_id': scannerPanelId,
-    },
+    // 2. LEAVE reqParams EMPTY (to keep the URL clean)
+    reqParams: null, 
+    // 3. PASS THE DATA AS A JSON STRING IN THE body FIELD
+    body: jsonEncode(payload), 
     headers: {
-      HttpHeaders.contentTypeHeader: 'application/json'
+      HttpHeaders.contentTypeHeader: 'application/json',
     },
   );
 
-
   log('.....................................$requestConfig');
 
-  $logger.devLog('Riveting scan details requesting...: $requestConfig');
-  
+  // 4. Execute the post
   final response = await post(requestConfig);
+  log('Response for Panel Status: $response');
   
-  // response.process usually handles the Left/Right (Failure/Success) conversion
   return response.process((r) => right(r.data!));
 }
   

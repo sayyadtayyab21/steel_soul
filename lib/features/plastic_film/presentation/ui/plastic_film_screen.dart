@@ -135,7 +135,7 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                 backgroundColor: Colors.white,
                 elevation: 0,
                 leading: _backButton(context),
-                title: Text('Folding', style: UrbanistTextStyles.heading3),
+                title: Text('Powder Coating', style: UrbanistTextStyles.heading3),
                 centerTitle: true,
               ),
               body: Padding(

@@ -121,7 +121,7 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                 leading: Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Color(0xFFff7f7e),
+                    color: const Color(0xFFff7f7e),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: IconButton(

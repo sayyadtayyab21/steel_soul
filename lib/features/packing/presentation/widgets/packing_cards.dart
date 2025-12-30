@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-
-class PackingCards extends StatelessWidget {
-  final String id;
-  final String date;
-  final Function() onTap;
-
+class PackingCards extends StatefulWidget {
   const PackingCards({
     super.key,
     required this.id,
     required this.date,
     required this.onTap,
+    required this.scan,
   });
+  final String id;
+  final String date;
+  final String scan;
+  final Function() onTap;
 
   @override
+  State<PackingCards> createState() => _PackingCardsState();
+}
+
+class _PackingCardsState extends State<PackingCards> {
+  @override
   Widget build(BuildContext context) {
+    // Date formatting logic
+    String formattedDate = '';
+    try {
+      // widget.date is accessed via the State object
+      DateTime parsedDate = DateTime.parse(widget.date);
+      formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+    } catch (e) {
+      // Fallback to raw string if parsing fails (e.g. if already formatted)
+      formattedDate = widget.date;
+    }
+
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFffede8),
+          color: const Color(0xFFFFEDED),
+          border: Border.all(
+            color: widget.scan == 'Completed'
+                ? Colors.green
+                : Colors.grey.shade200,
+            width: 3,
+          ),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -42,26 +65,24 @@ class PackingCards extends StatelessWidget {
                     decoration: const BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color:Color(0xFFd87b60),
+                          color: Color(0xFFDB7b6c),
                           width: 3,
                         ),
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0), // Added padding for left border separation
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            id, // Use the actual project ID
+                            widget.id,
                             style: const TextStyle(
                               fontSize: 16,
-                              fontFamily: "Urbanist",
+                              fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          // Optional: Add a placeholder for a second line of text if needed
                         ],
                       ),
                     ),
@@ -69,29 +90,29 @@ class PackingCards extends StatelessWidget {
                 ),
               ),
 
-              // Right side - Date and View button
+              // Right side - Formatted Date and View button
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    date, // Use the actual date
+                    formattedDate, // Displaying the formatted date here
                     style: UrbanistTextStyles.bodySmall.copyWith(
                       color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Container(
-                    height: 32, // Increased height slightly
+                    height: 32,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Color(0xFFc36145), Color(0xFFf6997f)],
+                        colors: [Color(0xFFF6997F), Color(0xFFDB7B6C)],
                       ),
-                      borderRadius: BorderRadius.circular(8), // Match button shape
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: ElevatedButton(
-                      onPressed: onTap,
+                      onPressed: widget.onTap,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         foregroundColor: Colors.white,

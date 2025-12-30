@@ -1,7 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:steel_soul/core/di/injector.dart';
+import 'package:steel_soul/core/model/pair.dart';
 
 import 'package:steel_soul/features/riveting/presentation%20/bloc/bloc_provider.dart';
+import 'package:steel_soul/features/riveting/presentation%20/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/riveting/presentation%20/ui/riveting_item_details.dart';
 import 'package:steel_soul/features/riveting/presentation%20/widgets/riveting_cards.dart';
 import 'package:steel_soul/features/riveting/presentation%20/widgets/scanner_button.dart';
@@ -17,7 +22,7 @@ class RivetingScreen extends StatefulWidget {
 
 class _RivetingScreenState extends State<RivetingScreen> {
   final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = "";
+  String _searchQuery = '';
 
   @override
   void dispose() {
@@ -37,89 +42,230 @@ class _RivetingScreenState extends State<RivetingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => RivetingBlocProvider.get().fetchLaserList()..request(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: _backButton(context),
-          title: Text('Riveting', style: UrbanistTextStyles.heading3),
-          centerTitle: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => RivetingBlocProvider.get().fetchLaserList()..request(),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              _searchBar(),
-              const SizedBox(height: 20),
-              Expanded(
-                child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
-                  builder: (context, state) {
-                    return state.when(
-                      initial: () => const SizedBox(),
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
-                      failure: (e) => Center(child: Text(e.error)),
-                      success: (projects) {
-                        // Filter logic
-                        final filteredProjects = projects.where((project) {
-                          final id = project.projectId?.toLowerCase() ?? '';
-                          return id.contains(_searchQuery.toLowerCase());
-                        }).toList();
+        BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
+        // 3. Panel Status Cubit (Handles matching the scan to a specific panel)
+        BlocProvider(
+          create: (_) => RivetingBlocProvider.get().fetchLaserPanelStatus(),
+        ),
+      ],
+      child: Builder(
+        builder: (context) {
+          return MultiBlocListener(
+            listeners: [
+              // Listener 1: Watch the OCR/Scanner process
+              BlocListener<ScannerCubit, ScannerState>(
+                listener: (context, state) {
+                  if (state.isExtracting) {
+                    _showLoadingDialog(context);
+                  } else {
+                    // Safely pop the loading dialog
+                    if (Navigator.of(context, rootNavigator: true).canPop()) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                  }
 
-                        // Wrap the list in RefreshIndicator
-                        return RefreshIndicator(
-                          color: const Color(0xFF5FD6FF),
-                          onRefresh: () => _onRefresh(context),
-                          child: filteredProjects.isEmpty
-                              ? ListView(
-                                  // Using ListView so pull-to-refresh still works when empty
-                                  children: const [
-                                    SizedBox(height: 100),
-                                    Center(child: Text("No projects found")),
-                                  ],
-                                )
-                              : ListView.builder(
-                                  itemCount: filteredProjects.length,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(), // Ensures pull-to-refresh always works
-                                  itemBuilder: (context, index) {
-                                    final project = filteredProjects[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 12,
-                                      ),
-                                      child: RivetingCards(
-                                        id: project.projectId ?? '',
-                                        date: project.date ?? '',
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  RivetingItemDetails(
-                                                    id: project.projectId ?? '',
+                  if (state.extractedWeight != null) {
+                    final String rawText = state.extractedWeight!;
+
+                    // LOGIC TO MATCH/PARSE THE DATA
+                    // We split the scanned text to find the Project and Unit.
+                    // String matchedProjectId = '';
+                    // String matchedUnit = '';
+
+                    // // Example split logic: "PROJECTID-UNITID"
+                    // if (rawText.contains('-')) {
+                    //   final parts = rawText.split('-');
+                    //   matchedProjectId = parts[0].trim();
+                    //   matchedUnit = parts.length > 1 ? parts[1].trim() : '';
+                    // } else {
+                    //   matchedProjectId = rawText.trim();
+                    // }
+
+                    // Trigger the Panel Status API to update the backend
+                    context.read<LaserCuttingPanelCubit>().request(
+                      Pair(rawText, state.base64Image ?? ''),
+                    );
+                  }
+
+                  if (state.error != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.error!.error),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+              ),
+
+              // Listener 2: Watch the result of the Status Update API
+              BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
+                listener: (context, state) {
+                  state.whenOrNull(
+                    success: (data) {
+                      // Refresh the list so the UI reflects the change
+                      _onRefresh(context);
+
+                      // Show success feedback with Blur effect
+                      _showBlurredStatusDialog(
+                        context,
+                        'Success',
+                        data.message ?? 'Panel Matched Successfully',
+                        Colors.green,
+                      );
+                    },
+                    failure: (error) {
+                      _showBlurredStatusDialog(
+                        context,
+                        'Error',
+                        error.error,
+                        Colors.red,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: _backButton(context),
+                title: Text('Riveting', style: UrbanistTextStyles.heading3),
+                centerTitle: true,
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    _searchBar(),
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
+                        builder: (context, state) {
+                          return state.when(
+                            initial: () => const SizedBox(),
+                            loading: () => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            failure: (e) => Center(child: Text(e.error)),
+                            success: (projects) {
+                              // Filter logic
+                              final filteredProjects = projects.where((
+                                project,
+                              ) {
+                                final id =
+                                    project.projectId?.toLowerCase() ?? '';
+                                return id.contains(_searchQuery.toLowerCase());
+                              }).toList();
+
+                              // Wrap the list in RefreshIndicator
+                              return RefreshIndicator(
+                                color: const Color(0xFF5FD6FF),
+                                onRefresh: () => _onRefresh(context),
+                                child: filteredProjects.isEmpty
+                                    ? ListView(
+                                        // Using ListView so pull-to-refresh still works when empty
+                                        children: const [
+                                          SizedBox(height: 100),
+                                          Center(
+                                            child: Text('No projects found'),
+                                          ),
+                                        ],
+                                      )
+                                    : ListView.builder(
+                                        itemCount: filteredProjects.length,
+                                        physics:
+                                            const AlwaysScrollableScrollPhysics(), // Ensures pull-to-refresh always works
+                                        itemBuilder: (context, index) {
+                                          final project =
+                                              filteredProjects[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 12,
+                                            ),
+                                            child: RivetingCards(
+                                              id: project.projectId ?? '',
+                                              date: project.date ?? '',
+                                              scan: project.status ?? '',
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        RivetingItemDetails(
+                                                          id:
+                                                              project
+                                                                  .projectId ??
+                                                              '',
+                                                        ),
                                                   ),
+                                                );
+                                              },
                                             ),
                                           );
                                         },
                                       ),
-                                    );
-                                  },
-                                ),
-                        );
-                      },
-                    );
-                  },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+              floatingActionButton: const ScannerButton(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  void _showBlurredStatusDialog(
+    BuildContext context,
+    String title,
+    String message,
+    Color color,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Text(
+              title,
+              style: UrbanistTextStyles.heading3.copyWith(color: color),
+            ),
+            content: Text(message, style: UrbanistTextStyles.bodyMedium),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
               ),
             ],
           ),
-        ),
-        floatingActionButton: const ScannerButton(),
-      ),
+        );
+      },
     );
   }
 
@@ -134,13 +280,13 @@ class _RivetingScreenState extends State<RivetingScreen> {
         onChanged: (value) => setState(() => _searchQuery = value),
         decoration: InputDecoration(
           hintText: 'Search Project ID',
-          prefixIcon: const Icon(Icons.search, color: Color(0xFF3181ff),),
+          prefixIcon: const Icon(Icons.search, color: Color(0xFF3181ff)),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
                   icon: const Icon(Icons.clear, size: 20),
                   onPressed: () {
                     _searchController.clear();
-                    setState(() => _searchQuery = "");
+                    setState(() => _searchQuery = '');
                   },
                 )
               : null,

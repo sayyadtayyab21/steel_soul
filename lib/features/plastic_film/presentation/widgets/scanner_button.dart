@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:steel_soul/features/folding/presentation/bloc/scanner_cubit.dart';
+import 'package:steel_soul/features/plastic_film/presentation/bloc/scanner_cubit.dart';
+
 
 
 class ScannerButton extends StatelessWidget {

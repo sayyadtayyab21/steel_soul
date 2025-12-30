@@ -35,6 +35,10 @@ import '../../features/laser_cutting/presentation/bloc/bloc_provider.dart'
     as _i158;
 import '../../features/laser_cutting/presentation/bloc/scanner_cubit.dart'
     as _i955;
+import '../../features/packing/data/packing_repo.dart' as _i292;
+import '../../features/packing/data/packing_repo_imp.dart' as _i729;
+import '../../features/packing/presentation/bloc/bloc_provider.dart' as _i680;
+import '../../features/packing/presentation/bloc/scanner_cubit.dart' as _i1073;
 import '../../features/plastic_film/data/plastic_film_repo.dart' as _i742;
 import '../../features/plastic_film/data/plastic_film_repo_imp.dart' as _i889;
 import '../../features/plastic_film/presentation/bloc/bloc_provider.dart'
@@ -113,6 +117,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i351.KeyValueStorage>(),
       ),
     );
+    gh.lazySingleton<_i292.PackingRepo>(
+      () => _i729.PackingRepoImp(gh<_i351.ApiClient>()),
+    );
     gh.lazySingleton<_i638.PufRepo>(
       () => _i604.PufRepoImp(gh<_i351.ApiClient>()),
     );
@@ -138,6 +145,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i266.AppUpdateBlocprovider>(
       () => _i266.AppUpdateBlocprovider(gh<_i691.AppRepository>()),
     );
+    gh.lazySingleton<_i680.PackingBlocProvider>(
+      () => _i680.PackingBlocProvider(gh<_i292.PackingRepo>()),
+    );
     gh.lazySingleton<_i372.FoldingRepo>(
       () => _i972.FoldingRepoImp(gh<_i351.ApiClient>()),
     );
@@ -154,6 +164,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i140.SignInCubit(gh<_i585.AuthRepo>()),
     );
     gh.factory<_i190.AuthCubit>(() => _i190.AuthCubit(gh<_i585.AuthRepo>()));
+    gh.factory<_i1073.ScannerCubit>(
+      () => _i1073.ScannerCubit(gh<_i292.PackingRepo>()),
+    );
     gh.lazySingleton<_i158.LaserCuttingBlocProvider>(
       () => _i158.LaserCuttingBlocProvider(gh<_i137.LaserCuttingRepo>()),
     );

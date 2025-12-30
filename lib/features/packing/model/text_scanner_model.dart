@@ -10,7 +10,8 @@ class TextScannerModel with _$TextScannerModel{
    @JsonKey(name: 'status')String? status,
    @JsonKey(name: 'message')String? message,
    @JsonKey(name: 'ocr_data')required OcrData ocrData,
-      @JsonKey(name: 'base_image')String? baseImage,
+   @JsonKey(name: 'base_image') String? baseImage,
+
  
 
   })=_TextScannerModel;

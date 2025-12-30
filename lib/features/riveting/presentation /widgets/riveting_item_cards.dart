@@ -3,16 +3,17 @@ import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 
 class RivetingItemCards extends StatelessWidget {
-  final String id;
-  
-  final Function() onTap;
 
   const RivetingItemCards({
     super.key,
     required this.id,
   
-    required this.onTap,
+    required this.onTap, required this.scan,
   });
+  final String id;
+  final String scan;
+  
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,12 @@ class RivetingItemCards extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFf0f6Ff),
           borderRadius: BorderRadius.circular(12),
+           border: Border.all(
+            color: scan == 'Completed'
+                ? Colors.green
+                : Colors.grey.shade200,
+            width: 3,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),

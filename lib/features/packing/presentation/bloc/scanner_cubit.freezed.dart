@@ -181,7 +181,7 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ScannerStateImpl with DiagnosticableTreeMixin implements _ScannerState {
+class _$ScannerStateImpl implements _ScannerState {
   const _$ScannerStateImpl({
     required this.isExtracting,
     this.extractedWeight,
@@ -202,20 +202,8 @@ class _$ScannerStateImpl with DiagnosticableTreeMixin implements _ScannerState {
   final String? base64Image;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, capturedImage: $capturedImage, error: $error, base64Image: $base64Image)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'ScannerState'))
-      ..add(DiagnosticsProperty('isExtracting', isExtracting))
-      ..add(DiagnosticsProperty('extractedWeight', extractedWeight))
-      ..add(DiagnosticsProperty('capturedImage', capturedImage))
-      ..add(DiagnosticsProperty('error', error))
-      ..add(DiagnosticsProperty('base64Image', base64Image));
   }
 
   @override

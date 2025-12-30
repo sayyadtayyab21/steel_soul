@@ -2,10 +2,10 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
-import 'package:steel_soul/core/model/triple.dart';
+
 import 'package:steel_soul/features/plastic_film/model/scanner_details_model.dart';
 import 'package:steel_soul/features/plastic_film/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/plastic_film/presentation/bloc/scanner_cubit.dart';

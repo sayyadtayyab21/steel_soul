@@ -18,8 +18,8 @@ abstract interface class RivetingRepo{
   AsyncValueOf<List<SacnnerDetailsModel>> fetchLaserCuttingScanDetails(
     String project,String unit
   );
-
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-    String project,String unitId,String scannerPanelId
-  );
+  String scannerPanelId,
+  String? file,
+);
 }

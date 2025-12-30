@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
+import 'package:steel_soul/features/riveting/presentation%20/bloc/scanner_cubit.dart';
+
 
 class ScannerButton extends StatelessWidget {
   const ScannerButton({super.key});
@@ -30,7 +31,7 @@ class ScannerButton extends StatelessWidget {
       height: 42,
       child: FloatingActionButton.extended(
         onPressed: () => _onScanPressed(context),
-        backgroundColor: const Color(0xFF3181ff),
+        backgroundColor: const  Color(0xFF3181ff),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: Colors.white, width: 1),

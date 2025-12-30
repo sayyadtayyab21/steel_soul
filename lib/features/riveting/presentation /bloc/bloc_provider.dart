@@ -27,7 +27,7 @@ typedef LaserCuttingScanCubitState = NetworkRequestState<List<SacnnerDetailsMode
 
 // T is PanelStatusModel
 // RP is Triple<String, String, String>
-typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Triple<String, String, String>>;
+typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Pair<String,  String>>;
 
 typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
 
@@ -62,7 +62,7 @@ class RivetingBlocProvider{
 
 
      LaserCuttingPanelCubit fetchLaserPanelStatus() => LaserCuttingPanelCubit(
-    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first,params.second,params.third),
+    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first,params.second,),
     );
 
     

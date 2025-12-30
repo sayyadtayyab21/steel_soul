@@ -6,25 +6,23 @@ import 'package:image_picker/image_picker.dart';
 import 'package:steel_soul/features/puf/presentation/bloc/scanner_cubit.dart';
 
 
-class ScannerButton extends StatefulWidget {
+
+class ScannerButton extends StatelessWidget {
   const ScannerButton({super.key});
 
-  @override
-  State<ScannerButton> createState() => _ScannerButtonState();
-}
-
-class _ScannerButtonState extends State<ScannerButton> {
   Future<void> _onScanPressed(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
 
+    // Use lower quality and constraints to prevent "Failed to allocate" Gralloc errors
     final XFile? image = await picker.pickImage(
       source: ImageSource.camera,
-      imageQuality: 85,
+      imageQuality: 30, // Dramatically reduced to save memory
+      maxWidth: 1200, // Prevents huge buffers
+      maxHeight: 1200,
     );
 
     if (image != null && context.mounted) {
       debugPrint('Image selected: ${image.path}');
-      // Access the Cubit from the context provided by MultiBlocProvider in the parent
       context.read<ScannerCubit>().extractWeight(File(image.path));
     }
   }

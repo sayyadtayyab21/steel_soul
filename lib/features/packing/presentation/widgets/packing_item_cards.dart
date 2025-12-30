@@ -3,25 +3,32 @@ import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 
 class PackingItemCards extends StatelessWidget {
-  final String id;
-  
-  final Function() onTap;
 
   const PackingItemCards({
     super.key,
     required this.id,
   
-    required this.onTap,
+    required this.onTap, 
+    required this.scan,
   });
+  final String id;
+  final String scan;
+  
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
+ 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFFFede8),
-          borderRadius: BorderRadius.circular(12),
+          color: const Color(0xFFFFEDED),
+          border: Border.all(
+            color: scan == 'Completed' ? Colors.green : Colors.grey.shade200,
+            width: 3,
+          ),
+          borderRadius: const BorderRadius.all( Radius.circular(16)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -42,7 +49,7 @@ class PackingItemCards extends StatelessWidget {
                     decoration: const BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color: Color(0xFFd87b60),
+                          color: Color(0xFFDB7b6c),
                           width: 3,
                         ),
                       ),
@@ -56,7 +63,7 @@ class PackingItemCards extends StatelessWidget {
                             id, // Use the actual project ID
                             style: const TextStyle(
                               fontSize: 16,
-                              fontFamily: "Urbanist",
+                              fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -81,7 +88,7 @@ class PackingItemCards extends StatelessWidget {
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Color(0xFFc36145), Color(0xFFf6997f)],
+                        colors: [Color(0xFFF6997F), Color(0xFFDB7b6c)],
                       ),
                       borderRadius: BorderRadius.circular(8), // Match button shape
                     ),
