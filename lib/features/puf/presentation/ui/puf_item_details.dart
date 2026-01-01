@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
-import 'package:steel_soul/core/model/pair.dart';
+
+import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/puf/model/puf_item_model.dart';
 import 'package:steel_soul/features/puf/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/puf/presentation/bloc/scanner_cubit.dart';
@@ -68,11 +69,14 @@ class _PufItemDetailsState extends State<PufItemDetails> {
                   if (state.extractedWeight != null) {
                     final String scannedId = state.extractedWeight!.trim();
                     context.read<LaserCuttingPanelCubit>().request(
-                          Pair(scannedId, state.base64Image??''),
-                        );
+                      Triple(
+                        scannedId,
+                        state.base64Image ?? '',
+                        state.captureTime!.toIso8601String(),
+                      ),
+                    );
                     context.read<ScannerCubit>().reset();
                   }
-
                   if (state.error != null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -88,18 +92,18 @@ class _PufItemDetailsState extends State<PufItemDetails> {
                   state.whenOrNull(
                     success: (data) {
                       _onRefresh(context); // Refresh items after scan success
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Success',
+                        // 'Success',
                         data.message ?? 'Panel successfully updated',
                         Colors.green,
                       );
                     },
                     failure: (error) {
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Match Failed',
-                      error.error,
+                        // 'Match Failed',
+                        error.error,
                         Colors.red,
                       );
                     },
@@ -147,33 +151,76 @@ class _PufItemDetailsState extends State<PufItemDetails> {
                                 ),
                                 failure: (e) => Center(child: Text(e.error)),
                                 success: (List<PufItemModel> projects) {
-                                  return ListView.builder(
-                                    itemCount: projects.length,
-                                    itemBuilder: (context, index) {
-                                      final project = projects[index];
-                                      print(project);
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 12,
-                                        ),
-                                        child: PufItemCards(
-                                          id: project.unitCode ?? '',
-                                          scan: project.status ??'',
+                                  // 1. Filter the list based on the search query
+                                  final filteredProjects = projects.where((
+                                    project,
+                                  ) {
+                                    final unitCode =
+                                        project.unitCode?.toLowerCase() ?? '';
+                                    return unitCode.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) => PufScanDetails(
-                                                  projectId: widget.id,
-                                                  unit: project.unitCode ?? '',
-                                                ),
-                                              ),
-                                            );
-                                          },
+                                  // 2. Display a message if no results are found
+                                  if (filteredProjects.isEmpty) {
+                                    return const Center(
+                                      child: Text(
+                                        'No PUF units matching',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
                                         ),
-                                      );
-                                    },
+                                      ),
+                                    );
+                                  }
+
+                                  // 3. Return the ListView with filtered data
+                                  return RefreshIndicator(
+                                    onRefresh: () => _onRefresh(context),
+                                    child: ListView.builder(
+                                      itemCount: filteredProjects.length,
+                                      // Ensures the pull-to-refresh works even with few search results
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        final project = filteredProjects[index];
+
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 6,
+                                          ),
+                                          child: PufItemCards(
+                                            id: project.unitCode ?? '',
+                                            scan: project.status ?? '',
+                                            totalPanels:
+                                                project.totalPanels ?? 0,
+                                            scannedPanels:
+                                                project.scannedPanels ?? 0,
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      PufScanDetails(
+                                                        projectId: widget.id,
+                                                        unit:
+                                                            project.unitCode ??
+                                                            '',
+                                                      ),
+                                                ),
+                                              );
+                                              if (context.mounted) {
+                                                debugPrint(
+                                                  'Returned from details, refreshing items...',
+                                                );
+                                                _onRefresh(context);
+                                              }
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   );
                                 },
                               );
@@ -191,7 +238,6 @@ class _PufItemDetailsState extends State<PufItemDetails> {
     );
   }
 
- 
   void _showLoadingDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -200,17 +246,53 @@ class _PufItemDetailsState extends State<PufItemDetails> {
     );
   }
 
+  void _showStatusSnackBar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              color == Colors.green ? Icons.check_circle : Icons.error,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating, // Makes it float above the UI
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   void _showBlurredStatusDialog(
-      BuildContext context, String title, String message, Color color) {
+    BuildContext context,
+    String title,
+    String message,
+    Color color,
+  ) {
     showDialog(
       context: context,
       builder: (context) => BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Text(title,
-              style: UrbanistTextStyles.heading3.copyWith(color: color)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            title,
+            style: UrbanistTextStyles.heading3.copyWith(color: color),
+          ),
           content: Text(message, style: UrbanistTextStyles.bodyMedium),
           actions: [
             TextButton(
@@ -234,7 +316,7 @@ class _PufItemDetailsState extends State<PufItemDetails> {
         onChanged: (value) => setState(() => _searchQuery = value),
         decoration: InputDecoration(
           hintText: 'Search Unit Code',
-          prefixIcon: const Icon(Icons.search, color: Color(0xFF1ad0d0),),
+          prefixIcon: const Icon(Icons.search, color: Color(0xFF1ad0d0)),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
                   icon: const Icon(Icons.clear, size: 20),
@@ -245,11 +327,12 @@ class _PufItemDetailsState extends State<PufItemDetails> {
                 )
               : null,
           border: InputBorder.none,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
         ),
       ),
     );
   }
 }
-

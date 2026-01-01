@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
-import 'package:steel_soul/core/model/pair.dart';
+
+import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/powder_coating/presentation/ui/powder_coating_item_details.dart';
@@ -71,24 +72,15 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                   }
 
                   if (state.extractedWeight != null) {
-                    final String rawText = state.extractedWeight!;
-
-                    // LOGIC TO MATCH/PARSE THE DATA
-                    // We split the scanned text to find the Project and Unit.
-                    // String matchedProjectId = '';
-                    // String matchedUnit = '';
-
-                    // // Example split logic: "PROJECTID-UNITID"
-                    // if (rawText.contains('-')) {
-                    //   final parts = rawText.split('-');
-                    //   matchedProjectId = parts[0].trim();
-                    //   matchedUnit = parts.length > 1 ? parts[1].trim() : '';
-                    // } else {
-                    //   matchedProjectId = rawText.trim();
-                    // }
-
-                    // Trigger the Panel Status API to update the backend
-                    context.read<LaserCuttingPanelCubit>().request(Pair(rawText, state.base64Image??''));
+                    final String scannedId = state.extractedWeight!.trim();
+                    context.read<LaserCuttingPanelCubit>().request(
+                      Triple(
+                        scannedId,
+                        state.base64Image ?? '',
+                        state.captureTime?.toIso8601String(),
+                      ),
+                    );
+                    context.read<ScannerCubit>().reset();
                   }
 
                   if (state.error != null) {
@@ -111,18 +103,18 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                       _onRefresh(context);
 
                       // Show success feedback with Blur effect
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Success',
+                        // 'Success',
                         data.message ?? 'Panel Matched Successfully',
                         Colors.green,
                       );
                     },
                     failure: (error) {
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Error',
-                       error.error,
+                        // 'Error',
+                        error.error,
                         Colors.red,
                       );
                     },
@@ -136,7 +128,10 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                 backgroundColor: Colors.white,
                 elevation: 0,
                 leading: _backButton(context),
-                title: Text('Powder Coating', style: UrbanistTextStyles.heading3),
+                title: Text(
+                  'Powder Coating',
+                  style: UrbanistTextStyles.heading3,
+                ),
                 centerTitle: true,
               ),
               body: Padding(
@@ -144,7 +139,7 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                 child: Column(
                   children: [
                     _searchBar(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     Expanded(
                       child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
                         builder: (context, state) {
@@ -187,14 +182,16 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                                               filteredProjects[index];
                                           return Padding(
                                             padding: const EdgeInsets.only(
-                                              bottom: 12,
+                                              bottom: 6,
                                             ),
                                             child: PowderCoatingCards(
                                               id: project.projectId ?? '',
                                               date: project.date ?? '',
-                                              scan:project.status?? '',
-                                              onTap: () {
-                                                Navigator.push(
+                                              scan: project.status ?? '',
+                                              time: project.time ?? '',
+                                              onTap: () async {
+                                                // 1. Wait for the user to return from the next screen
+                                                await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (_) =>
@@ -206,6 +203,14 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                                                         ),
                                                   ),
                                                 );
+
+                                                // 2. This code runs AFTER the user presses "Back"
+                                                if (context.mounted) {
+                                                  debugPrint(
+                                                    'Back in PowderCoatingScreen. Refreshing...',
+                                                  );
+                                                  _onRefresh(context);
+                                                }
                                               },
                                             ),
                                           );
@@ -233,6 +238,35 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  void _showStatusSnackBar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              color == Colors.green ? Icons.check_circle : Icons.error,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating, // Makes it float above the UI
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
+      ),
     );
   }
 

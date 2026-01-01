@@ -76,12 +76,13 @@ class RivetingRepoImp extends BaseApiRepository implements RivetingRepo{
 
   }
   @override
-AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
+AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String captureTime)async {
   // Encode the data as JSON body instead of reqParams
   final bodyData = jsonEncode({
     'files': [
       {
         'filedata': base64DataUri,
+        'time_of_scan':captureTime
       }
     ],
   });
@@ -171,12 +172,14 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
   String scannerPanelId,
   String? file,
+  String timeOfScan
 ) async {
   // 1. Create the payload map
   final Map<String, dynamic> payload = {
     'section_name': 'Riveting',
     'scanned_panel_id': scannerPanelId,
-    'file': file, 
+    'file': file,
+    'time_of_scan':timeOfScan
   };
 
   final requestConfig = RequestConfig(

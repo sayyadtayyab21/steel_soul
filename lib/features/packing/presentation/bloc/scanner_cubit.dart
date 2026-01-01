@@ -9,61 +9,61 @@ import 'package:steel_soul/core/model/failure.dart';
 import 'package:steel_soul/features/packing/data/packing_repo.dart';
 
 
+
+
 part 'scanner_cubit.freezed.dart';
 @injectable
 
 class ScannerCubit extends Cubit<ScannerState> {
   ScannerCubit(this.repo) : super(ScannerState.initial());
   final PackingRepo repo;
+// Inside ScannerCubit.dart
 
-  Future<void> extractWeight(File file) async {
-    try {
-      // Start loading and store the file in state immediately
-      emit(state.copyWith(
-        isExtracting: true, 
-        error: null, 
-        extractedWeight: null,
-        capturedImage: file,
-        // base64Image: // <--- Store the file here
-        base64Image: null,
-      ));
+Future<void> extractWeight(File file) async {
+  try {
+    final now = DateTime.now();
+    final timeString = now.toIso8601String(); 
 
-      final bytes = await file.readAsBytes();
-      final base64Image = base64Encode(bytes);
-      final extension = p.extension(file.path).toLowerCase();
+    emit(state.copyWith(
+      isExtracting: true, 
+      error: null, 
+      extractedWeight: null,
+      capturedImage: file,
+      captureTime: now,
+      base64Image: null,
+    ));
 
-      String mimeType;
-      if (extension == '.png') {
-        mimeType = 'png';
-      } else if (extension == '.webp') {
-        mimeType = 'webp';
-      } else {
-        mimeType = 'jpeg';
-      }
+    final bytes = await file.readAsBytes();
+    final base64Image = base64Encode(bytes);
+    final extension = p.extension(file.path).toLowerCase();
 
-      final dataUri = 'data:image/$mimeType;base64,$base64Image';
-      final response = await repo.textScannerUpload(dataUri);
+    String mimeType = (extension == '.png') ? 'png' : (extension == '.webp' ? 'webp' : 'jpeg');
+    final dataUri = 'data:image/$mimeType;base64,$base64Image';
 
-      response.fold(
-        (l) => emit(state.copyWith(
-          isExtracting: false,
-          error: Failure(error: l.error, title: 'Extraction Failed'),
-          // Note: capturedImage remains in state from the previous emit
-        )),
-        (r) => emit(state.copyWith(
-          isExtracting: false,
-          extractedWeight: r.ocrData.text,
-          base64Image: r.baseImage, // Store the base64 image here
+    // Pass the timestamp as a positional argument (ensure the Repo method accepts it as positional)
+    final response = await repo.textScannerUpload(
+      dataUri,
+      timeString,
+    );
 
-        )),
-      );
-    } catch (e) {
-      emit(state.copyWith(
-        isExtracting: false, 
-        error: Failure(error: e.toString(), title: 'System Error')
-      ));
-    }
+    response.fold(
+      (l) => emit(state.copyWith(
+        isExtracting: false,
+        error: Failure(error: l.error, title: 'Extraction Failed'),
+      )),
+      (r) => emit(state.copyWith(
+        isExtracting: false,
+        extractedWeight: r.ocrData.text,
+        base64Image: r.baseImage,
+      )),
+    );
+  } catch (e) {
+    emit(state.copyWith(
+      isExtracting: false, 
+      error: Failure(error: e.toString(), title: 'System Error')
+    ));
   }
+}
 
   void reset() => emit(ScannerState.initial());
 }
@@ -72,6 +72,7 @@ class ScannerState with _$ScannerState {
   const factory ScannerState({
     required bool isExtracting,
     String? extractedWeight,
+    DateTime? captureTime,
     File? capturedImage,
     Failure? error,
     String? base64Image,

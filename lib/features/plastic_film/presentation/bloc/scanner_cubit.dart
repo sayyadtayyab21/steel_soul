@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart'; // Required for compute
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -9,79 +9,75 @@ import 'package:steel_soul/core/model/failure.dart';
 import 'package:steel_soul/features/plastic_film/data/plastic_film_repo.dart';
 
 
+
 part 'scanner_cubit.freezed.dart';
-
-// Move this outside the class to be a top-level function
-String _backgroundBase64Encode(List<int> bytes) => base64Encode(bytes);
-
 @injectable
+
 class ScannerCubit extends Cubit<ScannerState> {
   ScannerCubit(this.repo) : super(ScannerState.initial());
   final PlasticFilmRepo repo;
+// Inside ScannerCubit.dart
 
-  Future<void> extractWeight(File file) async {
-    try {
-      emit(
-        state.copyWith(
-          isExtracting: true,
-          error: null,
-          extractedWeight: null,
-          capturedImage: file,
-          base64Image: null,
-        ),
-      );
+Future<void> extractWeight(File file) async {
+  try {
+    final now = DateTime.now();
+    final timeString = now.toIso8601String(); 
 
-      final bytes = await file.readAsBytes();
+    emit(state.copyWith(
+      isExtracting: true, 
+      error: null, 
+      extractedWeight: null,
+      capturedImage: file,
+      captureTime: now,
+      base64Image: null,
+    ));
 
-      // Use compute to prevent main thread blocking (solves InteractionJankMonitor logs)
-      final base64Image = await compute(_backgroundBase64Encode, bytes);
+    final bytes = await file.readAsBytes();
+    final base64Image = base64Encode(bytes);
+    final extension = p.extension(file.path).toLowerCase();
 
-      final extension = p.extension(file.path).toLowerCase();
-      String mimeType = (extension == '.png')
-          ? 'png'
-          : (extension == '.webp' ? 'webp' : 'jpeg');
-      final dataUri = 'data:image/$mimeType;base64,$base64Image';
+    String mimeType = (extension == '.png') ? 'png' : (extension == '.webp' ? 'webp' : 'jpeg');
+    final dataUri = 'data:image/$mimeType;base64,$base64Image';
 
-      final response = await repo.textScannerUpload(dataUri);
+    // Pass the timestamp as a positional argument (ensure the Repo method accepts it as positional)
+    final response = await repo.textScannerUpload(
+      dataUri,
+      timeString,
+    );
 
-      response.fold(
-        (l) => emit(
-          state.copyWith(
-            isExtracting: false,
-            error: Failure(error: l.error, title: 'Extraction Failed'),
-          ),
-        ),
-        (r) => emit(
-          state.copyWith(
-            isExtracting: false,
-            extractedWeight: r.ocrData.text,
-            // We store the dataUri we just created to pass to the next API call
-            base64Image: dataUri,
-          ),
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          isExtracting: false,
-          error: Failure(error: e.toString(), title: 'System Error'),
-        ),
-      );
-    }
+    response.fold(
+      (l) => emit(state.copyWith(
+        isExtracting: false,
+        error: Failure(error: l.error, title: 'Extraction Failed'),
+      )),
+      (r) => emit(state.copyWith(
+        isExtracting: false,
+        extractedWeight: r.ocrData.text,
+        base64Image: r.baseImage,
+      )),
+    );
+  } catch (e) {
+    emit(state.copyWith(
+      isExtracting: false, 
+      error: Failure(error: e.toString(), title: 'System Error')
+    ));
   }
+}
 
   void reset() => emit(ScannerState.initial());
 }
-
 @freezed
 class ScannerState with _$ScannerState {
   const factory ScannerState({
     required bool isExtracting,
     String? extractedWeight,
+    DateTime? captureTime,
     File? capturedImage,
     Failure? error,
     String? base64Image,
   }) = _ScannerState;
 
-  factory ScannerState.initial() => const ScannerState(isExtracting: false);
+  factory ScannerState.initial() => const ScannerState(
+        isExtracting: false,
+      );
 }

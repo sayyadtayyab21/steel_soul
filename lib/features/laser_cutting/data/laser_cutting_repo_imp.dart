@@ -68,32 +68,37 @@ class LaserCuttingRepoImp extends BaseApiRepository
     return response.process((r) => right(r.data!));
   }
 
-  @override
-  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
-    // Encode the data as JSON body instead of reqParams
-    final bodyData = jsonEncode({
-      'files': [
-        {'filedata': base64DataUri},
-      ],
-    });
-
-    final requestConfig = RequestConfig(
-      url: Urls.scannerCubit,
-      parser: (json) {
-        // Access the 'message' object as per your successful Postman response
-        final data = json['message'] as Map<String, dynamic>;
-        return TextScannerModel.fromJson(data);
+ @override
+AsyncValueOf<TextScannerModel> textScannerUpload(
+  String base64DataUri, 
+  String captureTime, // 1. Add this named parameter
+) async {
+  // 2. Add the time_of_scan to your JSON payload
+  final bodyData = jsonEncode({
+    'files': [
+      {
+        'filedata': base64DataUri,
+        'time_of_scan': captureTime, // Include time here if it's per file
       },
-      // Send data in body, not reqParams (reqParams go to URL query string)
-      body: bodyData,
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    );
-    log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$requestConfig');
+    ],
+    // 'time_of_scan': captureTime, // OR include it here if it's for the whole request
+  });
 
-    final response = await post(requestConfig);
-    return response.process((r) => right(r.data!));
-  }
+  final requestConfig = RequestConfig(
+    url: Urls.scannerCubit,
+    parser: (json) {
+      final data = json['message'] as Map<String, dynamic>;
+      return TextScannerModel.fromJson(data);
+    },
+    body: bodyData,
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+  );
+  
+  log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$requestConfig');
 
+  final response = await post(requestConfig);
+  return response.process((r) => right(r.data!));
+}
   //   @override
   // AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
   //   final requestConfig = RequestConfig(
@@ -187,37 +192,35 @@ class LaserCuttingRepoImp extends BaseApiRepository
   // }
 
   @override
-  AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-    String scannerPanelId,
-    String? file,
-  ) async {
-    // 1. Create the payload map
-    final Map<String, dynamic> payload = {
-      'section_name': 'Laser Cutting',
-      'scanned_panel_id': scannerPanelId,
-      'file': file, // The base64 string goes here
-    };
+AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
+  String scannerPanelId,
+  String? file, 
+  String? timeOfScan, // Add this optional parameter
+) async {
+  // 1. Create the payload map
+  final Map<String, dynamic> payload = {
+    'section_name': 'Laser Cutting',
+    'scanned_panel_id': scannerPanelId,
+    'file': file, // This is your base64 string
+    'time_of_scan': timeOfScan, // Now correctly assigned
+  };
 
-    final requestConfig = RequestConfig(
-      url: Urls.getPanel,
-      parser: (json) {
-        final Map<String, dynamic> data =
-            json['message'] as Map<String, dynamic>;
-        return PanelStatusModel.fromJson(data);
-      },
-      // 2. LEAVE reqParams EMPTY (to keep the URL clean)
-      reqParams: null,
-      // 3. PASS THE DATA AS A JSON STRING IN THE body FIELD
-      body: jsonEncode(payload),
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    );
+  final requestConfig = RequestConfig(
+    url: Urls.getPanel,
+    parser: (json) {
+      final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
+      return PanelStatusModel.fromJson(data);
+    },
+    reqParams: null,
+    body: jsonEncode(payload),
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+  );
 
-    log('.....................................$requestConfig');
+  log('.....................................$requestConfig');
 
-    // 4. Execute the post
-    final response = await post(requestConfig);
-    log('Response for Panel Status: $response');
+  final response = await post(requestConfig);
+  log('Response for Panel Status: $response');
 
-    return response.process((r) => right(r.data!));
-  }
+  return response.process((r) => right(r.data!));
+}
 }

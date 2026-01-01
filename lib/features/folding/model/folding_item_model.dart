@@ -10,6 +10,8 @@ class FoldingItemModel with _$FoldingItemModel{
    @JsonKey(name: 'unit_name')String? unitName,
    @JsonKey(name: 'unit_code')String? unitCode,
    @JsonKey(name: 'project')String? project,
+      @JsonKey(name: 'total_panels')int? totalPanels,
+     @JsonKey(name: 'scanned_panels')int? scannedPanels,
  
    @JsonKey(name: 'folding_status')String? status
   })=_FoldingItemModel;

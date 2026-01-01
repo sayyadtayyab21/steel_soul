@@ -13,6 +13,7 @@ _$LaserCuttingListImpl _$$LaserCuttingListImplFromJson(
   customerName: json['customer_name'] as String?,
   projectId: json['project_id'] as String?,
   date: json['date'] as String?,
+  time: json['time'] as String?,
   customerPhoneNumber: json['customer_phone_number'] as String?,
   laserCuttingStatus: json['laser_cutting_status'] as String?,
 );
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$LaserCuttingListImplToJson(
   'customer_name': instance.customerName,
   'project_id': instance.projectId,
   'date': instance.date,
+  'time': instance.time,
   'customer_phone_number': instance.customerPhoneNumber,
   'laser_cutting_status': instance.laserCuttingStatus,
 };

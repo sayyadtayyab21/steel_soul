@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-
 class PackingItemCards extends StatelessWidget {
-
   const PackingItemCards({
     super.key,
     required this.id,
-  
-    required this.onTap, 
+
+    required this.onTap,
     required this.scan,
+    required this.totalPanels,
+    required this.scannedPanels,
   });
   final String id;
   final String scan;
-  
+  final int totalPanels;
+  final int scannedPanels;
+
   final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
- 
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -28,7 +29,7 @@ class PackingItemCards extends StatelessWidget {
             color: scan == 'Completed' ? Colors.green : Colors.grey.shade200,
             width: 3,
           ),
-          borderRadius: const BorderRadius.all( Radius.circular(16)),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -38,7 +39,7 @@ class PackingItemCards extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(10),
           child: Row(
             children: [
               // Left side - Project ID
@@ -48,14 +49,13 @@ class PackingItemCards extends StatelessWidget {
                   child: Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                        left: BorderSide(
-                          color: Color(0xFFDB7b6c),
-                          width: 3,
-                        ),
+                        left: BorderSide(color: Color(0xFFDB7b6c), width: 3),
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0), // Added padding for left border separation
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                      ), // Added padding for left border separation
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -80,8 +80,15 @@ class PackingItemCards extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                 
-                  const SizedBox(height: 8),
+                  Text(
+                    '$scannedPanels/$totalPanels', 
+                    style: UrbanistTextStyles.bodySmall.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[600], // Using a clear grey color
+                    ),
+                  ),
+                  const SizedBox(height: 3),
                   Container(
                     height: 32, // Increased height slightly
                     decoration: BoxDecoration(
@@ -90,7 +97,9 @@ class PackingItemCards extends StatelessWidget {
                         end: Alignment.centerRight,
                         colors: [Color(0xFFF6997F), Color(0xFFDB7b6c)],
                       ),
-                      borderRadius: BorderRadius.circular(8), // Match button shape
+                      borderRadius: BorderRadius.circular(
+                        8,
+                      ), // Match button shape
                     ),
                     child: ElevatedButton(
                       onPressed: onTap,

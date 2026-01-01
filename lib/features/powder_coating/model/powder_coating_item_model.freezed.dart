@@ -29,6 +29,10 @@ mixin _$PowderCoatingItemModel {
   String? get unitCode => throw _privateConstructorUsedError;
   @JsonKey(name: 'project')
   String? get project => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_panels')
+  int? get totalPanels => throw _privateConstructorUsedError;
+  @JsonKey(name: 'scanned_panels')
+  int? get scannedPanels => throw _privateConstructorUsedError;
   @JsonKey(name: 'powder_coating_status')
   String? get status => throw _privateConstructorUsedError;
 
@@ -53,6 +57,8 @@ abstract class $PowderCoatingItemModelCopyWith<$Res> {
     @JsonKey(name: 'unit_name') String? unitName,
     @JsonKey(name: 'unit_code') String? unitCode,
     @JsonKey(name: 'project') String? project,
+    @JsonKey(name: 'total_panels') int? totalPanels,
+    @JsonKey(name: 'scanned_panels') int? scannedPanels,
     @JsonKey(name: 'powder_coating_status') String? status,
   });
 }
@@ -78,6 +84,8 @@ class _$PowderCoatingItemModelCopyWithImpl<
     Object? unitName = freezed,
     Object? unitCode = freezed,
     Object? project = freezed,
+    Object? totalPanels = freezed,
+    Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
     return _then(
@@ -94,6 +102,14 @@ class _$PowderCoatingItemModelCopyWithImpl<
                 ? _value.project
                 : project // ignore: cast_nullable_to_non_nullable
                       as String?,
+            totalPanels: freezed == totalPanels
+                ? _value.totalPanels
+                : totalPanels // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            scannedPanels: freezed == scannedPanels
+                ? _value.scannedPanels
+                : scannedPanels // ignore: cast_nullable_to_non_nullable
+                      as int?,
             status: freezed == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
@@ -117,6 +133,8 @@ abstract class _$$PowderCoatingItemModelImplCopyWith<$Res>
     @JsonKey(name: 'unit_name') String? unitName,
     @JsonKey(name: 'unit_code') String? unitCode,
     @JsonKey(name: 'project') String? project,
+    @JsonKey(name: 'total_panels') int? totalPanels,
+    @JsonKey(name: 'scanned_panels') int? scannedPanels,
     @JsonKey(name: 'powder_coating_status') String? status,
   });
 }
@@ -139,6 +157,8 @@ class __$$PowderCoatingItemModelImplCopyWithImpl<$Res>
     Object? unitName = freezed,
     Object? unitCode = freezed,
     Object? project = freezed,
+    Object? totalPanels = freezed,
+    Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
     return _then(
@@ -155,6 +175,14 @@ class __$$PowderCoatingItemModelImplCopyWithImpl<$Res>
             ? _value.project
             : project // ignore: cast_nullable_to_non_nullable
                   as String?,
+        totalPanels: freezed == totalPanels
+            ? _value.totalPanels
+            : totalPanels // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        scannedPanels: freezed == scannedPanels
+            ? _value.scannedPanels
+            : scannedPanels // ignore: cast_nullable_to_non_nullable
+                  as int?,
         status: freezed == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
@@ -171,6 +199,8 @@ class _$PowderCoatingItemModelImpl extends _PowderCoatingItemModel {
     @JsonKey(name: 'unit_name') this.unitName,
     @JsonKey(name: 'unit_code') this.unitCode,
     @JsonKey(name: 'project') this.project,
+    @JsonKey(name: 'total_panels') this.totalPanels,
+    @JsonKey(name: 'scanned_panels') this.scannedPanels,
     @JsonKey(name: 'powder_coating_status') this.status,
   }) : super._();
 
@@ -187,12 +217,18 @@ class _$PowderCoatingItemModelImpl extends _PowderCoatingItemModel {
   @JsonKey(name: 'project')
   final String? project;
   @override
+  @JsonKey(name: 'total_panels')
+  final int? totalPanels;
+  @override
+  @JsonKey(name: 'scanned_panels')
+  final int? scannedPanels;
+  @override
   @JsonKey(name: 'powder_coating_status')
   final String? status;
 
   @override
   String toString() {
-    return 'PowderCoatingItemModel(unitName: $unitName, unitCode: $unitCode, project: $project, status: $status)';
+    return 'PowderCoatingItemModel(unitName: $unitName, unitCode: $unitCode, project: $project, totalPanels: $totalPanels, scannedPanels: $scannedPanels, status: $status)';
   }
 
   @override
@@ -205,13 +241,24 @@ class _$PowderCoatingItemModelImpl extends _PowderCoatingItemModel {
             (identical(other.unitCode, unitCode) ||
                 other.unitCode == unitCode) &&
             (identical(other.project, project) || other.project == project) &&
+            (identical(other.totalPanels, totalPanels) ||
+                other.totalPanels == totalPanels) &&
+            (identical(other.scannedPanels, scannedPanels) ||
+                other.scannedPanels == scannedPanels) &&
             (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, unitName, unitCode, project, status);
+  int get hashCode => Object.hash(
+    runtimeType,
+    unitName,
+    unitCode,
+    project,
+    totalPanels,
+    scannedPanels,
+    status,
+  );
 
   /// Create a copy of PowderCoatingItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -236,6 +283,8 @@ abstract class _PowderCoatingItemModel extends PowderCoatingItemModel {
     @JsonKey(name: 'unit_name') final String? unitName,
     @JsonKey(name: 'unit_code') final String? unitCode,
     @JsonKey(name: 'project') final String? project,
+    @JsonKey(name: 'total_panels') final int? totalPanels,
+    @JsonKey(name: 'scanned_panels') final int? scannedPanels,
     @JsonKey(name: 'powder_coating_status') final String? status,
   }) = _$PowderCoatingItemModelImpl;
   const _PowderCoatingItemModel._() : super._();
@@ -252,6 +301,12 @@ abstract class _PowderCoatingItemModel extends PowderCoatingItemModel {
   @override
   @JsonKey(name: 'project')
   String? get project;
+  @override
+  @JsonKey(name: 'total_panels')
+  int? get totalPanels;
+  @override
+  @JsonKey(name: 'scanned_panels')
+  int? get scannedPanels;
   @override
   @JsonKey(name: 'powder_coating_status')
   String? get status;

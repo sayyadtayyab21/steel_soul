@@ -7,8 +7,8 @@ import 'package:injectable/injectable.dart';
 
 import 'package:steel_soul/core/core.dart';
 import 'package:steel_soul/features/packing/data/packing_repo.dart';
-import 'package:steel_soul/features/packing/model/laser_cutting_model.dart';
-import 'package:steel_soul/features/packing/model/laser_item_model.dart';
+import 'package:steel_soul/features/packing/model/packing_model.dart';
+import 'package:steel_soul/features/packing/model/packing_item_model.dart';
 import 'package:steel_soul/features/packing/model/panel_status_model.dart';
 import 'package:steel_soul/features/packing/model/scanner_details_model.dart';
 import 'package:steel_soul/features/packing/model/text_scanner_model.dart';
@@ -22,7 +22,7 @@ class PackingRepoImp extends BaseApiRepository
   const PackingRepoImp(super.client);
 
   @override
-  AsyncValueOf<List<LaserCuttingList>> fetchLaserCuttings() async {
+  AsyncValueOf<List<PackingModel>> fetchLaserCuttings() async {
     final requestConfig = RequestConfig(
       url: Urls.projectList,
       parser: (json) {
@@ -32,11 +32,11 @@ class PackingRepoImp extends BaseApiRepository
         // Check if data is actually a List
         if (data is List) {
           return data
-              .map((e) => LaserCuttingList.fromJson(e as Map<String, dynamic>))
+              .map((e) => PackingModel.fromJson(e as Map<String, dynamic>))
               .toList();
         } else {
           // Return empty list if data is null or not a list to avoid crashes
-          return <LaserCuttingList>[];
+          return <PackingModel>[];
         }
       },
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
@@ -49,7 +49,7 @@ class PackingRepoImp extends BaseApiRepository
   }
 
   @override
-  AsyncValueOf<List<LaserItemModel>> fetchLaserCuttingItemDetails(
+  AsyncValueOf<List<PackingItemModel>> fetchLaserCuttingItemDetails(
     String project,
   ) async {
     final requestConfig = RequestConfig(
@@ -58,7 +58,7 @@ class PackingRepoImp extends BaseApiRepository
         print(json);
         final data = json['message'];
         final listdata = data as List<dynamic>;
-        return listdata.map((e) => LaserItemModel.fromJson(e)).toList();
+        return listdata.map((e) => PackingItemModel.fromJson(e)).toList();
       },
       reqParams: {'section_name': 'Packing', 'project': project},
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
@@ -70,11 +70,12 @@ class PackingRepoImp extends BaseApiRepository
   }
 
   @override
-  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
+  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String captureTime)async {
     // Encode the data as JSON body instead of reqParams
     final bodyData = jsonEncode({
       'files': [
-        {'filedata': base64DataUri},
+        {'filedata': base64DataUri,
+        'time_of_scan':captureTime},
       ],
     });
 
@@ -191,12 +192,14 @@ class PackingRepoImp extends BaseApiRepository
   AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
     String scannerPanelId,
     String? file,
+    String timeOfScan
   ) async {
     // 1. Create the payload map
     final Map<String, dynamic> payload = {
       'section_name': 'Packing',
       'scanned_panel_id': scannerPanelId,
-      'file': file, // The base64 string goes here
+      'file': file,
+       'time_of_scan':timeOfScan // The base64 string goes here
     };
 
     final requestConfig = RequestConfig(

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-
 class ItemCards extends StatelessWidget {
-  final String id;
-  final String scan;
-  
-  final Function() onTap;
-
   const ItemCards({
     super.key,
     required this.id,
-  
-    required this.onTap, 
+
+    required this.onTap,
     required this.scan,
+    required this.totalPanels,
+    required this.scannedPanels,
   });
+  final String id;
+  final String scan;
+  final int totalPanels;
+  final int scannedPanels;
+
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
- 
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -28,7 +29,7 @@ class ItemCards extends StatelessWidget {
             color: scan == 'Completed' ? Colors.green : Colors.grey.shade200,
             width: 3,
           ),
-          borderRadius: const BorderRadius.all( Radius.circular(16)),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -38,7 +39,7 @@ class ItemCards extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               // Left side - Project ID
@@ -55,7 +56,9 @@ class ItemCards extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0), // Added padding for left border separation
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                      ), // Added padding for left border separation
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -80,8 +83,15 @@ class ItemCards extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                 
-                  const SizedBox(height: 8),
+                  Text(
+                    '$scannedPanels/$totalPanels', 
+                    style: UrbanistTextStyles.bodySmall.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[600], // Using a clear grey color
+                    ),
+                  ),
+                  const SizedBox(height: 3),
                   Container(
                     height: 32, // Increased height slightly
                     decoration: BoxDecoration(
@@ -90,7 +100,9 @@ class ItemCards extends StatelessWidget {
                         end: Alignment.centerRight,
                         colors: [Color(0xFF62CEFF), Color(0xFF1AA2E0)],
                       ),
-                      borderRadius: BorderRadius.circular(8), // Match button shape
+                      borderRadius: BorderRadius.circular(
+                        8,
+                      ), // Match button shape
                     ),
                     child: ElevatedButton(
                       onPressed: onTap,

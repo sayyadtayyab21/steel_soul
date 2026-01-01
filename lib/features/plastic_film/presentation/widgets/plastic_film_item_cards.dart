@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-
 class PlasticFilmItemCards extends StatelessWidget {
-
   const PlasticFilmItemCards({
     super.key,
     required this.id,
-  
-    required this.onTap, required this.scan,
+
+    required this.onTap,
+    required this.scan,
+    required this.totalPanels,
+    required this.scannedPanels,
   });
   final String id;
   final String scan;
-  
+  final int totalPanels;
+  final int scannedPanels;
+
   final Function() onTap;
 
   @override
@@ -23,10 +26,10 @@ class PlasticFilmItemCards extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFF5f6ff),
           borderRadius: BorderRadius.circular(12),
-           border: Border.all(
-          color: scan=='Completed' ? Colors.green : Colors.grey.shade200,
-          width: 3,
-        ),
+          border: Border.all(
+            color: scan == 'Completed' ? Colors.green : Colors.grey.shade200,
+            width: 3,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -36,7 +39,7 @@ class PlasticFilmItemCards extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(10),
           child: Row(
             children: [
               // Left side - Project ID
@@ -46,14 +49,13 @@ class PlasticFilmItemCards extends StatelessWidget {
                   child: Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                        left: BorderSide(
-                          color: Color(0xFF8490ff),
-                          width: 3,
-                        ),
+                        left: BorderSide(color: Color(0xFF8490ff), width: 3),
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0), // Added padding for left border separation
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                      ), // Added padding for left border separation
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -78,17 +80,29 @@ class PlasticFilmItemCards extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                 
-                  const SizedBox(height: 8),
+                  Text(
+                    '$scannedPanels/$totalPanels', 
+                    style: UrbanistTextStyles.bodySmall.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[600], // Using a clear grey color
+                    ),
+                  ),
+                  const SizedBox(height: 3),
                   Container(
                     height: 32, // Increased height slightly
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Color.fromARGB(255, 149, 160, 255),Color.fromARGB(255, 122, 135, 255),],
+                        colors: [
+                          Color.fromARGB(255, 149, 160, 255),
+                          Color.fromARGB(255, 122, 135, 255),
+                        ],
                       ),
-                      borderRadius: BorderRadius.circular(8), // Match button shape
+                      borderRadius: BorderRadius.circular(
+                        8,
+                      ), // Match button shape
                     ),
                     child: ElevatedButton(
                       onPressed: onTap,

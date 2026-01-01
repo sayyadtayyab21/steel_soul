@@ -13,6 +13,7 @@ _$ProjectDetailsModelImpl _$$ProjectDetailsModelImplFromJson(
   customerName: json['customer_name'] as String?,
   projectId: json['project_id'] as String?,
   date: json['date'] as String?,
+  time: json['time'] as String?,
   customerPhoneNumber: json['customer_phone_number'] as String?,
   status: json['powder_coating_status'] as String?,
 );
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$ProjectDetailsModelImplToJson(
   'customer_name': instance.customerName,
   'project_id': instance.projectId,
   'date': instance.date,
+  'time': instance.time,
   'customer_phone_number': instance.customerPhoneNumber,
   'powder_coating_status': instance.status,
 };

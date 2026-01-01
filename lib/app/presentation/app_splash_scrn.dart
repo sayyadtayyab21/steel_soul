@@ -8,7 +8,7 @@ class AppSplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: null,
-      body: Center(child: Image.asset(AppIcons.info.path)),
+      body: Container(decoration: const BoxDecoration(color: Colors.white), child: Center(child: Image.asset(AppIcons.info.path))),
     );
   }
 }

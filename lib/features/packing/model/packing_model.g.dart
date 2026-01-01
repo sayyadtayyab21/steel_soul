@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'riveting_model.dart';
+part of 'packing_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$RivetingModelImpl _$$RivetingModelImplFromJson(Map<String, dynamic> json) =>
-    _$RivetingModelImpl(
+_$PackingModelImpl _$$PackingModelImplFromJson(Map<String, dynamic> json) =>
+    _$PackingModelImpl(
       name: json['name'] as String?,
       customerName: json['customer_name'] as String?,
       projectId: json['project_id'] as String?,
       date: json['date'] as String?,
       time: json['time'] as String?,
       customerPhoneNumber: json['customer_phone_number'] as String?,
-      status: json['riveting_status'] as String?,
+      laserCuttingStatus: json['packing_status'] as String?,
     );
 
-Map<String, dynamic> _$$RivetingModelImplToJson(_$RivetingModelImpl instance) =>
+Map<String, dynamic> _$$PackingModelImplToJson(_$PackingModelImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'customer_name': instance.customerName,
@@ -25,5 +25,5 @@ Map<String, dynamic> _$$RivetingModelImplToJson(_$RivetingModelImpl instance) =>
       'date': instance.date,
       'time': instance.time,
       'customer_phone_number': instance.customerPhoneNumber,
-      'riveting_status': instance.status,
+      'packing_status': instance.laserCuttingStatus,
     };

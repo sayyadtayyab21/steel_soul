@@ -1,10 +1,11 @@
-import 'dart:io';
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
+import 'package:steel_soul/core/model/triple.dart';
 
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
@@ -13,13 +14,13 @@ import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_b
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class LaserScanDetails extends StatefulWidget {
-  final String projectId;
-  final String unit;
   const LaserScanDetails({
     super.key,
     required this.projectId,
     required this.unit,
   });
+  final String projectId;
+  final String unit;
 
   @override
   State<LaserScanDetails> createState() => _LaserScanDetailsState();
@@ -60,23 +61,16 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                   }
 
                   // 2. Handle Success (Text Extracted + Image Available)
-                  if (state.extractedWeight != null) {
-                    // You now have the file reference here if needed
-                    final File? imageFile = state.capturedImage;
-
-                    // Trigger the status update API
+                   if (state.extractedWeight != null) {
+                    final String scannedId = state.extractedWeight!.trim();
                     context.read<LaserCuttingPanelCubit>().request(
-                 
-                        Pair(state.extractedWeight!, state.base64Image),
-
-
-                        // If your Triple or Cubit is updated to accept the File,
-                        // you would pass imageFile here.
-                      
+                      Triple(
+                        scannedId,
+                        state.base64Image,
+                        state.captureTime?.toIso8601String(),
+                      ),
                     );
-
-                    // Optional: Reset scanner after processing to prevent duplicate triggers
-                    // context.read<ScannerCubit>().reset();
+                    context.read<ScannerCubit>().reset();
                   }
 
                   // 3. Handle Errors
@@ -100,17 +94,17 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                         Pair<String, String>(widget.projectId, widget.unit),
                       );
                       // Show the Blur Dialog
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Success',
+                        // 'Success',
                         data.message ?? 'Scan Successful',
                         Colors.green,
                       );
                     },
                     failure: (error) {
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Error',
+                        // 'Error',
                         error.error,
                         Colors.red,
                       );
@@ -137,6 +131,54 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                 ),
                 title: Text(widget.unit, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
+                actions: [
+                  // BlocBuilder specifically for the scan count summary
+                  BlocBuilder<
+                    LaserCuttingScanCubit,
+                    LaserCuttingScanCubitState
+                  >(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        success: (items) {
+                          final scannedList = items.cast<SacnnerDetailsModel>();
+                          final int total = scannedList.length;
+                          final int scanned = scannedList
+                              .where((item) => item.laserCuttingStatus == 'Scanned')
+                              .length;
+
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Row(
+                                children: [
+
+                                  Text(
+                                    'Scanned:',
+                                    style: UrbanistTextStyles.bodySmall.copyWith(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  Text(
+                                    '$scanned/$total', // Using your separator preference
+                                    style: UrbanistTextStyles.bodySmall.copyWith(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.grey[900],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                     
+                        orElse: () => const SizedBox.shrink(),
+                      );
+                    },
+                  ),
+                ],
               ),
               body: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -191,6 +233,34 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
       ),
     );
   }
+
+
+  void _showStatusSnackBar(BuildContext context, String message, Color color) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Row(
+        children: [
+          Icon(
+            color == Colors.green ? Icons.check_circle : Icons.error,
+            color: Colors.white,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: UrbanistTextStyles.bodyMedium.copyWith(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: color,
+      behavior: SnackBarBehavior.floating, // Makes it float above the UI
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      margin: const EdgeInsets.all(16),
+      duration: const Duration(seconds: 3),
+    ),
+  );
+}
 
   void _showBlurredStatusDialog(
     BuildContext context,
@@ -250,7 +320,7 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
         : const Color(0xff858585);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color(0xFFE6F3FF),

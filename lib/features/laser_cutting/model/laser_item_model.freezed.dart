@@ -27,6 +27,10 @@ mixin _$LaserItemModel {
   String? get unitCode => throw _privateConstructorUsedError;
   @JsonKey(name: 'project')
   String? get project => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_panels')
+  int? get totalPanels => throw _privateConstructorUsedError;
+  @JsonKey(name: 'scanned_panels')
+  int? get scannedPanels => throw _privateConstructorUsedError;
   @JsonKey(name: 'laser_cutting_status')
   String? get laserCuttingStatus => throw _privateConstructorUsedError;
 
@@ -51,6 +55,8 @@ abstract class $LaserItemModelCopyWith<$Res> {
     @JsonKey(name: 'unit_name') String? unitName,
     @JsonKey(name: 'unit_code') String? unitCode,
     @JsonKey(name: 'project') String? project,
+    @JsonKey(name: 'total_panels') int? totalPanels,
+    @JsonKey(name: 'scanned_panels') int? scannedPanels,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
   });
 }
@@ -73,6 +79,8 @@ class _$LaserItemModelCopyWithImpl<$Res, $Val extends LaserItemModel>
     Object? unitName = freezed,
     Object? unitCode = freezed,
     Object? project = freezed,
+    Object? totalPanels = freezed,
+    Object? scannedPanels = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
     return _then(
@@ -89,6 +97,14 @@ class _$LaserItemModelCopyWithImpl<$Res, $Val extends LaserItemModel>
                 ? _value.project
                 : project // ignore: cast_nullable_to_non_nullable
                       as String?,
+            totalPanels: freezed == totalPanels
+                ? _value.totalPanels
+                : totalPanels // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            scannedPanels: freezed == scannedPanels
+                ? _value.scannedPanels
+                : scannedPanels // ignore: cast_nullable_to_non_nullable
+                      as int?,
             laserCuttingStatus: freezed == laserCuttingStatus
                 ? _value.laserCuttingStatus
                 : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
@@ -112,6 +128,8 @@ abstract class _$$LaserItemModelImplCopyWith<$Res>
     @JsonKey(name: 'unit_name') String? unitName,
     @JsonKey(name: 'unit_code') String? unitCode,
     @JsonKey(name: 'project') String? project,
+    @JsonKey(name: 'total_panels') int? totalPanels,
+    @JsonKey(name: 'scanned_panels') int? scannedPanels,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
   });
 }
@@ -133,6 +151,8 @@ class __$$LaserItemModelImplCopyWithImpl<$Res>
     Object? unitName = freezed,
     Object? unitCode = freezed,
     Object? project = freezed,
+    Object? totalPanels = freezed,
+    Object? scannedPanels = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
     return _then(
@@ -149,6 +169,14 @@ class __$$LaserItemModelImplCopyWithImpl<$Res>
             ? _value.project
             : project // ignore: cast_nullable_to_non_nullable
                   as String?,
+        totalPanels: freezed == totalPanels
+            ? _value.totalPanels
+            : totalPanels // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        scannedPanels: freezed == scannedPanels
+            ? _value.scannedPanels
+            : scannedPanels // ignore: cast_nullable_to_non_nullable
+                  as int?,
         laserCuttingStatus: freezed == laserCuttingStatus
             ? _value.laserCuttingStatus
             : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
@@ -165,6 +193,8 @@ class _$LaserItemModelImpl extends _LaserItemModel {
     @JsonKey(name: 'unit_name') this.unitName,
     @JsonKey(name: 'unit_code') this.unitCode,
     @JsonKey(name: 'project') this.project,
+    @JsonKey(name: 'total_panels') this.totalPanels,
+    @JsonKey(name: 'scanned_panels') this.scannedPanels,
     @JsonKey(name: 'laser_cutting_status') this.laserCuttingStatus,
   }) : super._();
 
@@ -181,12 +211,18 @@ class _$LaserItemModelImpl extends _LaserItemModel {
   @JsonKey(name: 'project')
   final String? project;
   @override
+  @JsonKey(name: 'total_panels')
+  final int? totalPanels;
+  @override
+  @JsonKey(name: 'scanned_panels')
+  final int? scannedPanels;
+  @override
   @JsonKey(name: 'laser_cutting_status')
   final String? laserCuttingStatus;
 
   @override
   String toString() {
-    return 'LaserItemModel(unitName: $unitName, unitCode: $unitCode, project: $project, laserCuttingStatus: $laserCuttingStatus)';
+    return 'LaserItemModel(unitName: $unitName, unitCode: $unitCode, project: $project, totalPanels: $totalPanels, scannedPanels: $scannedPanels, laserCuttingStatus: $laserCuttingStatus)';
   }
 
   @override
@@ -199,14 +235,25 @@ class _$LaserItemModelImpl extends _LaserItemModel {
             (identical(other.unitCode, unitCode) ||
                 other.unitCode == unitCode) &&
             (identical(other.project, project) || other.project == project) &&
+            (identical(other.totalPanels, totalPanels) ||
+                other.totalPanels == totalPanels) &&
+            (identical(other.scannedPanels, scannedPanels) ||
+                other.scannedPanels == scannedPanels) &&
             (identical(other.laserCuttingStatus, laserCuttingStatus) ||
                 other.laserCuttingStatus == laserCuttingStatus));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, unitName, unitCode, project, laserCuttingStatus);
+  int get hashCode => Object.hash(
+    runtimeType,
+    unitName,
+    unitCode,
+    project,
+    totalPanels,
+    scannedPanels,
+    laserCuttingStatus,
+  );
 
   /// Create a copy of LaserItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -230,6 +277,8 @@ abstract class _LaserItemModel extends LaserItemModel {
     @JsonKey(name: 'unit_name') final String? unitName,
     @JsonKey(name: 'unit_code') final String? unitCode,
     @JsonKey(name: 'project') final String? project,
+    @JsonKey(name: 'total_panels') final int? totalPanels,
+    @JsonKey(name: 'scanned_panels') final int? scannedPanels,
     @JsonKey(name: 'laser_cutting_status') final String? laserCuttingStatus,
   }) = _$LaserItemModelImpl;
   const _LaserItemModel._() : super._();
@@ -246,6 +295,12 @@ abstract class _LaserItemModel extends LaserItemModel {
   @override
   @JsonKey(name: 'project')
   String? get project;
+  @override
+  @JsonKey(name: 'total_panels')
+  int? get totalPanels;
+  @override
+  @JsonKey(name: 'scanned_panels')
+  int? get scannedPanels;
   @override
   @JsonKey(name: 'laser_cutting_status')
   String? get laserCuttingStatus;

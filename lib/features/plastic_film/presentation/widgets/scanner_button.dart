@@ -5,20 +5,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:steel_soul/features/plastic_film/presentation/bloc/scanner_cubit.dart';
 
-
-
 class ScannerButton extends StatelessWidget {
   const ScannerButton({super.key});
 
   Future<void> _onScanPressed(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
 
-   final XFile? image = await picker.pickImage(
-  source: ImageSource.camera,
-  imageQuality: 25, // Lower quality = less RAM
-  maxWidth: 1000,   // Limit dimensions
-  maxHeight: 1000,
-);
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 30,
+      maxWidth: 1000,
+      maxHeight: 1000,
+    );
 
     if (image != null && context.mounted) {
       debugPrint('Image selected: ${image.path}');
@@ -34,7 +32,7 @@ class ScannerButton extends StatelessWidget {
       height: 42,
       child: FloatingActionButton.extended(
         onPressed: () => _onScanPressed(context),
-        backgroundColor: const  Color(0xFf8490ff),
+        backgroundColor: const Color(0xFf8490ff),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: Colors.white, width: 1),

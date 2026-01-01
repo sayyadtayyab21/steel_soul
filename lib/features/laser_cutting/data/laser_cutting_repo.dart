@@ -11,7 +11,7 @@ abstract interface class LaserCuttingRepo{
    AsyncValueOf<List<LaserItemModel>> fetchLaserCuttingItemDetails(
     String project
   );
-  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri);
+  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String capturedImage);
 
 
   AsyncValueOf<List<SacnnerDetailsModel>> fetchLaserCuttingScanDetails(
@@ -20,6 +20,7 @@ abstract interface class LaserCuttingRepo{
 
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
   String scannerPanelId,
-  String? file
+  String? file,
+  String? timeOfScan,
   );
 }

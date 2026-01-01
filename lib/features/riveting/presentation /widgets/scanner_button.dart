@@ -12,14 +12,16 @@ class ScannerButton extends StatelessWidget {
   Future<void> _onScanPressed(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
 
+    // Use lower quality and constraints to prevent "Failed to allocate" Gralloc errors
     final XFile? image = await picker.pickImage(
       source: ImageSource.camera,
-      imageQuality: 85,
+      imageQuality: 30, 
+      maxWidth: 1200,
+      maxHeight: 1200,
     );
 
     if (image != null && context.mounted) {
       debugPrint('Image selected: ${image.path}');
-      // Access the Cubit from the context provided by MultiBlocProvider in the parent
       context.read<ScannerCubit>().extractWeight(File(image.path));
     }
   }
@@ -31,7 +33,7 @@ class ScannerButton extends StatelessWidget {
       height: 42,
       child: FloatingActionButton.extended(
         onPressed: () => _onScanPressed(context),
-        backgroundColor: const  Color(0xFF3181ff),
+        backgroundColor: const Color.fromARGB(255, 76, 145, 255),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: Colors.white, width: 1),

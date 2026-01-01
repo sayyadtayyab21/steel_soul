@@ -15,7 +15,7 @@ abstract interface class PlasticFilmRepo{
    AsyncValueOf<List<PlasticFilmItemModel>> fetchLaserCuttingItemDetails(
     String project
   );
-  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri);
+  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String? captureTime);
 
 
   AsyncValueOf<List<SacnnerDetailsModel>> fetchLaserCuttingScanDetails(
@@ -25,5 +25,6 @@ abstract interface class PlasticFilmRepo{
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
   String scannerPanelId,
   String? file,
+  String timeOfScan
 );
 }

@@ -2,18 +2,18 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:steel_soul/core/core.dart';
 import 'package:steel_soul/features/packing/data/packing_repo.dart';
-import 'package:steel_soul/features/packing/model/laser_cutting_model.dart';
-import 'package:steel_soul/features/packing/model/laser_item_model.dart';
+import 'package:steel_soul/features/packing/model/packing_model.dart';
+import 'package:steel_soul/features/packing/model/packing_item_model.dart';
 import 'package:steel_soul/features/packing/model/panel_status_model.dart';
 import 'package:steel_soul/features/packing/model/scanner_details_model.dart';
 
 
 
-typedef LaserCuttingCubit = NetworkRequestCubit<List<LaserCuttingList>,None>;
-typedef LaserCuttingCubitState = NetworkRequestState<List<LaserCuttingList>>;
+typedef LaserCuttingCubit = NetworkRequestCubit<List<PackingModel>,None>;
+typedef LaserCuttingCubitState = NetworkRequestState<List<PackingModel>>;
 
-typedef LaserCuttingItemsCubit = NetworkRequestCubit<List<LaserItemModel>,String>;
-typedef LaserCuttingItemsCubitState = NetworkRequestState<List<LaserItemModel>>;
+typedef LaserCuttingItemsCubit = NetworkRequestCubit<List<PackingItemModel>,String>;
+typedef LaserCuttingItemsCubitState = NetworkRequestState<List<PackingItemModel>>;
 
 
 
@@ -26,7 +26,7 @@ typedef LaserCuttingScanCubitState = NetworkRequestState<List<SacnnerDetailsMode
 // T is PanelStatusModel
 // RP is Triple<String, String, String>
 // Corrected typedefs
-typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Pair<String, String?>>;
+typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Triple<String, String,String>>;
 typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
 
 
@@ -60,7 +60,7 @@ class PackingBlocProvider{
 
 
      LaserCuttingPanelCubit fetchLaserPanelStatus() => LaserCuttingPanelCubit(
-    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first, params.second),
+    onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first, params.second,params.third),
     );
 
     

@@ -12,6 +12,8 @@ _$RivetingItemModelImpl _$$RivetingItemModelImplFromJson(
   unitName: json['unit_name'] as String?,
   unitCode: json['unit_code'] as String?,
   project: json['project'] as String?,
+  totalPanels: (json['total_panels'] as num?)?.toInt(),
+  scannedPanels: (json['scanned_panels'] as num?)?.toInt(),
   status: json['riveting_status'] as String?,
 );
 
@@ -21,5 +23,7 @@ Map<String, dynamic> _$$RivetingItemModelImplToJson(
   'unit_name': instance.unitName,
   'unit_code': instance.unitCode,
   'project': instance.project,
+  'total_panels': instance.totalPanels,
+  'scanned_panels': instance.scannedPanels,
   'riveting_status': instance.status,
 };

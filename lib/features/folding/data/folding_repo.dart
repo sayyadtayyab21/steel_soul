@@ -15,7 +15,7 @@ abstract interface class FoldingRepo{
    AsyncValueOf<List<FoldingItemModel>> fetchLaserCuttingItemDetails(
     String project
   );
-  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri);
+  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String capturedImage);
 
 
   AsyncValueOf<List<SacnnerDetailsModel>> fetchLaserCuttingScanDetails(
@@ -24,7 +24,8 @@ abstract interface class FoldingRepo{
 
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
   String scannerPanelId,
-  String? file
+  String? file,
+  String? timeOfScan
   );
 
 }

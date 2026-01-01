@@ -29,6 +29,8 @@ mixin _$LaserCuttingList {
   String? get projectId => throw _privateConstructorUsedError;
   @JsonKey(name: 'date')
   String? get date => throw _privateConstructorUsedError;
+  @JsonKey(name: 'time')
+  String? get time => throw _privateConstructorUsedError;
   @JsonKey(name: 'customer_phone_number')
   String? get customerPhoneNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'laser_cutting_status')
@@ -56,6 +58,7 @@ abstract class $LaserCuttingListCopyWith<$Res> {
     @JsonKey(name: 'customer_name') String? customerName,
     @JsonKey(name: 'project_id') String? projectId,
     @JsonKey(name: 'date') String? date,
+    @JsonKey(name: 'time') String? time,
     @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
   });
@@ -80,6 +83,7 @@ class _$LaserCuttingListCopyWithImpl<$Res, $Val extends LaserCuttingList>
     Object? customerName = freezed,
     Object? projectId = freezed,
     Object? date = freezed,
+    Object? time = freezed,
     Object? customerPhoneNumber = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
@@ -100,6 +104,10 @@ class _$LaserCuttingListCopyWithImpl<$Res, $Val extends LaserCuttingList>
             date: freezed == date
                 ? _value.date
                 : date // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            time: freezed == time
+                ? _value.time
+                : time // ignore: cast_nullable_to_non_nullable
                       as String?,
             customerPhoneNumber: freezed == customerPhoneNumber
                 ? _value.customerPhoneNumber
@@ -129,6 +137,7 @@ abstract class _$$LaserCuttingListImplCopyWith<$Res>
     @JsonKey(name: 'customer_name') String? customerName,
     @JsonKey(name: 'project_id') String? projectId,
     @JsonKey(name: 'date') String? date,
+    @JsonKey(name: 'time') String? time,
     @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
   });
@@ -152,6 +161,7 @@ class __$$LaserCuttingListImplCopyWithImpl<$Res>
     Object? customerName = freezed,
     Object? projectId = freezed,
     Object? date = freezed,
+    Object? time = freezed,
     Object? customerPhoneNumber = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
@@ -172,6 +182,10 @@ class __$$LaserCuttingListImplCopyWithImpl<$Res>
         date: freezed == date
             ? _value.date
             : date // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        time: freezed == time
+            ? _value.time
+            : time // ignore: cast_nullable_to_non_nullable
                   as String?,
         customerPhoneNumber: freezed == customerPhoneNumber
             ? _value.customerPhoneNumber
@@ -194,6 +208,7 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
     @JsonKey(name: 'customer_name') this.customerName,
     @JsonKey(name: 'project_id') this.projectId,
     @JsonKey(name: 'date') this.date,
+    @JsonKey(name: 'time') this.time,
     @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') this.laserCuttingStatus,
   }) : super._();
@@ -214,6 +229,9 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
   @JsonKey(name: 'date')
   final String? date;
   @override
+  @JsonKey(name: 'time')
+  final String? time;
+  @override
   @JsonKey(name: 'customer_phone_number')
   final String? customerPhoneNumber;
   @override
@@ -222,7 +240,7 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
 
   @override
   String toString() {
-    return 'LaserCuttingList(name: $name, customerName: $customerName, projectId: $projectId, date: $date, customerPhoneNumber: $customerPhoneNumber, laserCuttingStatus: $laserCuttingStatus)';
+    return 'LaserCuttingList(name: $name, customerName: $customerName, projectId: $projectId, date: $date, time: $time, customerPhoneNumber: $customerPhoneNumber, laserCuttingStatus: $laserCuttingStatus)';
   }
 
   @override
@@ -236,6 +254,7 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
             (identical(other.projectId, projectId) ||
                 other.projectId == projectId) &&
             (identical(other.date, date) || other.date == date) &&
+            (identical(other.time, time) || other.time == time) &&
             (identical(other.customerPhoneNumber, customerPhoneNumber) ||
                 other.customerPhoneNumber == customerPhoneNumber) &&
             (identical(other.laserCuttingStatus, laserCuttingStatus) ||
@@ -250,6 +269,7 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
     customerName,
     projectId,
     date,
+    time,
     customerPhoneNumber,
     laserCuttingStatus,
   );
@@ -277,6 +297,7 @@ abstract class _LaserCuttingList extends LaserCuttingList {
     @JsonKey(name: 'customer_name') final String? customerName,
     @JsonKey(name: 'project_id') final String? projectId,
     @JsonKey(name: 'date') final String? date,
+    @JsonKey(name: 'time') final String? time,
     @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') final String? laserCuttingStatus,
   }) = _$LaserCuttingListImpl;
@@ -297,6 +318,9 @@ abstract class _LaserCuttingList extends LaserCuttingList {
   @override
   @JsonKey(name: 'date')
   String? get date;
+  @override
+  @JsonKey(name: 'time')
+  String? get time;
   @override
   @JsonKey(name: 'customer_phone_number')
   String? get customerPhoneNumber;

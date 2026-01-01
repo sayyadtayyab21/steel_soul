@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-
 class FoldingItemCards extends StatelessWidget {
-  final String id;
-  final String scan;
-  
-  final Function() onTap;
-
   const FoldingItemCards({
     super.key,
     required this.id,
-  
-    required this.onTap, required this.scan,
+
+    required this.onTap,
+    required this.scan,
+    required this.totalPanels,
+    required this.scannedPanels,
   });
+  final String id;
+  final String scan;
+  final int totalPanels;
+  final int scannedPanels;
+
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class FoldingItemCards extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFFeeded),
           borderRadius: BorderRadius.circular(12),
-           border: Border.all(
+          border: Border.all(
             color: scan == 'Completed' ? Colors.green : Colors.grey.shade200,
             width: 3,
           ),
@@ -36,7 +39,7 @@ class FoldingItemCards extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               // Left side - Project ID
@@ -46,14 +49,13 @@ class FoldingItemCards extends StatelessWidget {
                   child: Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                        left: BorderSide(
-                          color: Color(0xFFFF7f7e),
-                          width: 3,
-                        ),
+                        left: BorderSide(color: Color(0xFFFF7f7e), width: 3),
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0), // Added padding for left border separation
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                      ), // Added padding for left border separation
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -61,7 +63,7 @@ class FoldingItemCards extends StatelessWidget {
                             id, // Use the actual project ID
                             style: const TextStyle(
                               fontSize: 16,
-                              fontFamily: "Urbanist",
+                              fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -74,21 +76,32 @@ class FoldingItemCards extends StatelessWidget {
                 ),
               ),
 
-              // Right side - Date and View button
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                 
-                  const SizedBox(height: 8),
+                  Text(
+                    '$scannedPanels/$totalPanels', 
+                    style: UrbanistTextStyles.bodySmall.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[600], // Using a clear grey color
+                    ),
+                  ),
+                  const SizedBox(height: 3),
                   Container(
                     height: 32, // Increased height slightly
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Color(0xFFFF7f7e), Color.fromARGB(255, 255, 146, 146)],
+                        colors: [
+                          Color(0xFFFF7f7e),
+                          Color.fromARGB(255, 255, 146, 146),
+                        ],
                       ),
-                      borderRadius: BorderRadius.circular(8), // Match button shape
+                      borderRadius: BorderRadius.circular(
+                        8,
+                      ), // Match button shape
                     ),
                     child: ElevatedButton(
                       onPressed: onTap,

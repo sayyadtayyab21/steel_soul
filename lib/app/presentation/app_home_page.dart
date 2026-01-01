@@ -159,6 +159,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color.fromARGB(255, 100, 203, 241), // Light Blue
           icon: Icons.inbox_outlined,
           imagePath: 'assets/images/laserCutting.png',
+          sectionCount: 1
         ),
 
         _buildFeatureCard(
@@ -186,6 +187,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color.fromARGB(255, 255, 154, 154), // ✅ Vibrant Orange
           icon: Icons.inventory_2_outlined,
           imagePath: 'assets/images/folding.png',
+          sectionCount: 2,
         ),
 
         _buildFeatureCard(
@@ -214,6 +216,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color.fromARGB(255, 234, 163, 101), // Orange
           icon: Icons.engineering_outlined,
           imagePath: 'assets/images/powdercoat.png',
+          sectionCount: 3
         ),
 
         _buildFeatureCard(
@@ -243,6 +246,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color.fromARGB(255, 157, 152, 237), // Purple
           icon: Icons.category_outlined,
           imagePath: 'assets/images/plasticfilm.png',
+          sectionCount: 4,
         ),
 
         _buildFeatureCard(
@@ -270,6 +274,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color(0xFF1AD0D0),
           icon: Icons.construction_outlined,
           imagePath: 'assets/images/puf.png',
+          sectionCount: 5,
         ),
         _buildFeatureCard(
           onTap: () {
@@ -296,6 +301,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color(0xFF6EA7FF), // ✅ Teal Blue
           icon: Icons.construction_outlined,
           imagePath: 'assets/images/riveting.png',
+          sectionCount: 6,
         ),
         _buildFeatureCard(
           onTap: () {
@@ -322,6 +328,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color(0xFFF6997F), // ✅ Teal Blue
           icon: Icons.construction_outlined,
           imagePath: 'assets/images/packing.png',
+          sectionCount: 7
         ),
       ],
     );
@@ -334,6 +341,7 @@ class AppHomePage extends StatelessWidget {
     required IconData icon,
     required Function() onTap,
     String? imagePath,
+    int? sectionCount,
   }) {
     return Material(
       color: Colors.transparent,
@@ -419,6 +427,32 @@ class AppHomePage extends StatelessWidget {
                             textAlign: TextAlign.left,
                           ),
                         ),
+                      ),
+
+                      Positioned(
+                        top: 8,
+                        left: 8,
+                        child: Text(
+                          sectionCount?.toString() ?? '',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        // child: Container(
+                        //   width: 24,
+                        //   height: 24,
+                        //   decoration: BoxDecoration(
+                        //     color: Colors.white.withOpacity(0.2),
+                        //     borderRadius: BorderRadius.circular(6),
+                        //   ),
+                        //   child: const Icon(
+                        //     Icons.arrow_forward_ios,
+                        //     color: Colors.white,
+                        //     size: 12,
+                        //   ),
+                        // ),
                       ),
                     ],
                   ),

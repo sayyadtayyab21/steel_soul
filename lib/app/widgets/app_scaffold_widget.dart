@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,10 +12,8 @@ class AppScaffoldWidget extends StatelessWidget {
     if (index == 0) {
       // Always navigate to home page when home button is tapped
       // Use router.push for reliable navigation
-navigationShell.goBranch(0, initialLocation: true);
-AppRouterConfig.router.push('/home');
-
-
+      navigationShell.goBranch(0, initialLocation: true);
+      AppRouterConfig.router.push('/home');
     } else {
       navigationShell.goBranch(
         index,
@@ -56,42 +53,45 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-          child: 
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-            
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
 
-            
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, -2),
-              ),
-            ],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
+            // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildNavItem(
+                  index: 0,
+                  label: 'Home',
+                  isSelected: selectedIndex == 0,
+                  child: _buildIconAsset(
+                    'home.png',
+                    isSelected: selectedIndex == 0,
+                  ),
+                ),
+                _buildNavItem(
+                  index: 1,
+                  label: 'Profile',
+                  isSelected: selectedIndex == 1,
+                  child: _buildIconAsset(
+                    'profile.png',
+                    isSelected: selectedIndex == 1,
+                  ),
+                ),
+              ],
+            ),
           ),
-          // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(
-              index: 0,
-              label: 'Home',
-              isSelected: selectedIndex == 0,
-              child: _buildIconAsset('home.png', isSelected: selectedIndex == 0),
-            ),
-            _buildNavItem(
-              index: 1,
-              label: 'Profile',
-              isSelected: selectedIndex == 1,
-              child: _buildIconAsset('profile.png', isSelected: selectedIndex == 1),
-            ),
-          ],
-        ),
-        ),
         ),
       ),
     );
@@ -108,16 +108,15 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            padding: const EdgeInsets.all(0),
-            child: child,
-          ),
+          Container(padding: const EdgeInsets.all(0), child: child),
           Text(
             label,
             style: TextStyle(
               fontSize: 14,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              color: isSelected ? const Color.fromARGB(255, 16, 17, 16) : Colors.grey[600],
+              color: isSelected
+                  ? const Color.fromARGB(255, 16, 17, 16)
+                  : Colors.grey[600],
             ),
           ),
           if (isSelected)
@@ -159,10 +158,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
             decoration: BoxDecoration(
               color: const Color(0xFFD7CCC8), // Light beige
               borderRadius: BorderRadius.circular(4),
-              border: Border.all(
-                color: Colors.grey[300]!,
-                width: 0.5,
-              ),
+              border: Border.all(color: Colors.grey[300]!, width: 0.5),
             ),
           ),
           // Roof
@@ -185,7 +181,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
           Positioned(
             top: 3,
             left: 20,
-              child: Container(
+            child: Container(
               width: 4,
               height: 8,
               decoration: BoxDecoration(
@@ -237,10 +233,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
             decoration: BoxDecoration(
               color: const Color(0xFFE8F5E8), // Light colored shirt
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: Colors.grey[300]!,
-                width: 0.5,
-              ),
+              border: Border.all(color: Colors.grey[300]!, width: 0.5),
             ),
           ),
           // Jacket overlay
@@ -253,10 +246,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.grey[600], // Gray suit jacket
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: Colors.grey[400]!,
-                  width: 0.5,
-                ),
+                border: Border.all(color: Colors.grey[400]!, width: 0.5),
               ),
             ),
           ),
@@ -270,10 +260,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xFFE0E0E0), // Skin tone
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: Colors.grey[300]!,
-                  width: 0.5,
-                ),
+                border: Border.all(color: Colors.grey[300]!, width: 0.5),
               ),
             ),
           ),

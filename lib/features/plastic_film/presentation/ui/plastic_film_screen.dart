@@ -3,13 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
-import 'package:steel_soul/core/model/pair.dart';
+
+import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/plastic_film/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/plastic_film/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/plastic_film/presentation/ui/plastic_film_item_details.dart';
 import 'package:steel_soul/features/plastic_film/presentation/widgets/plastic_films_cards.dart';
 import 'package:steel_soul/features/plastic_film/presentation/widgets/scanner_button.dart';
-
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -22,7 +22,7 @@ class PlasticFilmScreen extends StatefulWidget {
 
 class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
   final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = "";
+  String _searchQuery = '';
 
   @override
   void dispose() {
@@ -45,7 +45,8 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => PlasticFilmBlocProvider.get().fetchLaserList()..request(),
+          create: (_) =>
+              PlasticFilmBlocProvider.get().fetchLaserList()..request(),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         // 3. Panel Status Cubit (Handles matching the scan to a specific panel)
@@ -56,7 +57,7 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
       child: Builder(
         builder: (context) {
           return MultiBlocListener(
-           listeners: [
+            listeners: [
               // Listener 1: Watch the OCR/Scanner process
               BlocListener<ScannerCubit, ScannerState>(
                 listener: (context, state) {
@@ -70,24 +71,15 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                   }
 
                   if (state.extractedWeight != null) {
-                    final String rawText = state.extractedWeight!;
-
-                    // LOGIC TO MATCH/PARSE THE DATA
-                    // We split the scanned text to find the Project and Unit.
-                    // String matchedProjectId = '';
-                    // String matchedUnit = '';
-
-                    // // Example split logic: "PROJECTID-UNITID"
-                    // if (rawText.contains('-')) {
-                    //   final parts = rawText.split('-');
-                    //   matchedProjectId = parts[0].trim();
-                    //   matchedUnit = parts.length > 1 ? parts[1].trim() : '';
-                    // } else {
-                    //   matchedProjectId = rawText.trim();
-                    // }
-
-                    // Trigger the Panel Status API to update the backend
-                    context.read<LaserCuttingPanelCubit>().request(Pair(rawText, state.base64Image??''));
+                    final String scannedId = state.extractedWeight!.trim();
+                    context.read<LaserCuttingPanelCubit>().request(
+                      Triple(
+                        scannedId,
+                        state.base64Image ?? '',
+                        state.captureTime!.toIso8601String(),
+                      ),
+                    );
+                    context.read<ScannerCubit>().reset();
                   }
 
                   if (state.error != null) {
@@ -110,18 +102,18 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                       _onRefresh(context);
 
                       // Show success feedback with Blur effect
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Success',
+                        // 'Success',
                         data.message ?? 'Panel Matched Successfully',
                         Colors.green,
                       );
                     },
                     failure: (error) {
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Error',
-                         error.error,
+                        // 'Error',
+                        error.error,
                         Colors.red,
                       );
                     },
@@ -135,7 +127,7 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                 backgroundColor: Colors.white,
                 elevation: 0,
                 leading: _backButton(context),
-                title: Text('Powder Coating', style: UrbanistTextStyles.heading3),
+                title: Text('Plastic Film', style: UrbanistTextStyles.heading3),
                 centerTitle: true,
               ),
               body: Padding(
@@ -143,7 +135,7 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                 child: Column(
                   children: [
                     _searchBar(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     Expanded(
                       child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
                         builder: (context, state) {
@@ -173,7 +165,7 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                                         children: const [
                                           SizedBox(height: 100),
                                           Center(
-                                            child: Text("No projects found"),
+                                            child: Text('No projects found'),
                                           ),
                                         ],
                                       )
@@ -186,14 +178,15 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                                               filteredProjects[index];
                                           return Padding(
                                             padding: const EdgeInsets.only(
-                                              bottom: 12,
+                                              bottom: 6,
                                             ),
                                             child: PlasticFilmsCards(
                                               id: project.projectId ?? '',
                                               date: project.date ?? '',
-                                                 scan: project.status ?? '',
-                                              onTap: () {
-                                                Navigator.push(
+                                              scan: project.status ?? '',
+                                              time: project.time ?? '',
+                                              onTap: () async {
+                                                await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (_) =>
@@ -205,6 +198,12 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                                                         ),
                                                   ),
                                                 );
+                                                if (context.mounted) {
+                                                  debugPrint(
+                                                    'Returned from details, refreshing items...',
+                                                  );
+                                                  _onRefresh(context);
+                                                }
                                               },
                                             ),
                                           );
@@ -223,6 +222,35 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  void _showStatusSnackBar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              color == Colors.green ? Icons.check_circle : Icons.error,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating, // Makes it float above the UI
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -284,7 +312,7 @@ class _PlasticFilmScreenState extends State<PlasticFilmScreen> {
                   icon: const Icon(Icons.clear, size: 20),
                   onPressed: () {
                     _searchController.clear();
-                    setState(() => _searchQuery = "");
+                    setState(() => _searchQuery = '');
                   },
                 )
               : null,

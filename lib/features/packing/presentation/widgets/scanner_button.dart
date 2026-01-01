@@ -15,8 +15,8 @@ class ScannerButton extends StatelessWidget {
     // Use lower quality and constraints to prevent "Failed to allocate" Gralloc errors
     final XFile? image = await picker.pickImage(
       source: ImageSource.camera,
-      imageQuality: 30, // Dramatically reduced to save memory
-      maxWidth: 1200, // Prevents huge buffers
+      imageQuality: 30, 
+      maxWidth: 1200, 
       maxHeight: 1200,
     );
 
@@ -33,7 +33,7 @@ class ScannerButton extends StatelessWidget {
       height: 42,
       child: FloatingActionButton.extended(
         onPressed: () => _onScanPressed(context),
-        backgroundColor: const Color(0xFFDB7b6c),
+        backgroundColor: const Color.fromARGB(255, 230, 130, 114),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: Colors.white, width: 1),

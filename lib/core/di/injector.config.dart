@@ -176,11 +176,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i66.PowderCoatingBlocProvider>(
       () => _i66.PowderCoatingBlocProvider(gh<_i626.PowderCoatingRepo>()),
     );
-    gh.factory<_i482.ScannerCubit>(
-      () => _i482.ScannerCubit(gh<_i137.LaserCuttingRepo>()),
-    );
     gh.factory<_i955.ScannerCubit>(
       () => _i955.ScannerCubit(gh<_i137.LaserCuttingRepo>()),
+    );
+    gh.factory<_i482.ScannerCubit>(
+      () => _i482.ScannerCubit(gh<_i372.FoldingRepo>()),
     );
     gh.lazySingleton<_i39.FoldingBlocProvider>(
       () => _i39.FoldingBlocProvider(gh<_i372.FoldingRepo>()),

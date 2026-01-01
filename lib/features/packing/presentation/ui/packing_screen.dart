@@ -1,17 +1,14 @@
-
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/model.dart';
-import 'package:steel_soul/features/packing/model/laser_cutting_model.dart';
+import 'package:steel_soul/features/packing/model/packing_model.dart';
 import 'package:steel_soul/features/packing/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/packing/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/packing/presentation/ui/packing_item_details.dart';
 import 'package:steel_soul/features/packing/presentation/widgets/packing_cards.dart';
 import 'package:steel_soul/features/packing/presentation/widgets/scanner_button.dart';
-
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -44,8 +41,7 @@ class _PackingScreenState extends State<PackingScreen> {
       providers: [
         // 1. Project List Cubit
         BlocProvider(
-          create: (_) =>
-              PackingBlocProvider.get().fetchLaserList()..request(),
+          create: (_) => PackingBlocProvider.get().fetchLaserList()..request(),
         ),
         // 2. Scanner Cubit (Handles Image Picking & OCR)
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
@@ -71,24 +67,15 @@ class _PackingScreenState extends State<PackingScreen> {
                   }
 
                   if (state.extractedWeight != null) {
-                    final String rawText = state.extractedWeight!;
-
-                    // LOGIC TO MATCH/PARSE THE DATA
-                    // We split the scanned text to find the Project and Unit.
-                    // String matchedProjectId = '';
-                    // String matchedUnit = '';
-
-                    // // Example split logic: "PROJECTID-UNITID"
-                    // if (rawText.contains('-')) {
-                    //   final parts = rawText.split('-');
-                    //   matchedProjectId = parts[0].trim();
-                    //   matchedUnit = parts.length > 1 ? parts[1].trim() : '';
-                    // } else {
-                    //   matchedProjectId = rawText.trim();
-                    // }
-
-                    // Trigger the Panel Status API to update the backend
-                    context.read<LaserCuttingPanelCubit>().request(Pair(rawText, state.base64Image));
+                    final String scannedId = state.extractedWeight!.trim();
+                    context.read<LaserCuttingPanelCubit>().request(
+                      Triple(
+                        scannedId,
+                        state.base64Image ?? '',
+                        state.captureTime!.toIso8601String(),
+                      ),
+                    );
+                    context.read<ScannerCubit>().reset();
                   }
 
                   if (state.error != null) {
@@ -111,17 +98,17 @@ class _PackingScreenState extends State<PackingScreen> {
                       _onRefresh(context);
 
                       // Show success feedback with Blur effect
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Success',
+                        // 'Success',
                         data.message ?? 'Panel Matched Successfully',
                         Colors.green,
                       );
                     },
                     failure: (error) {
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Error',
+                        // 'Error',
                         error.error,
                         Colors.red,
                       );
@@ -136,10 +123,7 @@ class _PackingScreenState extends State<PackingScreen> {
                 backgroundColor: Colors.white,
                 elevation: 0,
                 leading: _backButton(context),
-                title: Text(
-                  'Packing',
-                  style: UrbanistTextStyles.heading3,
-                ),
+                title: Text('Packing', style: UrbanistTextStyles.heading3),
                 centerTitle: true,
               ),
               body: Padding(
@@ -157,7 +141,7 @@ class _PackingScreenState extends State<PackingScreen> {
                               child: CircularProgressIndicator(),
                             ),
                             failure: (e) => Center(child: Text(e.error)),
-                            success: (List<LaserCuttingList> projects) {
+                            success: (List<PackingModel> projects) {
                               final filteredProjects = projects.where((
                                 project,
                               ) {
@@ -192,18 +176,29 @@ class _PackingScreenState extends State<PackingScreen> {
                                             child: PackingCards(
                                               id: project.projectId ?? '',
                                               date: project.date ?? '',
-                                              scan:project.laserCuttingStatus??'',
-                                              onTap: () {
-                                                Navigator.push(
+                                              scan:
+                                                  project.laserCuttingStatus ??
+                                                  '',
+                                              time: project.time ?? '',
+                                              onTap: () async {
+                                                await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (_) => PackingItemDetails(
-                                                      id:
-                                                          project.projectId ??
-                                                          '',
-                                                    ),
+                                                    builder: (_) =>
+                                                        PackingItemDetails(
+                                                          id:
+                                                              project
+                                                                  .projectId ??
+                                                              '',
+                                                        ),
                                                   ),
                                                 );
+                                                if (context.mounted) {
+                                                  debugPrint(
+                                                    'Returned from details, refreshing items...',
+                                                  );
+                                                  _onRefresh(context);
+                                                }
                                               },
                                             ),
                                           );
@@ -233,6 +228,35 @@ class _PackingScreenState extends State<PackingScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  void _showStatusSnackBar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              color == Colors.green ? Icons.check_circle : Icons.error,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating, // Makes it float above the UI
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
+      ),
     );
   }
 

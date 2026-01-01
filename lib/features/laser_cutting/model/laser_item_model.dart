@@ -10,6 +10,8 @@ class LaserItemModel with _$LaserItemModel{
    @JsonKey(name: 'unit_name')String? unitName,
    @JsonKey(name: 'unit_code')String? unitCode,
    @JsonKey(name: 'project')String? project,
+    @JsonKey(name: 'total_panels')int? totalPanels,
+     @JsonKey(name: 'scanned_panels')int? scannedPanels,
  
    @JsonKey(name: 'laser_cutting_status')String? laserCuttingStatus
   })=_LaserItemModel;

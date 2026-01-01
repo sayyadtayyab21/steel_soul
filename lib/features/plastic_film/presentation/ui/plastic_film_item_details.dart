@@ -2,7 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
-import 'package:steel_soul/core/model/pair.dart';
+
+import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/plastic_film/model/plastic_film_item_model.dart';
 import 'package:steel_soul/features/plastic_film/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/plastic_film/presentation/bloc/scanner_cubit.dart';
@@ -69,8 +70,12 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
                   if (state.extractedWeight != null) {
                     final String scannedId = state.extractedWeight!.trim();
                     context.read<LaserCuttingPanelCubit>().request(
-                          Pair(scannedId, state.base64Image??''),
-                        );
+                      Triple(
+                        scannedId,
+                        state.base64Image ?? '',
+                        state.captureTime!.toIso8601String(),
+                      ),
+                    );
                     context.read<ScannerCubit>().reset();
                   }
 
@@ -89,17 +94,17 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
                   state.whenOrNull(
                     success: (data) {
                       _onRefresh(context); // Refresh items after scan success
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Success',
+                        // 'Success',
                         data.message ?? 'Panel successfully updated',
                         Colors.green,
                       );
                     },
                     failure: (error) {
-                      _showBlurredStatusDialog(
+                      _showStatusSnackBar(
                         context,
-                        'Match Failed',
+                        // 'Match Failed',
                         error.error,
                         Colors.red,
                       );
@@ -124,8 +129,7 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
                     _searchBar(),
                     const SizedBox(height: 20),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingItemsCubit,
-                          LaserCuttingItemsCubitState>(
+                      child: BlocBuilder<LaserCuttingItemsCubit, LaserCuttingItemsCubitState>(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
@@ -138,8 +142,9 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
                               final filteredItems = items.where((item) {
                                 final unitCode =
                                     item.unitCode?.toLowerCase() ?? '';
-                                return unitCode
-                                    .contains(_searchQuery.toLowerCase());
+                                return unitCode.contains(
+                                  _searchQuery.toLowerCase(),
+                                );
                               }).toList();
 
                               // 4. WRAP IN REFRESH INDICATOR
@@ -151,9 +156,11 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
                                         children: [
                                           const SizedBox(height: 100),
                                           Center(
-                                            child: Text(_searchQuery.isEmpty
-                                                ? 'No items found'
-                                                : 'No matching unit code found'),
+                                            child: Text(
+                                              _searchQuery.isEmpty
+                                                  ? 'No items found'
+                                                  : 'No matching unit code found',
+                                            ),
                                           ),
                                         ],
                                       )
@@ -165,23 +172,35 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
                                           final item = filteredItems[index];
                                           return Padding(
                                             padding: const EdgeInsets.only(
-                                              bottom: 12,
+                                              bottom: 6,
                                             ),
                                             child: PlasticFilmItemCards(
                                               id: item.unitCode ?? '',
-                                              scan:item .status??'',
-                                               
-                                              onTap: () {
-                                                Navigator.push(
+                                              scan: item.status ?? '',
+                                              totalPanels:
+                                                  item.totalPanels ?? 0,
+                                              scannedPanels:
+                                                  item.scannedPanels ?? 0,
+
+                                              onTap: () async {
+                                                await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (_) =>
                                                         PlasticFilmScanDetails(
-                                                      projectId: widget.id,
-                                                      unit: item.unitCode ?? '',
-                                                    ),
+                                                          projectId: widget.id,
+                                                          unit:
+                                                              item.unitCode ??
+                                                              '',
+                                                        ),
                                                   ),
                                                 );
+                                                if (context.mounted) {
+                                                  debugPrint(
+                                                    'Returned from details, refreshing items...',
+                                                  );
+                                                  _onRefresh(context);
+                                                }
                                               },
                                             ),
                                           );
@@ -228,9 +247,40 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
                 )
               : null,
           border: InputBorder.none,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
         ),
+      ),
+    );
+  }
+
+  void _showStatusSnackBar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              color == Colors.green ? Icons.check_circle : Icons.error,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating, // Makes it float above the UI
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -258,16 +308,23 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
   }
 
   void _showBlurredStatusDialog(
-      BuildContext context, String title, String message, Color color) {
+    BuildContext context,
+    String title,
+    String message,
+    Color color,
+  ) {
     showDialog(
       context: context,
       builder: (context) => BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Text(title,
-              style: UrbanistTextStyles.heading3.copyWith(color: color)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            title,
+            style: UrbanistTextStyles.heading3.copyWith(color: color),
+          ),
           content: Text(message, style: UrbanistTextStyles.bodyMedium),
           actions: [
             TextButton(

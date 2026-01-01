@@ -12,7 +12,7 @@ abstract interface class RivetingRepo{
    AsyncValueOf<List<RivetingItemModel>> fetchLaserCuttingItemDetails(
     String project
   );
-  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri);
+  AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String captureTime);
 
 
   AsyncValueOf<List<SacnnerDetailsModel>> fetchLaserCuttingScanDetails(
@@ -21,5 +21,6 @@ abstract interface class RivetingRepo{
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
   String scannerPanelId,
   String? file,
+  String timeOfScan
 );
 }

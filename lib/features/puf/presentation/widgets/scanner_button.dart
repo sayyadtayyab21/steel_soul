@@ -16,8 +16,8 @@ class ScannerButton extends StatelessWidget {
     // Use lower quality and constraints to prevent "Failed to allocate" Gralloc errors
     final XFile? image = await picker.pickImage(
       source: ImageSource.camera,
-      imageQuality: 30, // Dramatically reduced to save memory
-      maxWidth: 1200, // Prevents huge buffers
+      imageQuality: 30, 
+      maxWidth: 1200, 
       maxHeight: 1200,
     );
 

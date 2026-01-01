@@ -10,6 +10,8 @@ class PlasticFilmItemModel with _$PlasticFilmItemModel{
    @JsonKey(name: 'unit_name')String? unitName,
    @JsonKey(name: 'unit_code')String? unitCode,
    @JsonKey(name: 'project')String? project,
+      @JsonKey(name: 'total_panels')int? totalPanels,
+     @JsonKey(name: 'scanned_panels')int? scannedPanels,
  
    @JsonKey(name: 'plastic_film_status')String? status
   })=_PlasticFilmItemModel;

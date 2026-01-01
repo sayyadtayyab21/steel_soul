@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ScannerState {
   bool get isExtracting => throw _privateConstructorUsedError;
   String? get extractedWeight => throw _privateConstructorUsedError;
+  DateTime? get captureTime => throw _privateConstructorUsedError;
   File? get capturedImage => throw _privateConstructorUsedError;
   Failure? get error => throw _privateConstructorUsedError;
   String? get base64Image => throw _privateConstructorUsedError;
@@ -40,6 +41,7 @@ abstract class $ScannerStateCopyWith<$Res> {
   $Res call({
     bool isExtracting,
     String? extractedWeight,
+    DateTime? captureTime,
     File? capturedImage,
     Failure? error,
     String? base64Image,
@@ -65,6 +67,7 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
   $Res call({
     Object? isExtracting = null,
     Object? extractedWeight = freezed,
+    Object? captureTime = freezed,
     Object? capturedImage = freezed,
     Object? error = freezed,
     Object? base64Image = freezed,
@@ -79,6 +82,10 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
                 ? _value.extractedWeight
                 : extractedWeight // ignore: cast_nullable_to_non_nullable
                       as String?,
+            captureTime: freezed == captureTime
+                ? _value.captureTime
+                : captureTime // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
             capturedImage: freezed == capturedImage
                 ? _value.capturedImage
                 : capturedImage // ignore: cast_nullable_to_non_nullable
@@ -123,6 +130,7 @@ abstract class _$$ScannerStateImplCopyWith<$Res>
   $Res call({
     bool isExtracting,
     String? extractedWeight,
+    DateTime? captureTime,
     File? capturedImage,
     Failure? error,
     String? base64Image,
@@ -148,6 +156,7 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isExtracting = null,
     Object? extractedWeight = freezed,
+    Object? captureTime = freezed,
     Object? capturedImage = freezed,
     Object? error = freezed,
     Object? base64Image = freezed,
@@ -162,6 +171,10 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
             ? _value.extractedWeight
             : extractedWeight // ignore: cast_nullable_to_non_nullable
                   as String?,
+        captureTime: freezed == captureTime
+            ? _value.captureTime
+            : captureTime // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
         capturedImage: freezed == capturedImage
             ? _value.capturedImage
             : capturedImage // ignore: cast_nullable_to_non_nullable
@@ -185,6 +198,7 @@ class _$ScannerStateImpl implements _ScannerState {
   const _$ScannerStateImpl({
     required this.isExtracting,
     this.extractedWeight,
+    this.captureTime,
     this.capturedImage,
     this.error,
     this.base64Image,
@@ -195,6 +209,8 @@ class _$ScannerStateImpl implements _ScannerState {
   @override
   final String? extractedWeight;
   @override
+  final DateTime? captureTime;
+  @override
   final File? capturedImage;
   @override
   final Failure? error;
@@ -203,7 +219,7 @@ class _$ScannerStateImpl implements _ScannerState {
 
   @override
   String toString() {
-    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, capturedImage: $capturedImage, error: $error, base64Image: $base64Image)';
+    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, captureTime: $captureTime, capturedImage: $capturedImage, error: $error, base64Image: $base64Image)';
   }
 
   @override
@@ -215,6 +231,8 @@ class _$ScannerStateImpl implements _ScannerState {
                 other.isExtracting == isExtracting) &&
             (identical(other.extractedWeight, extractedWeight) ||
                 other.extractedWeight == extractedWeight) &&
+            (identical(other.captureTime, captureTime) ||
+                other.captureTime == captureTime) &&
             (identical(other.capturedImage, capturedImage) ||
                 other.capturedImage == capturedImage) &&
             (identical(other.error, error) || other.error == error) &&
@@ -227,6 +245,7 @@ class _$ScannerStateImpl implements _ScannerState {
     runtimeType,
     isExtracting,
     extractedWeight,
+    captureTime,
     capturedImage,
     error,
     base64Image,
@@ -245,6 +264,7 @@ abstract class _ScannerState implements ScannerState {
   const factory _ScannerState({
     required final bool isExtracting,
     final String? extractedWeight,
+    final DateTime? captureTime,
     final File? capturedImage,
     final Failure? error,
     final String? base64Image,
@@ -254,6 +274,8 @@ abstract class _ScannerState implements ScannerState {
   bool get isExtracting;
   @override
   String? get extractedWeight;
+  @override
+  DateTime? get captureTime;
   @override
   File? get capturedImage;
   @override

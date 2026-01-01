@@ -29,6 +29,8 @@ mixin _$RivetingModel {
   String? get projectId => throw _privateConstructorUsedError;
   @JsonKey(name: 'date')
   String? get date => throw _privateConstructorUsedError;
+  @JsonKey(name: 'time')
+  String? get time => throw _privateConstructorUsedError;
   @JsonKey(name: 'customer_phone_number')
   String? get customerPhoneNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'riveting_status')
@@ -56,6 +58,7 @@ abstract class $RivetingModelCopyWith<$Res> {
     @JsonKey(name: 'customer_name') String? customerName,
     @JsonKey(name: 'project_id') String? projectId,
     @JsonKey(name: 'date') String? date,
+    @JsonKey(name: 'time') String? time,
     @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
     @JsonKey(name: 'riveting_status') String? status,
   });
@@ -80,6 +83,7 @@ class _$RivetingModelCopyWithImpl<$Res, $Val extends RivetingModel>
     Object? customerName = freezed,
     Object? projectId = freezed,
     Object? date = freezed,
+    Object? time = freezed,
     Object? customerPhoneNumber = freezed,
     Object? status = freezed,
   }) {
@@ -100,6 +104,10 @@ class _$RivetingModelCopyWithImpl<$Res, $Val extends RivetingModel>
             date: freezed == date
                 ? _value.date
                 : date // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            time: freezed == time
+                ? _value.time
+                : time // ignore: cast_nullable_to_non_nullable
                       as String?,
             customerPhoneNumber: freezed == customerPhoneNumber
                 ? _value.customerPhoneNumber
@@ -129,6 +137,7 @@ abstract class _$$RivetingModelImplCopyWith<$Res>
     @JsonKey(name: 'customer_name') String? customerName,
     @JsonKey(name: 'project_id') String? projectId,
     @JsonKey(name: 'date') String? date,
+    @JsonKey(name: 'time') String? time,
     @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
     @JsonKey(name: 'riveting_status') String? status,
   });
@@ -152,6 +161,7 @@ class __$$RivetingModelImplCopyWithImpl<$Res>
     Object? customerName = freezed,
     Object? projectId = freezed,
     Object? date = freezed,
+    Object? time = freezed,
     Object? customerPhoneNumber = freezed,
     Object? status = freezed,
   }) {
@@ -172,6 +182,10 @@ class __$$RivetingModelImplCopyWithImpl<$Res>
         date: freezed == date
             ? _value.date
             : date // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        time: freezed == time
+            ? _value.time
+            : time // ignore: cast_nullable_to_non_nullable
                   as String?,
         customerPhoneNumber: freezed == customerPhoneNumber
             ? _value.customerPhoneNumber
@@ -194,6 +208,7 @@ class _$RivetingModelImpl extends _RivetingModel {
     @JsonKey(name: 'customer_name') this.customerName,
     @JsonKey(name: 'project_id') this.projectId,
     @JsonKey(name: 'date') this.date,
+    @JsonKey(name: 'time') this.time,
     @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
     @JsonKey(name: 'riveting_status') this.status,
   }) : super._();
@@ -214,6 +229,9 @@ class _$RivetingModelImpl extends _RivetingModel {
   @JsonKey(name: 'date')
   final String? date;
   @override
+  @JsonKey(name: 'time')
+  final String? time;
+  @override
   @JsonKey(name: 'customer_phone_number')
   final String? customerPhoneNumber;
   @override
@@ -222,7 +240,7 @@ class _$RivetingModelImpl extends _RivetingModel {
 
   @override
   String toString() {
-    return 'RivetingModel(name: $name, customerName: $customerName, projectId: $projectId, date: $date, customerPhoneNumber: $customerPhoneNumber, status: $status)';
+    return 'RivetingModel(name: $name, customerName: $customerName, projectId: $projectId, date: $date, time: $time, customerPhoneNumber: $customerPhoneNumber, status: $status)';
   }
 
   @override
@@ -236,6 +254,7 @@ class _$RivetingModelImpl extends _RivetingModel {
             (identical(other.projectId, projectId) ||
                 other.projectId == projectId) &&
             (identical(other.date, date) || other.date == date) &&
+            (identical(other.time, time) || other.time == time) &&
             (identical(other.customerPhoneNumber, customerPhoneNumber) ||
                 other.customerPhoneNumber == customerPhoneNumber) &&
             (identical(other.status, status) || other.status == status));
@@ -249,6 +268,7 @@ class _$RivetingModelImpl extends _RivetingModel {
     customerName,
     projectId,
     date,
+    time,
     customerPhoneNumber,
     status,
   );
@@ -273,6 +293,7 @@ abstract class _RivetingModel extends RivetingModel {
     @JsonKey(name: 'customer_name') final String? customerName,
     @JsonKey(name: 'project_id') final String? projectId,
     @JsonKey(name: 'date') final String? date,
+    @JsonKey(name: 'time') final String? time,
     @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
     @JsonKey(name: 'riveting_status') final String? status,
   }) = _$RivetingModelImpl;
@@ -293,6 +314,9 @@ abstract class _RivetingModel extends RivetingModel {
   @override
   @JsonKey(name: 'date')
   String? get date;
+  @override
+  @JsonKey(name: 'time')
+  String? get time;
   @override
   @JsonKey(name: 'customer_phone_number')
   String? get customerPhoneNumber;

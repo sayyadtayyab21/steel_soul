@@ -10,6 +10,8 @@ class PufItemModel with _$PufItemModel{
    @JsonKey(name: 'unit_name')String? unitName,
    @JsonKey(name: 'unit_code')String? unitCode,
    @JsonKey(name: 'project')String? project,
+      @JsonKey(name: 'total_panels')int? totalPanels,
+     @JsonKey(name: 'scanned_panels')int? scannedPanels,
  
    @JsonKey(name: 'puf_status')String? status
   })=_PufItemModel;
