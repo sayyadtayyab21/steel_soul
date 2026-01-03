@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +60,7 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                   }
 
                   // 2. Handle Success (Text Extracted + Image Available)
-                   if (state.extractedWeight != null) {
+                  if (state.extractedWeight != null) {
                     final String scannedId = state.extractedWeight!.trim();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
@@ -131,54 +130,6 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                 ),
                 title: Text(widget.unit, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
-                actions: [
-                  // BlocBuilder specifically for the scan count summary
-                  BlocBuilder<
-                    LaserCuttingScanCubit,
-                    LaserCuttingScanCubitState
-                  >(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        success: (items) {
-                          final scannedList = items.cast<SacnnerDetailsModel>();
-                          final int total = scannedList.length;
-                          final int scanned = scannedList
-                              .where((item) => item.laserCuttingStatus == 'Scanned')
-                              .length;
-
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Row(
-                                children: [
-
-                                  Text(
-                                    'Scanned:',
-                                    style: UrbanistTextStyles.bodySmall.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                  Text(
-                                    '$scanned/$total', // Using your separator preference
-                                    style: UrbanistTextStyles.bodySmall.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[900],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                     
-                        orElse: () => const SizedBox.shrink(),
-                      );
-                    },
-                  ),
-                ],
               ),
               body: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -187,6 +138,52 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                 ),
                 child: Column(
                   children: [
+                    BlocBuilder<
+                      LaserCuttingScanCubit,
+                      LaserCuttingScanCubitState
+                    >(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          success: (items) {
+                            final scannedList = items
+                                .cast<SacnnerDetailsModel>();
+                            final int total = scannedList.length;
+                            final int scanned = scannedList
+                                .where(
+                                  (item) =>
+                                      item.laserCuttingStatus == 'Scanned',
+                                )
+                                .length;
+
+                            return Row(
+                              children: [
+                                _buildSummaryBox(
+                                  label: 'Scanned Panels',
+                                  value: '$scanned',
+                                  colors: [
+                                    const Color(0xFF62CEFF),
+                                    const Color(0xFF1AA2E0),
+                                  ],
+                                  borderColor: const Color(0xFF64B5F6),
+                                ),
+                                const SizedBox(width: 12),
+                                _buildSummaryBox(
+                                  label: 'Total Panels',
+                                  value: '$total',
+                                  colors: [
+                                    const Color(0xFFFFA5A5),
+                                    const Color(0xFFFF7F7E),
+                                  ],
+                                  borderColor: const Color(0xFFFFC1C4),
+                                ),
+                              ],
+                            );
+                          },
+                          orElse: () => const SizedBox.shrink(),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 16),
                     Expanded(
                       child:
                           BlocBuilder<
@@ -200,7 +197,7 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                                   child: CircularProgressIndicator(),
                                 ),
                                 failure: (e) =>
-                                    Center(child: Text('//${e.error}')),
+                                    Center(child: Text('Error: ${e.error}')),
                                 success: (items) {
                                   final scannedItems = items
                                       .cast<SacnnerDetailsModel>();
@@ -234,33 +231,77 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
     );
   }
 
+  Widget _buildSummaryBox({
+    required String label,
+    required String value,
+    required List<Color> colors,
+    required Color borderColor,
+  }) {
+    return Expanded(
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: colors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: borderColor),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+            Text(
+              value,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w900,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _showStatusSnackBar(BuildContext context, String message, Color color) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Row(
-        children: [
-          Icon(
-            color == Colors.green ? Icons.check_circle : Icons.error,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              message,
-              style: UrbanistTextStyles.bodyMedium.copyWith(color: Colors.white),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              color == Colors.green ? Icons.check_circle : Icons.error,
+              color: Colors.white,
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating, // Makes it float above the UI
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
       ),
-      backgroundColor: color,
-      behavior: SnackBarBehavior.floating, // Makes it float above the UI
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
-    ),
-  );
-}
+    );
+  }
 
   void _showBlurredStatusDialog(
     BuildContext context,

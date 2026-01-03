@@ -48,7 +48,7 @@ class AppProfilePage extends StatelessWidget {
           Column(
             children: [
               Image.asset(
-                'assets/images/app_logo.png',
+                'assets/images/app_logo2.png',
                 height: 180,
                 width: 200,
               ),

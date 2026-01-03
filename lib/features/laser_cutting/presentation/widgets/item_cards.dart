@@ -5,17 +5,16 @@ class ItemCards extends StatelessWidget {
   const ItemCards({
     super.key,
     required this.id,
-
     required this.onTap,
     required this.scan,
     required this.totalPanels,
     required this.scannedPanels,
   });
+
   final String id;
   final String scan;
   final int totalPanels;
   final int scannedPanels;
-
   final Function() onTap;
 
   @override
@@ -23,6 +22,7 @@ class ItemCards extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
           color: const Color(0xFFE6F3FF),
           border: Border.all(
@@ -39,108 +39,117 @@ class ItemCards extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(12),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Left side - Project ID
+              // Left side - ID and Badges
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        left: BorderSide(
-                          color: Color.fromARGB(255, 80, 193, 231),
-                          width: 3,
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start, // Aligns content to the left
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(color: Color(0xFF50C1E7), width: 3),
+                        ),
+                      ),
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        id,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Urbanist',
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
                         ),
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                      ), // Added padding for left border separation
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            id, // Use the actual project ID
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Urbanist',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          // Optional: Add a placeholder for a second line of text if needed
-                        ],
-                      ),
+                    const SizedBox(height: 10), // Space between ID and Badges
+                    Row(
+                      children: [
+                        // Scanned Quantity Badge
+                        _buildBadge(
+                          label: 'Scanned: $scannedPanels',
+                          bgColor: Colors.white,
+                          borderColor: Colors.orangeAccent,
+                          textColor: Colors.black,
+                        ),
+                        const SizedBox(width: 8),
+                        // Total Quantity Badge
+                        _buildBadge(
+                          label: 'Total: $totalPanels',
+                          bgColor: Colors.white,
+                          borderColor: Colors.blueAccent,
+                          textColor: Colors.black,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Right side - View Button
+              Container(
+                height: 32,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xFF62CEFF), Color(0xFF1AA2E0)],
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ElevatedButton(
+                  onPressed: onTap,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    'View',
+                    style: UrbanistTextStyles.bodySmall.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
                     ),
                   ),
                 ),
               ),
-
-              // Right side - Date and View button
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Sacnned:', 
-                        style: UrbanistTextStyles.bodySmall.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey[600], // Using a clear grey color
-                        ),
-                      ),
-                      Text(
-                        '$scannedPanels/$totalPanels', 
-                        style: UrbanistTextStyles.bodySmall.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey[600], // Using a clear grey color
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 3),
-                  Container(
-                    height: 32, // Increased height slightly
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [Color(0xFF62CEFF), Color(0xFF1AA2E0)],
-                      ),
-                      borderRadius: BorderRadius.circular(
-                        8,
-                      ), // Match button shape
-                    ),
-                    child: ElevatedButton(
-                      onPressed: onTap,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        foregroundColor: Colors.white,
-                        shadowColor: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Text(
-                        'View',
-                        style: UrbanistTextStyles.bodySmall.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // Helper method to keep code clean
+  Widget _buildBadge({
+    required String label,
+    required Color bgColor,
+    required Color borderColor,
+    required Color textColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: borderColor),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          color: textColor,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

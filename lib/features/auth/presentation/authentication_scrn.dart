@@ -109,7 +109,7 @@ class _AuthenticationScrnState extends State<AuthenticationScrn> {
     color: Colors.white, 
     alignment: Alignment.center,
     child: Image.asset(
-      'assets/images/app_logo.png',
+      'assets/images/app_logo2.png',
       height: 160,
       fit: BoxFit.contain, 
     ),
