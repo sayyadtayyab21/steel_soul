@@ -14,6 +14,7 @@ import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/panel_status_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/text_scanner_model.dart';
+import 'package:steel_soul/features/laser_cutting/model/update_sheet_model.dart';
 
 @LazySingleton(as: LaserCuttingRepo)
 class LaserCuttingRepoImp extends BaseApiRepository
@@ -223,4 +224,40 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
 
   return response.process((r) => right(r.data!));
 }
+
+
+@override
+AsyncValueOf<UpdateSheetModel> updateSheetCount(
+  String projectId,
+  int fullSheetCount,
+  int halfSheetCount,
+  int quarterSheetCount,
+) async {
+  final requestConfig = RequestConfig(
+    url: Urls.updateSheetCount,
+    parser: (json) {
+      final data = json['message'];
+      if (data is Map<String, dynamic>) {
+        return UpdateSheetModel.fromJson(data);
+      } else if (data is List && data.isEmpty) {
+        return const UpdateSheetModel(status: 'success', message: 'Updated');
+      }
+      throw FormatException('Unexpected response: $data');
+    },
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    reqParams: {
+      'project': projectId,
+      'full_sheet': fullSheetCount,
+      'half_sheet': halfSheetCount,
+      'quarter_sheet': quarterSheetCount,
+    },
+  );
+
+    log('.....................................$requestConfig');
+  final response = await post(requestConfig);
+  log('Response for Panel Status: $response');
+  
+  return response.process((r) => right(r.data!));
+}
+  
 }

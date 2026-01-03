@@ -63,7 +63,7 @@ class PlasticFilmItemCards extends StatelessWidget {
                             id, // Use the actual project ID
                             style: const TextStyle(
                               fontSize: 16,
-                              fontFamily: "Urbanist",
+                              fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -80,13 +80,26 @@ class PlasticFilmItemCards extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    '$scannedPanels/$totalPanels', 
-                    style: UrbanistTextStyles.bodySmall.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.grey[600], // Using a clear grey color
-                    ),
+
+                  Row(
+                    children: [
+                      Text(
+                            'Sacnned:', 
+                            style: UrbanistTextStyles.bodySmall.copyWith(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600], // Using a clear grey color
+                            ),
+                          ),
+                      Text(
+                        '$scannedPanels/$totalPanels', 
+                        style: UrbanistTextStyles.bodySmall.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey[600], // Using a clear grey color
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 3),
                   Container(

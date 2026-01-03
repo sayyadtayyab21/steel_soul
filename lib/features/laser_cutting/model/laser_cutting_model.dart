@@ -11,6 +11,10 @@ class LaserCuttingList with _$LaserCuttingList {
     @JsonKey(name: 'project_id') String? projectId,
     @JsonKey(name: 'date') String? date,
     @JsonKey(name: 'time') String? time,
+    @JsonKey(name: 'full_sheet') int? fullSheetCount,
+    @JsonKey(name: 'half_sheet') int? halfSheetCount,
+    @JsonKey(name: 'quarter_sheet') int? quarterSheetCount,
+
     @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
   }) = _LaserCuttingList;

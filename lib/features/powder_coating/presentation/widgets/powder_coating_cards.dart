@@ -34,16 +34,21 @@ class _PowderCoatingCardsState extends State<PowderCoatingCards> {
       // Fallback to raw string if parsing fails (e.g. if already formatted)
       formattedDate = widget.date;
     }
-String formattedTime = "";
-try {
-  // If your time comes as "11:32:26", DateFormat.jm() converts it to "11:32 AM"
-  // Note: We use a dummy date because DateTime.parse needs a full date-time string
-  DateTime parsedTime = DateTime.parse("2025-01-01 ${widget.time}");
-  formattedTime = DateFormat.jm().format(parsedTime); 
-} catch (e) {
-  // Fallback if the string is already formatted or in an unusual format
-  formattedTime = widget.time; 
-}
+String formatTime(String time) {
+      if (time.isEmpty || !time.contains(':')) {
+        return time; // Return as is if it's not a standard time string
+      }
+      
+      try {
+        final parts = time.split(':');
+        if (parts.length >= 2) {
+          return '${parts[0]}:${parts[1]}';
+        }
+        return time;
+      } catch (e) {
+        return time;
+      }
+    }
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -114,7 +119,7 @@ try {
                     ),
                   ),
                    Text(
-                    formattedTime, // Use the actual date
+                    formatTime(widget.time),
                     style: UrbanistTextStyles.bodySmall.copyWith(
                       color: Colors.black,
                     ),

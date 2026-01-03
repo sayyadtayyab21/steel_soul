@@ -1,10 +1,11 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
-
+import 'package:steel_soul/core/model/quad.dart';
 import 'package:steel_soul/core/model/triple.dart';
-import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
+
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_scan_details.dart';
@@ -12,18 +13,43 @@ import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_b
 import 'package:steel_soul/features/laser_cutting/presentation/widgets/item_cards.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-class ItemDetails extends StatefulWidget {
-  const ItemDetails({super.key, required this.id});
+class LaserItemDetails extends StatefulWidget {
+  LaserItemDetails({
+    super.key,
+    required this.id,
+    required this.fullProjectSheetCount,
+    required this.halfProjectSheetCount,
+    required this.quarterProjectSheetCount,
+  });
+
   final String id;
+  int fullProjectSheetCount;
+  int halfProjectSheetCount;
+  int quarterProjectSheetCount;
 
   @override
-  State<ItemDetails> createState() => _ItemDetailsState();
+  State<LaserItemDetails> createState() => _LaserItemDetailsState();
 }
 
-class _ItemDetailsState extends State<ItemDetails> {
-  // 1. Controller for Search
+class _LaserItemDetailsState extends State<LaserItemDetails> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+
+  late int fullSheetCount;
+  late int halfSheetCount;
+  late int quarterSheetCount;
+
+  // Track if a save was successful to notify the parent screen
+  bool _hasChanges = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize local state with values passed from the project list
+    fullSheetCount = widget.fullProjectSheetCount;
+    halfSheetCount = widget.halfProjectSheetCount;
+    quarterSheetCount = widget.quarterProjectSheetCount;
+  }
 
   @override
   void dispose() {
@@ -31,15 +57,24 @@ class _ItemDetailsState extends State<ItemDetails> {
     super.dispose();
   }
 
-  // 2. Helper method to trigger Bloc refresh
   Future<void> _onRefresh(BuildContext context) async {
     context.read<LaserCuttingItemsCubit>().request(widget.id);
-    // Small delay to ensure the UI shows the refresh state
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
   @override
   Widget build(BuildContext context) {
+    log(
+      'Building LaserItemDetails for project: ${widget.fullProjectSheetCount}',
+    );
+    log(
+      'Building LaserItemDetails for project: ${widget.halfProjectSheetCount}',
+    );
+    log(
+      'Building LaserItemDetails for project: ${widget.quarterProjectSheetCount}',
+    );
+    log('Building LaserItemDetails for project: ${widget.id}');
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -51,11 +86,16 @@ class _ItemDetailsState extends State<ItemDetails> {
         BlocProvider(
           create: (_) => LaserCuttingBlocProvider.get().fetchLaserPanelStatus(),
         ),
+        BlocProvider(
+          create: (_) =>
+              LaserCuttingBlocProvider.get().fetchLaserUpdateSheetStatus(),
+        ),
       ],
       child: Builder(
-        builder: (context) {
+        builder: (innerContext) {
           return MultiBlocListener(
             listeners: [
+              // 1. Scanner Listener
               BlocListener<ScannerCubit, ScannerState>(
                 listener: (context, state) {
                   if (state.isExtracting) {
@@ -65,44 +105,54 @@ class _ItemDetailsState extends State<ItemDetails> {
                       Navigator.of(context, rootNavigator: true).pop();
                     }
                   }
-
                   if (state.extractedWeight != null) {
-                    final String scannedId = state.extractedWeight!.trim();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
-                        scannedId,
+                        state.extractedWeight!.trim(),
                         state.base64Image,
                         state.captureTime?.toIso8601String(),
                       ),
                     );
                     context.read<ScannerCubit>().reset();
                   }
-
-                  if (state.error != null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.error!.error),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
                 },
               ),
+              // 2. Panel Update Listener
               BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      _onRefresh(context); // Refresh items after scan success
+                      _onRefresh(context);
                       _showStatusSnackBar(
                         context,
-
-                        data.message ?? 'Panel successfully updated',
+                        data.message ?? 'Panel updated',
                         Colors.green,
                       );
                     },
-                    failure: (error) {
-                      _showStatusSnackBar(context, error.error, Colors.red);
+                    failure: (error) =>
+                        _showStatusSnackBar(context, error.error, Colors.red),
+                  );
+                },
+              ),
+              // 3. Sheet Count Update Listener
+              BlocListener<
+                LaserCuttiingUpdateSheetCubit,
+                LaserCuttiingUpdateSheetCubitState
+              >(
+                listener: (context, state) {
+                  state.whenOrNull(
+                    success: (data) {
+                      setState(
+                        () => _hasChanges = true,
+                      ); // Mark that we need to refresh the main screen
+                      _showStatusSnackBar(
+                        context,
+                        data.message ?? 'Sheet counts updated successfully',
+                        Colors.green,
+                      );
                     },
+                    failure: (error) =>
+                        _showStatusSnackBar(context, error.error, Colors.red),
                   );
                 },
               ),
@@ -112,7 +162,7 @@ class _ItemDetailsState extends State<ItemDetails> {
               appBar: AppBar(
                 backgroundColor: Colors.white,
                 elevation: 0,
-                leading: _backButton(context),
+                leading: _backButton(innerContext),
                 title: Text(widget.id, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
               ),
@@ -121,94 +171,94 @@ class _ItemDetailsState extends State<ItemDetails> {
                 child: Column(
                   children: [
                     _searchBar(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
+                    _buildSheetCounterSection(innerContext),
+                    const SizedBox(height: 10),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingItemsCubit, LaserCuttingItemsCubitState>(
-                        builder: (context, state) {
-                          return state.when(
-                            initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            failure: (e) => Center(child: Text(e.error)),
-                            success: (List<LaserItemModel> items) {
-                              // 3. APPLY SEARCH FILTER
-                              final filteredItems = items.where((item) {
-                                final unitCode =
-                                    item.unitCode?.toLowerCase() ?? '';
-                                return unitCode.contains(
-                                  _searchQuery.toLowerCase(),
-                                );
-                              }).toList();
-
-                              // 4. WRAP IN REFRESH INDICATOR
-                              return RefreshIndicator(
-                                color: const Color(0xFF5FD6FF),
-                                onRefresh: () => _onRefresh(context),
-                                child: filteredItems.isEmpty
-                                    ? ListView(
-                                        children: [
-                                          const SizedBox(height: 100),
-                                          Center(
-                                            child: Text(
-                                              _searchQuery.isEmpty
-                                                  ? 'No items found'
-                                                  : 'No matching unit code found',
+                      child:
+                          BlocBuilder<
+                            LaserCuttingItemsCubit,
+                            LaserCuttingItemsCubitState
+                          >(
+                            builder: (context, state) {
+                              return state.when(
+                                initial: () => const SizedBox(),
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                failure: (e) => Center(child: Text(e.error)),
+                                success: (items) {
+                                  final filteredItems = items
+                                      .where(
+                                        (item) => (item.unitCode ?? '')
+                                            .toLowerCase()
+                                            .contains(
+                                              _searchQuery.toLowerCase(),
                                             ),
-                                          ),
-                                        ],
                                       )
-                                    : ListView.builder(
-                                        itemCount: filteredItems.length,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          final item = filteredItems[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6,
-                                            ),
-                                            child: ItemCards(
-                                              id: item.unitCode ?? '',
-                                              scan:
-                                                  item.laserCuttingStatus ?? '',
-                                              totalPanels:
-                                                  item.totalPanels ?? 0,
-                                              scannedPanels:
-                                                  item.scannedPanels ?? 0,
-                                              // Inside ItemDetails.dart -> ListView.builder
-                                              onTap: () async {
-                                                // 1. Wait for the user to go to the next screen and come back
-                                                await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        LaserScanDetails(
-                                                          projectId: widget.id,
-                                                          unit:
-                                                              item.unitCode ??
-                                                              '',
-                                                        ),
-                                                  ),
-                                                );
+                                      .toList();
 
-                                                // 2. This code runs only AFTER returning from LaserScanDetails
-                                                if (context.mounted) {
-                                                  debugPrint(
-                                                    'Returned from details, refreshing items...',
-                                                  );
-                                                  _onRefresh(context);
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                  return RefreshIndicator(
+                                    color: const Color(0xFF5FD6FF),
+                                    onRefresh: () => _onRefresh(context),
+                                    child: filteredItems.isEmpty
+                                        ? ListView(
+                                            children: const [
+                                              Center(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                    top: 50,
+                                                  ),
+                                                  child: Text('No items found'),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : ListView.builder(
+                                            itemCount: filteredItems.length,
+                                            physics:
+                                                const AlwaysScrollableScrollPhysics(),
+                                            itemBuilder: (context, index) {
+                                              final item = filteredItems[index];
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                  bottom: 8,
+                                                ),
+                                                child: ItemCards(
+                                                  id: item.unitCode ?? '',
+                                                  scan:
+                                                      item.laserCuttingStatus ??
+                                                      '',
+                                                  totalPanels:
+                                                      item.totalPanels ?? 0,
+                                                  scannedPanels:
+                                                      item.scannedPanels ?? 0,
+                                                  onTap: () async {
+                                                    await Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            LaserScanDetails(
+                                                              projectId:
+                                                                  widget.id,
+                                                              unit:
+                                                                  item.unitCode ??
+                                                                  '',
+                                                            ),
+                                                      ),
+                                                    );
+                                                    if (context.mounted)
+                                                      _onRefresh(context);
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
                     ),
                   ],
                 ),
@@ -221,7 +271,140 @@ class _ItemDetailsState extends State<ItemDetails> {
     );
   }
 
-  // --- UI Helpers ---
+  Widget _buildSheetCounterSection(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
+        ],
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Project Sheet Inventory',
+            style: UrbanistTextStyles.bodyMedium.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildCounterItem(
+                'Full Sheet',
+                fullSheetCount,
+                // fullSheetCount,
+                (val) => setState(() => fullSheetCount = val),
+              ),
+              _buildCounterItem(
+                'Half Sheet',
+                halfSheetCount,
+                (val) => setState(() => halfSheetCount = val),
+              ),
+              _buildCounterItem(
+                'Quarter Sheet',
+                quarterSheetCount,
+                (val) => setState(() => quarterSheetCount = val),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF5FD6FF),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                elevation: 0,
+              ),
+              onPressed: () {
+                context.read<LaserCuttiingUpdateSheetCubit>().request(
+                  Quad(
+                    widget.id,
+                    fullSheetCount,
+                    halfSheetCount,
+                    quarterSheetCount,
+                  ),
+                );
+              },
+              child:
+                  BlocBuilder<
+                    LaserCuttiingUpdateSheetCubit,
+                    LaserCuttiingUpdateSheetCubitState
+                  >(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loading: () => const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        ),
+                        orElse: () => const Text(
+                          'SAVE SHEET COUNTS',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCounterItem(String label, int value, Function(int) onChanged) {
+    return Column(
+      children: [
+        Text(label, style: UrbanistTextStyles.bodySmall.copyWith(fontSize: 12)),
+        const SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: const Color(0xFF5FD6FF)),
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                icon: const Icon(
+                  Icons.remove,
+                  size: 18,
+                  color: Color(0xFF5FD6FF),
+                ),
+                onPressed: () => value > 0 ? onChanged(value - 1) : null,
+              ),
+              Text(
+                '$value',
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                icon: const Icon(Icons.add, size: 18, color: Color(0xFF5FD6FF)),
+                onPressed: () => onChanged(value + 1),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _searchBar() {
     return Container(
@@ -238,10 +421,10 @@ class _ItemDetailsState extends State<ItemDetails> {
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
                   icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
+                  onPressed: () => setState(() {
                     _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
+                    _searchQuery = '';
+                  }),
                 )
               : null,
           border: InputBorder.none,
@@ -263,7 +446,8 @@ class _ItemDetailsState extends State<ItemDetails> {
       ),
       child: IconButton(
         icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () => Navigator.pop(context),
+        onPressed: () =>
+            Navigator.pop(context, _hasChanges), // Notify parent if changed
       ),
     );
   }
@@ -279,58 +463,11 @@ class _ItemDetailsState extends State<ItemDetails> {
   void _showStatusSnackBar(BuildContext context, String message, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              color == Colors.green ? Icons.check_circle : Icons.error,
-              color: Colors.white,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                message,
-                style: UrbanistTextStyles.bodyMedium.copyWith(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
+        content: Text(message, style: const TextStyle(color: Colors.white)),
         backgroundColor: color,
-        behavior: SnackBarBehavior.floating, // Makes it float above the UI
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  void _showBlurredStatusDialog(
-    BuildContext context,
-    String title,
-    String message,
-    Color color,
-  ) {
-    showDialog(
-      context: context,
-      builder: (context) => BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            title,
-            style: UrbanistTextStyles.heading3.copyWith(color: color),
-          ),
-          content: Text(message, style: UrbanistTextStyles.bodyMedium),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }

@@ -35,6 +35,7 @@ dependencies:
   logger: ^2.6.2
   google_fonts: ^6.3.3
   path: ^1.9.1
+  flutter_launcher_icons: ^0.14.4
 
 
 
@@ -57,6 +58,12 @@ flutter:
     - assets/images/
     - assets/logo/
     - assets/icons/
-
   
   uses-material-design: true
+
+# THIS MUST BE AT THE TOP LEVEL (Zero Indentation)
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo.png"
+  min_sdk_android: 21

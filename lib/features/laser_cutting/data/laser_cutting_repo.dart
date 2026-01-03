@@ -5,6 +5,7 @@ import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/panel_status_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/text_scanner_model.dart';
+import 'package:steel_soul/features/laser_cutting/model/update_sheet_model.dart';
 
 abstract interface class LaserCuttingRepo{
   AsyncValueOf<List<LaserCuttingList>> fetchLaserCuttings();
@@ -23,4 +24,15 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
   String? file,
   String? timeOfScan,
   );
+
+
+
+  AsyncValueOf<UpdateSheetModel> updateSheetCount(
+    String projectId,
+    int fullSheetCount,
+    int halfSheetCount,
+    int quarterSheetCount,
+  );
+
+
 }

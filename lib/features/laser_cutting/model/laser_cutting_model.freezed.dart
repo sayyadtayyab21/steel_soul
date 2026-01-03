@@ -31,6 +31,12 @@ mixin _$LaserCuttingList {
   String? get date => throw _privateConstructorUsedError;
   @JsonKey(name: 'time')
   String? get time => throw _privateConstructorUsedError;
+  @JsonKey(name: 'full_sheet')
+  int? get fullSheetCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'half_sheet')
+  int? get halfSheetCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'quarter_sheet')
+  int? get quarterSheetCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'customer_phone_number')
   String? get customerPhoneNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'laser_cutting_status')
@@ -59,6 +65,9 @@ abstract class $LaserCuttingListCopyWith<$Res> {
     @JsonKey(name: 'project_id') String? projectId,
     @JsonKey(name: 'date') String? date,
     @JsonKey(name: 'time') String? time,
+    @JsonKey(name: 'full_sheet') int? fullSheetCount,
+    @JsonKey(name: 'half_sheet') int? halfSheetCount,
+    @JsonKey(name: 'quarter_sheet') int? quarterSheetCount,
     @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
   });
@@ -84,6 +93,9 @@ class _$LaserCuttingListCopyWithImpl<$Res, $Val extends LaserCuttingList>
     Object? projectId = freezed,
     Object? date = freezed,
     Object? time = freezed,
+    Object? fullSheetCount = freezed,
+    Object? halfSheetCount = freezed,
+    Object? quarterSheetCount = freezed,
     Object? customerPhoneNumber = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
@@ -109,6 +121,18 @@ class _$LaserCuttingListCopyWithImpl<$Res, $Val extends LaserCuttingList>
                 ? _value.time
                 : time // ignore: cast_nullable_to_non_nullable
                       as String?,
+            fullSheetCount: freezed == fullSheetCount
+                ? _value.fullSheetCount
+                : fullSheetCount // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            halfSheetCount: freezed == halfSheetCount
+                ? _value.halfSheetCount
+                : halfSheetCount // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            quarterSheetCount: freezed == quarterSheetCount
+                ? _value.quarterSheetCount
+                : quarterSheetCount // ignore: cast_nullable_to_non_nullable
+                      as int?,
             customerPhoneNumber: freezed == customerPhoneNumber
                 ? _value.customerPhoneNumber
                 : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
@@ -138,6 +162,9 @@ abstract class _$$LaserCuttingListImplCopyWith<$Res>
     @JsonKey(name: 'project_id') String? projectId,
     @JsonKey(name: 'date') String? date,
     @JsonKey(name: 'time') String? time,
+    @JsonKey(name: 'full_sheet') int? fullSheetCount,
+    @JsonKey(name: 'half_sheet') int? halfSheetCount,
+    @JsonKey(name: 'quarter_sheet') int? quarterSheetCount,
     @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
   });
@@ -162,6 +189,9 @@ class __$$LaserCuttingListImplCopyWithImpl<$Res>
     Object? projectId = freezed,
     Object? date = freezed,
     Object? time = freezed,
+    Object? fullSheetCount = freezed,
+    Object? halfSheetCount = freezed,
+    Object? quarterSheetCount = freezed,
     Object? customerPhoneNumber = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
@@ -187,6 +217,18 @@ class __$$LaserCuttingListImplCopyWithImpl<$Res>
             ? _value.time
             : time // ignore: cast_nullable_to_non_nullable
                   as String?,
+        fullSheetCount: freezed == fullSheetCount
+            ? _value.fullSheetCount
+            : fullSheetCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        halfSheetCount: freezed == halfSheetCount
+            ? _value.halfSheetCount
+            : halfSheetCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        quarterSheetCount: freezed == quarterSheetCount
+            ? _value.quarterSheetCount
+            : quarterSheetCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
         customerPhoneNumber: freezed == customerPhoneNumber
             ? _value.customerPhoneNumber
             : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
@@ -209,6 +251,9 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
     @JsonKey(name: 'project_id') this.projectId,
     @JsonKey(name: 'date') this.date,
     @JsonKey(name: 'time') this.time,
+    @JsonKey(name: 'full_sheet') this.fullSheetCount,
+    @JsonKey(name: 'half_sheet') this.halfSheetCount,
+    @JsonKey(name: 'quarter_sheet') this.quarterSheetCount,
     @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') this.laserCuttingStatus,
   }) : super._();
@@ -232,6 +277,15 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
   @JsonKey(name: 'time')
   final String? time;
   @override
+  @JsonKey(name: 'full_sheet')
+  final int? fullSheetCount;
+  @override
+  @JsonKey(name: 'half_sheet')
+  final int? halfSheetCount;
+  @override
+  @JsonKey(name: 'quarter_sheet')
+  final int? quarterSheetCount;
+  @override
   @JsonKey(name: 'customer_phone_number')
   final String? customerPhoneNumber;
   @override
@@ -240,7 +294,7 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
 
   @override
   String toString() {
-    return 'LaserCuttingList(name: $name, customerName: $customerName, projectId: $projectId, date: $date, time: $time, customerPhoneNumber: $customerPhoneNumber, laserCuttingStatus: $laserCuttingStatus)';
+    return 'LaserCuttingList(name: $name, customerName: $customerName, projectId: $projectId, date: $date, time: $time, fullSheetCount: $fullSheetCount, halfSheetCount: $halfSheetCount, quarterSheetCount: $quarterSheetCount, customerPhoneNumber: $customerPhoneNumber, laserCuttingStatus: $laserCuttingStatus)';
   }
 
   @override
@@ -255,6 +309,12 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
                 other.projectId == projectId) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.time, time) || other.time == time) &&
+            (identical(other.fullSheetCount, fullSheetCount) ||
+                other.fullSheetCount == fullSheetCount) &&
+            (identical(other.halfSheetCount, halfSheetCount) ||
+                other.halfSheetCount == halfSheetCount) &&
+            (identical(other.quarterSheetCount, quarterSheetCount) ||
+                other.quarterSheetCount == quarterSheetCount) &&
             (identical(other.customerPhoneNumber, customerPhoneNumber) ||
                 other.customerPhoneNumber == customerPhoneNumber) &&
             (identical(other.laserCuttingStatus, laserCuttingStatus) ||
@@ -270,6 +330,9 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
     projectId,
     date,
     time,
+    fullSheetCount,
+    halfSheetCount,
+    quarterSheetCount,
     customerPhoneNumber,
     laserCuttingStatus,
   );
@@ -298,6 +361,9 @@ abstract class _LaserCuttingList extends LaserCuttingList {
     @JsonKey(name: 'project_id') final String? projectId,
     @JsonKey(name: 'date') final String? date,
     @JsonKey(name: 'time') final String? time,
+    @JsonKey(name: 'full_sheet') final int? fullSheetCount,
+    @JsonKey(name: 'half_sheet') final int? halfSheetCount,
+    @JsonKey(name: 'quarter_sheet') final int? quarterSheetCount,
     @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
     @JsonKey(name: 'laser_cutting_status') final String? laserCuttingStatus,
   }) = _$LaserCuttingListImpl;
@@ -321,6 +387,15 @@ abstract class _LaserCuttingList extends LaserCuttingList {
   @override
   @JsonKey(name: 'time')
   String? get time;
+  @override
+  @JsonKey(name: 'full_sheet')
+  int? get fullSheetCount;
+  @override
+  @JsonKey(name: 'half_sheet')
+  int? get halfSheetCount;
+  @override
+  @JsonKey(name: 'quarter_sheet')
+  int? get quarterSheetCount;
   @override
   @JsonKey(name: 'customer_phone_number')
   String? get customerPhoneNumber;

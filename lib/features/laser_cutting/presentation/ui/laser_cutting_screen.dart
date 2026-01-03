@@ -178,23 +178,37 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                                               scan:
                                                   project.laserCuttingStatus ??
                                                   '',
-                                              time: project.time ?? '',
+                                              time: project.time??'' ,
                                               onTap: () async {
-                                                 await Navigator.push(
+                                                // We wait for the result
+                                                final result = await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (_) => ItemDetails(
+                                                    builder: (_) => LaserItemDetails(
                                                       id:
                                                           project.projectId ??
                                                           '',
+                                                      fullProjectSheetCount:
+                                                          project
+                                                              .fullSheetCount ??
+                                                          0,
+                                                      halfProjectSheetCount:
+                                                          project
+                                                              .halfSheetCount ??
+                                                          0,
+                                                      quarterProjectSheetCount:
+                                                          project
+                                                              .quarterSheetCount ??
+                                                          0,
                                                     ),
                                                   ),
                                                 );
+
+                                                // If we return, we MUST refresh the main list to get the new '1' counts from server
                                                 if (context.mounted) {
-                                                  debugPrint(
-                                                    'Returned from details, refreshing items...',
-                                                  );
-                                                  _onRefresh(context);
+                                                  context
+                                                      .read<LaserCuttingCubit>()
+                                                      .request();
                                                 }
                                               },
                                             ),

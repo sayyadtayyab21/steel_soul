@@ -22,8 +22,14 @@ class LoggedInUser with _$LoggedInUser {
     String? location,
     String? bio,
     @JsonKey(name: 'mobile_no') String? mobileNo,
+   @JsonKey(name: 'role', ) int? role,
+
+
   }) = _LoggedInUser;
 
   factory LoggedInUser.fromJson(Map<String, dynamic> json) =>
       _$LoggedInUserFromJson(json);
 }
+
+
+

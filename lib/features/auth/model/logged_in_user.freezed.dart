@@ -46,6 +46,8 @@ mixin _$LoggedInUser {
   String? get bio => throw _privateConstructorUsedError;
   @JsonKey(name: 'mobile_no')
   String? get mobileNo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'role')
+  int? get role => throw _privateConstructorUsedError;
 
   /// Serializes this LoggedInUser to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -81,6 +83,7 @@ abstract class $LoggedInUserCopyWith<$Res> {
     String? location,
     String? bio,
     @JsonKey(name: 'mobile_no') String? mobileNo,
+    @JsonKey(name: 'role') int? role,
   });
 }
 
@@ -114,6 +117,7 @@ class _$LoggedInUserCopyWithImpl<$Res, $Val extends LoggedInUser>
     Object? location = freezed,
     Object? bio = freezed,
     Object? mobileNo = freezed,
+    Object? role = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -177,6 +181,10 @@ class _$LoggedInUserCopyWithImpl<$Res, $Val extends LoggedInUser>
                 ? _value.mobileNo
                 : mobileNo // ignore: cast_nullable_to_non_nullable
                       as String?,
+            role: freezed == role
+                ? _value.role
+                : role // ignore: cast_nullable_to_non_nullable
+                      as int?,
           )
           as $Val,
     );
@@ -209,6 +217,7 @@ abstract class _$$LoggedInUserImplCopyWith<$Res>
     String? location,
     String? bio,
     @JsonKey(name: 'mobile_no') String? mobileNo,
+    @JsonKey(name: 'role') int? role,
   });
 }
 
@@ -241,6 +250,7 @@ class __$$LoggedInUserImplCopyWithImpl<$Res>
     Object? location = freezed,
     Object? bio = freezed,
     Object? mobileNo = freezed,
+    Object? role = freezed,
   }) {
     return _then(
       _$LoggedInUserImpl(
@@ -304,6 +314,10 @@ class __$$LoggedInUserImplCopyWithImpl<$Res>
             ? _value.mobileNo
             : mobileNo // ignore: cast_nullable_to_non_nullable
                   as String?,
+        role: freezed == role
+            ? _value.role
+            : role // ignore: cast_nullable_to_non_nullable
+                  as int?,
       ),
     );
   }
@@ -328,6 +342,7 @@ class _$LoggedInUserImpl extends _LoggedInUser {
     this.location,
     this.bio,
     @JsonKey(name: 'mobile_no') this.mobileNo,
+    @JsonKey(name: 'role') this.role,
   }) : super._();
 
   factory _$LoggedInUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -373,10 +388,13 @@ class _$LoggedInUserImpl extends _LoggedInUser {
   @override
   @JsonKey(name: 'mobile_no')
   final String? mobileNo;
+  @override
+  @JsonKey(name: 'role')
+  final int? role;
 
   @override
   String toString() {
-    return 'LoggedInUser(name: $name, username: $username, firstName: $firstName, lastName: $lastName, apiKey: $apiKey, apiSecret: $apiSecret, email: $email, password: $password, roleProfileName: $roleProfileName, gender: $gender, bithDate: $bithDate, phone: $phone, location: $location, bio: $bio, mobileNo: $mobileNo)';
+    return 'LoggedInUser(name: $name, username: $username, firstName: $firstName, lastName: $lastName, apiKey: $apiKey, apiSecret: $apiSecret, email: $email, password: $password, roleProfileName: $roleProfileName, gender: $gender, bithDate: $bithDate, phone: $phone, location: $location, bio: $bio, mobileNo: $mobileNo, role: $role)';
   }
 
   @override
@@ -407,7 +425,8 @@ class _$LoggedInUserImpl extends _LoggedInUser {
                 other.location == location) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.mobileNo, mobileNo) ||
-                other.mobileNo == mobileNo));
+                other.mobileNo == mobileNo) &&
+            (identical(other.role, role) || other.role == role));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -429,6 +448,7 @@ class _$LoggedInUserImpl extends _LoggedInUser {
     location,
     bio,
     mobileNo,
+    role,
   );
 
   /// Create a copy of LoggedInUser
@@ -466,6 +486,7 @@ abstract class _LoggedInUser extends LoggedInUser {
     final String? location,
     final String? bio,
     @JsonKey(name: 'mobile_no') final String? mobileNo,
+    @JsonKey(name: 'role') final int? role,
   }) = _$LoggedInUserImpl;
   const _LoggedInUser._() : super._();
 
@@ -512,6 +533,9 @@ abstract class _LoggedInUser extends LoggedInUser {
   @override
   @JsonKey(name: 'mobile_no')
   String? get mobileNo;
+  @override
+  @JsonKey(name: 'role')
+  int? get role;
 
   /// Create a copy of LoggedInUser
   /// with the given fields replaced by the non-null parameter values.

@@ -8,7 +8,8 @@ class Urls {
 
   //   factory Urls.steel_soulUAT() => const Urls('https://steel_soullive.easycloud.co.in/api');
 
-  factory Urls.live() => const Urls('https://steel_soullive.easycloud.co.in/api');
+  factory Urls.live() =>
+      const Urls('https://steel_soullive.easycloud.co.in/api');
   // factory Urls.steel_soulLive() =>
   //     const Urls('https://steel_soullive.easycloud.co.in/api');
 
@@ -30,24 +31,24 @@ class Urls {
     return 'Debug info logged';
   }
 
-
   static final appUpdate = '$cusWs/steelsoul.api.app_version.get_app_version';
+
   static final getUsers = '$cusWs/steelsoul.auth.user_login.custom_login';
 
 
   static final projectList = '$cusWs/steelsoul.api.api.get_project_list';
- static final getUnits = '$cusWs/steelsoul.api.api.get_unit_list';
+
+  static final getUnits = '$cusWs/steelsoul.api.api.get_unit_list';
+
   static final scannerCubit = '$cusWs/easy_reader.text_scanner.upload_image';
-   static final getPanleList='$cusWs/steelsoul.api.api.get_panel_list';
-      static final getPanel='$cusWs/steelsoul.api.api.update_panel_status';
 
+  static final getPanleList = '$cusWs/steelsoul.api.api.get_panel_list';
+  
+  static final getPanel = '$cusWs/steelsoul.api.api.update_panel_status';
 
-
-
-
+  static final updateSheetCount = '$cusWs/steelsoul.api.api.update_sheet_count';
 
   static String filepath(String path) {
     return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';
   }
-
 }

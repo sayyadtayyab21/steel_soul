@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:steel_soul/core/core.dart';
+import 'package:steel_soul/core/model/quad.dart';
 
 import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
 
@@ -8,6 +9,7 @@ import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart
 import 'package:steel_soul/features/laser_cutting/model/laser_item_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/panel_status_model.dart';
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
+import 'package:steel_soul/features/laser_cutting/model/update_sheet_model.dart';
 
 typedef LaserCuttingCubit = NetworkRequestCubit<List<LaserCuttingList>,None>;
 typedef LaserCuttingCubitState = NetworkRequestState<List<LaserCuttingList>>;
@@ -28,6 +30,11 @@ typedef LaserCuttingScanCubitState = NetworkRequestState<List<SacnnerDetailsMode
 // Corrected typedefs
 typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Triple<String, String?,String?>>;
 typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
+
+
+typedef LaserCuttiingUpdateSheetCubit = NetworkRequestCubit<UpdateSheetModel, Quad<String, int,int,int>>;
+typedef LaserCuttiingUpdateSheetCubitState = NetworkRequestState<UpdateSheetModel>;
+
 
 
 
@@ -62,6 +69,13 @@ class LaserCuttingBlocProvider{
      LaserCuttingPanelCubit fetchLaserPanelStatus() => LaserCuttingPanelCubit(
     onRequest: (params, state) => repository.fetchLaserCuttingPanelDetails(params!.first, params.second,params.third),
     );
+
+
+
+     LaserCuttiingUpdateSheetCubit fetchLaserUpdateSheetStatus() => LaserCuttiingUpdateSheetCubit(
+    onRequest: (params, state) => repository.updateSheetCount(params!.first, params.second,params.third,params.fourth),
+    );
+
 
     
 }

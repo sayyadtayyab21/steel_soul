@@ -20,6 +20,8 @@ class AppHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userPermission = $sl.get<LoggedInUser>();
+    print('User Permissions: $userPermission');
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -52,7 +54,7 @@ class AppHomePage extends StatelessWidget {
                   const SizedBox(height: 30),
 
                   // Feature Cards Grid
-                  _buildFeatureGrid(context),
+                  _buildFeatureGrid(context, userPermission),
                 ],
               ),
             ),
@@ -125,7 +127,7 @@ class AppHomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureGrid(BuildContext context) {
+  Widget _buildFeatureGrid(BuildContext context, LoggedInUser userPermission) {
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -134,6 +136,7 @@ class AppHomePage extends StatelessWidget {
       mainAxisSpacing: 16,
       childAspectRatio: 1.0,
       children: [
+        if (userPermission.role == 1 || userPermission.role == 0)
         _buildFeatureCard(
           // onTap: () {
           //   Navigator.push(
@@ -161,7 +164,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/laserCutting.png',
           sectionCount: 1
         ),
-
+        if (userPermission.role == 2 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -189,7 +192,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/folding.png',
           sectionCount: 2,
         ),
-
+        if (userPermission.role == 3 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -218,7 +221,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/powdercoat.png',
           sectionCount: 3
         ),
-
+        if (userPermission.role == 4 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -248,7 +251,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/plasticfilm.png',
           sectionCount: 4,
         ),
-
+        if (userPermission.role == 5 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -276,6 +279,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/puf.png',
           sectionCount: 5,
         ),
+        if (userPermission.role == 6 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -303,6 +307,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/riveting.png',
           sectionCount: 6,
         ),
+        if (userPermission.role == 7 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -343,6 +348,7 @@ class AppHomePage extends StatelessWidget {
     String? imagePath,
     int? sectionCount,
   }) {
+    
     return Material(
       color: Colors.transparent,
       child: InkWell(
