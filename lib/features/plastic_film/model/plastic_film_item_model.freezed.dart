@@ -12,8 +12,7 @@ part of 'plastic_film_item_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 PlasticFilmItemModel _$PlasticFilmItemModelFromJson(Map<String, dynamic> json) {
   return _PlasticFilmItemModel.fromJson(json);
@@ -46,26 +45,22 @@ mixin _$PlasticFilmItemModel {
 
 /// @nodoc
 abstract class $PlasticFilmItemModelCopyWith<$Res> {
-  factory $PlasticFilmItemModelCopyWith(
-    PlasticFilmItemModel value,
-    $Res Function(PlasticFilmItemModel) then,
-  ) = _$PlasticFilmItemModelCopyWithImpl<$Res, PlasticFilmItemModel>;
+  factory $PlasticFilmItemModelCopyWith(PlasticFilmItemModel value,
+          $Res Function(PlasticFilmItemModel) then) =
+      _$PlasticFilmItemModelCopyWithImpl<$Res, PlasticFilmItemModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'plastic_film_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'plastic_film_status') String? status});
 }
 
 /// @nodoc
-class _$PlasticFilmItemModelCopyWithImpl<
-  $Res,
-  $Val extends PlasticFilmItemModel
->
+class _$PlasticFilmItemModelCopyWithImpl<$Res,
+        $Val extends PlasticFilmItemModel>
     implements $PlasticFilmItemModelCopyWith<$Res> {
   _$PlasticFilmItemModelCopyWithImpl(this._value, this._then);
 
@@ -86,65 +81,59 @@ class _$PlasticFilmItemModelCopyWithImpl<
     Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            unitName: freezed == unitName
-                ? _value.unitName
-                : unitName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            unitCode: freezed == unitCode
-                ? _value.unitCode
-                : unitCode // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            project: freezed == project
-                ? _value.project
-                : project // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            totalPanels: freezed == totalPanels
-                ? _value.totalPanels
-                : totalPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            scannedPanels: freezed == scannedPanels
-                ? _value.scannedPanels
-                : scannedPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$PlasticFilmItemModelImplCopyWith<$Res>
     implements $PlasticFilmItemModelCopyWith<$Res> {
-  factory _$$PlasticFilmItemModelImplCopyWith(
-    _$PlasticFilmItemModelImpl value,
-    $Res Function(_$PlasticFilmItemModelImpl) then,
-  ) = __$$PlasticFilmItemModelImplCopyWithImpl<$Res>;
+  factory _$$PlasticFilmItemModelImplCopyWith(_$PlasticFilmItemModelImpl value,
+          $Res Function(_$PlasticFilmItemModelImpl) then) =
+      __$$PlasticFilmItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'plastic_film_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'plastic_film_status') String? status});
 }
 
 /// @nodoc
 class __$$PlasticFilmItemModelImplCopyWithImpl<$Res>
     extends _$PlasticFilmItemModelCopyWithImpl<$Res, _$PlasticFilmItemModelImpl>
     implements _$$PlasticFilmItemModelImplCopyWith<$Res> {
-  __$$PlasticFilmItemModelImplCopyWithImpl(
-    _$PlasticFilmItemModelImpl _value,
-    $Res Function(_$PlasticFilmItemModelImpl) _then,
-  ) : super(_value, _then);
+  __$$PlasticFilmItemModelImplCopyWithImpl(_$PlasticFilmItemModelImpl _value,
+      $Res Function(_$PlasticFilmItemModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of PlasticFilmItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -158,48 +147,46 @@ class __$$PlasticFilmItemModelImplCopyWithImpl<$Res>
     Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _$PlasticFilmItemModelImpl(
-        unitName: freezed == unitName
-            ? _value.unitName
-            : unitName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        unitCode: freezed == unitCode
-            ? _value.unitCode
-            : unitCode // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        project: freezed == project
-            ? _value.project
-            : project // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        totalPanels: freezed == totalPanels
-            ? _value.totalPanels
-            : totalPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        scannedPanels: freezed == scannedPanels
-            ? _value.scannedPanels
-            : scannedPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$PlasticFilmItemModelImpl(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$PlasticFilmItemModelImpl extends _PlasticFilmItemModel {
-  const _$PlasticFilmItemModelImpl({
-    @JsonKey(name: 'unit_name') this.unitName,
-    @JsonKey(name: 'unit_code') this.unitCode,
-    @JsonKey(name: 'project') this.project,
-    @JsonKey(name: 'total_panels') this.totalPanels,
-    @JsonKey(name: 'scanned_panels') this.scannedPanels,
-    @JsonKey(name: 'plastic_film_status') this.status,
-  }) : super._();
+  const _$PlasticFilmItemModelImpl(
+      {@JsonKey(name: 'unit_name') this.unitName,
+      @JsonKey(name: 'unit_code') this.unitCode,
+      @JsonKey(name: 'project') this.project,
+      @JsonKey(name: 'total_panels') this.totalPanels,
+      @JsonKey(name: 'scanned_panels') this.scannedPanels,
+      @JsonKey(name: 'plastic_film_status') this.status})
+      : super._();
 
   factory _$PlasticFilmItemModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlasticFilmItemModelImplFromJson(json);
@@ -247,15 +234,8 @@ class _$PlasticFilmItemModelImpl extends _PlasticFilmItemModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    unitName,
-    unitCode,
-    project,
-    totalPanels,
-    scannedPanels,
-    status,
-  );
+  int get hashCode => Object.hash(runtimeType, unitName, unitCode, project,
+      totalPanels, scannedPanels, status);
 
   /// Create a copy of PlasticFilmItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -263,27 +243,27 @@ class _$PlasticFilmItemModelImpl extends _PlasticFilmItemModel {
   @override
   @pragma('vm:prefer-inline')
   _$$PlasticFilmItemModelImplCopyWith<_$PlasticFilmItemModelImpl>
-  get copyWith =>
-      __$$PlasticFilmItemModelImplCopyWithImpl<_$PlasticFilmItemModelImpl>(
-        this,
-        _$identity,
-      );
+      get copyWith =>
+          __$$PlasticFilmItemModelImplCopyWithImpl<_$PlasticFilmItemModelImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PlasticFilmItemModelImplToJson(this);
+    return _$$PlasticFilmItemModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _PlasticFilmItemModel extends PlasticFilmItemModel {
-  const factory _PlasticFilmItemModel({
-    @JsonKey(name: 'unit_name') final String? unitName,
-    @JsonKey(name: 'unit_code') final String? unitCode,
-    @JsonKey(name: 'project') final String? project,
-    @JsonKey(name: 'total_panels') final int? totalPanels,
-    @JsonKey(name: 'scanned_panels') final int? scannedPanels,
-    @JsonKey(name: 'plastic_film_status') final String? status,
-  }) = _$PlasticFilmItemModelImpl;
+  const factory _PlasticFilmItemModel(
+          {@JsonKey(name: 'unit_name') final String? unitName,
+          @JsonKey(name: 'unit_code') final String? unitCode,
+          @JsonKey(name: 'project') final String? project,
+          @JsonKey(name: 'total_panels') final int? totalPanels,
+          @JsonKey(name: 'scanned_panels') final int? scannedPanels,
+          @JsonKey(name: 'plastic_film_status') final String? status}) =
+      _$PlasticFilmItemModelImpl;
   const _PlasticFilmItemModel._() : super._();
 
   factory _PlasticFilmItemModel.fromJson(Map<String, dynamic> json) =
@@ -313,5 +293,5 @@ abstract class _PlasticFilmItemModel extends PlasticFilmItemModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PlasticFilmItemModelImplCopyWith<_$PlasticFilmItemModelImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }

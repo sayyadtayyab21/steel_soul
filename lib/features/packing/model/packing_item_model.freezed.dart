@@ -12,8 +12,7 @@ part of 'packing_item_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 PackingItemModel _$PackingItemModelFromJson(Map<String, dynamic> json) {
   return _PackingItemModel.fromJson(json);
@@ -47,18 +46,16 @@ mixin _$PackingItemModel {
 /// @nodoc
 abstract class $PackingItemModelCopyWith<$Res> {
   factory $PackingItemModelCopyWith(
-    PackingItemModel value,
-    $Res Function(PackingItemModel) then,
-  ) = _$PackingItemModelCopyWithImpl<$Res, PackingItemModel>;
+          PackingItemModel value, $Res Function(PackingItemModel) then) =
+      _$PackingItemModelCopyWithImpl<$Res, PackingItemModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'packing_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'packing_status') String? status});
 }
 
 /// @nodoc
@@ -83,65 +80,59 @@ class _$PackingItemModelCopyWithImpl<$Res, $Val extends PackingItemModel>
     Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            unitName: freezed == unitName
-                ? _value.unitName
-                : unitName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            unitCode: freezed == unitCode
-                ? _value.unitCode
-                : unitCode // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            project: freezed == project
-                ? _value.project
-                : project // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            totalPanels: freezed == totalPanels
-                ? _value.totalPanels
-                : totalPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            scannedPanels: freezed == scannedPanels
-                ? _value.scannedPanels
-                : scannedPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$PackingItemModelImplCopyWith<$Res>
     implements $PackingItemModelCopyWith<$Res> {
-  factory _$$PackingItemModelImplCopyWith(
-    _$PackingItemModelImpl value,
-    $Res Function(_$PackingItemModelImpl) then,
-  ) = __$$PackingItemModelImplCopyWithImpl<$Res>;
+  factory _$$PackingItemModelImplCopyWith(_$PackingItemModelImpl value,
+          $Res Function(_$PackingItemModelImpl) then) =
+      __$$PackingItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'packing_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'packing_status') String? status});
 }
 
 /// @nodoc
 class __$$PackingItemModelImplCopyWithImpl<$Res>
     extends _$PackingItemModelCopyWithImpl<$Res, _$PackingItemModelImpl>
     implements _$$PackingItemModelImplCopyWith<$Res> {
-  __$$PackingItemModelImplCopyWithImpl(
-    _$PackingItemModelImpl _value,
-    $Res Function(_$PackingItemModelImpl) _then,
-  ) : super(_value, _then);
+  __$$PackingItemModelImplCopyWithImpl(_$PackingItemModelImpl _value,
+      $Res Function(_$PackingItemModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of PackingItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -155,48 +146,46 @@ class __$$PackingItemModelImplCopyWithImpl<$Res>
     Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _$PackingItemModelImpl(
-        unitName: freezed == unitName
-            ? _value.unitName
-            : unitName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        unitCode: freezed == unitCode
-            ? _value.unitCode
-            : unitCode // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        project: freezed == project
-            ? _value.project
-            : project // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        totalPanels: freezed == totalPanels
-            ? _value.totalPanels
-            : totalPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        scannedPanels: freezed == scannedPanels
-            ? _value.scannedPanels
-            : scannedPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$PackingItemModelImpl(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$PackingItemModelImpl extends _PackingItemModel {
-  const _$PackingItemModelImpl({
-    @JsonKey(name: 'unit_name') this.unitName,
-    @JsonKey(name: 'unit_code') this.unitCode,
-    @JsonKey(name: 'project') this.project,
-    @JsonKey(name: 'total_panels') this.totalPanels,
-    @JsonKey(name: 'scanned_panels') this.scannedPanels,
-    @JsonKey(name: 'packing_status') this.status,
-  }) : super._();
+  const _$PackingItemModelImpl(
+      {@JsonKey(name: 'unit_name') this.unitName,
+      @JsonKey(name: 'unit_code') this.unitCode,
+      @JsonKey(name: 'project') this.project,
+      @JsonKey(name: 'total_panels') this.totalPanels,
+      @JsonKey(name: 'scanned_panels') this.scannedPanels,
+      @JsonKey(name: 'packing_status') this.status})
+      : super._();
 
   factory _$PackingItemModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PackingItemModelImplFromJson(json);
@@ -244,15 +233,8 @@ class _$PackingItemModelImpl extends _PackingItemModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    unitName,
-    unitCode,
-    project,
-    totalPanels,
-    scannedPanels,
-    status,
-  );
+  int get hashCode => Object.hash(runtimeType, unitName, unitCode, project,
+      totalPanels, scannedPanels, status);
 
   /// Create a copy of PackingItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -261,25 +243,25 @@ class _$PackingItemModelImpl extends _PackingItemModel {
   @pragma('vm:prefer-inline')
   _$$PackingItemModelImplCopyWith<_$PackingItemModelImpl> get copyWith =>
       __$$PackingItemModelImplCopyWithImpl<_$PackingItemModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PackingItemModelImplToJson(this);
+    return _$$PackingItemModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _PackingItemModel extends PackingItemModel {
-  const factory _PackingItemModel({
-    @JsonKey(name: 'unit_name') final String? unitName,
-    @JsonKey(name: 'unit_code') final String? unitCode,
-    @JsonKey(name: 'project') final String? project,
-    @JsonKey(name: 'total_panels') final int? totalPanels,
-    @JsonKey(name: 'scanned_panels') final int? scannedPanels,
-    @JsonKey(name: 'packing_status') final String? status,
-  }) = _$PackingItemModelImpl;
+  const factory _PackingItemModel(
+          {@JsonKey(name: 'unit_name') final String? unitName,
+          @JsonKey(name: 'unit_code') final String? unitCode,
+          @JsonKey(name: 'project') final String? project,
+          @JsonKey(name: 'total_panels') final int? totalPanels,
+          @JsonKey(name: 'scanned_panels') final int? scannedPanels,
+          @JsonKey(name: 'packing_status') final String? status}) =
+      _$PackingItemModelImpl;
   const _PackingItemModel._() : super._();
 
   factory _PackingItemModel.fromJson(Map<String, dynamic> json) =

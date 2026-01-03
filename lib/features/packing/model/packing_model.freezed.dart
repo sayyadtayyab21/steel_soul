@@ -12,8 +12,7 @@ part of 'packing_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 PackingModel _$PackingModelFromJson(Map<String, dynamic> json) {
   return _PackingModel.fromJson(json);
@@ -49,19 +48,17 @@ mixin _$PackingModel {
 /// @nodoc
 abstract class $PackingModelCopyWith<$Res> {
   factory $PackingModelCopyWith(
-    PackingModel value,
-    $Res Function(PackingModel) then,
-  ) = _$PackingModelCopyWithImpl<$Res, PackingModel>;
+          PackingModel value, $Res Function(PackingModel) then) =
+      _$PackingModelCopyWithImpl<$Res, PackingModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'customer_name') String? customerName,
-    @JsonKey(name: 'project_id') String? projectId,
-    @JsonKey(name: 'date') String? date,
-    @JsonKey(name: 'time') String? time,
-    @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
-    @JsonKey(name: 'packing_status') String? laserCuttingStatus,
-  });
+  $Res call(
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'customer_name') String? customerName,
+      @JsonKey(name: 'project_id') String? projectId,
+      @JsonKey(name: 'date') String? date,
+      @JsonKey(name: 'time') String? time,
+      @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
+      @JsonKey(name: 'packing_status') String? laserCuttingStatus});
 }
 
 /// @nodoc
@@ -87,39 +84,36 @@ class _$PackingModelCopyWithImpl<$Res, $Val extends PackingModel>
     Object? customerPhoneNumber = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            customerName: freezed == customerName
-                ? _value.customerName
-                : customerName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            projectId: freezed == projectId
-                ? _value.projectId
-                : projectId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            date: freezed == date
-                ? _value.date
-                : date // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            time: freezed == time
-                ? _value.time
-                : time // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            customerPhoneNumber: freezed == customerPhoneNumber
-                ? _value.customerPhoneNumber
-                : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            laserCuttingStatus: freezed == laserCuttingStatus
-                ? _value.laserCuttingStatus
-                : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerName: freezed == customerName
+          ? _value.customerName
+          : customerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectId: freezed == projectId
+          ? _value.projectId
+          : projectId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerPhoneNumber: freezed == customerPhoneNumber
+          ? _value.customerPhoneNumber
+          : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      laserCuttingStatus: freezed == laserCuttingStatus
+          ? _value.laserCuttingStatus
+          : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
@@ -127,20 +121,18 @@ class _$PackingModelCopyWithImpl<$Res, $Val extends PackingModel>
 abstract class _$$PackingModelImplCopyWith<$Res>
     implements $PackingModelCopyWith<$Res> {
   factory _$$PackingModelImplCopyWith(
-    _$PackingModelImpl value,
-    $Res Function(_$PackingModelImpl) then,
-  ) = __$$PackingModelImplCopyWithImpl<$Res>;
+          _$PackingModelImpl value, $Res Function(_$PackingModelImpl) then) =
+      __$$PackingModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'customer_name') String? customerName,
-    @JsonKey(name: 'project_id') String? projectId,
-    @JsonKey(name: 'date') String? date,
-    @JsonKey(name: 'time') String? time,
-    @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
-    @JsonKey(name: 'packing_status') String? laserCuttingStatus,
-  });
+  $Res call(
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'customer_name') String? customerName,
+      @JsonKey(name: 'project_id') String? projectId,
+      @JsonKey(name: 'date') String? date,
+      @JsonKey(name: 'time') String? time,
+      @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
+      @JsonKey(name: 'packing_status') String? laserCuttingStatus});
 }
 
 /// @nodoc
@@ -148,9 +140,8 @@ class __$$PackingModelImplCopyWithImpl<$Res>
     extends _$PackingModelCopyWithImpl<$Res, _$PackingModelImpl>
     implements _$$PackingModelImplCopyWith<$Res> {
   __$$PackingModelImplCopyWithImpl(
-    _$PackingModelImpl _value,
-    $Res Function(_$PackingModelImpl) _then,
-  ) : super(_value, _then);
+      _$PackingModelImpl _value, $Res Function(_$PackingModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of PackingModel
   /// with the given fields replaced by the non-null parameter values.
@@ -165,53 +156,51 @@ class __$$PackingModelImplCopyWithImpl<$Res>
     Object? customerPhoneNumber = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
-    return _then(
-      _$PackingModelImpl(
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        customerName: freezed == customerName
-            ? _value.customerName
-            : customerName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        projectId: freezed == projectId
-            ? _value.projectId
-            : projectId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        date: freezed == date
-            ? _value.date
-            : date // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        time: freezed == time
-            ? _value.time
-            : time // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        customerPhoneNumber: freezed == customerPhoneNumber
-            ? _value.customerPhoneNumber
-            : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        laserCuttingStatus: freezed == laserCuttingStatus
-            ? _value.laserCuttingStatus
-            : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$PackingModelImpl(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerName: freezed == customerName
+          ? _value.customerName
+          : customerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectId: freezed == projectId
+          ? _value.projectId
+          : projectId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerPhoneNumber: freezed == customerPhoneNumber
+          ? _value.customerPhoneNumber
+          : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      laserCuttingStatus: freezed == laserCuttingStatus
+          ? _value.laserCuttingStatus
+          : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$PackingModelImpl extends _PackingModel {
-  const _$PackingModelImpl({
-    @JsonKey(name: 'name') this.name,
-    @JsonKey(name: 'customer_name') this.customerName,
-    @JsonKey(name: 'project_id') this.projectId,
-    @JsonKey(name: 'date') this.date,
-    @JsonKey(name: 'time') this.time,
-    @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
-    @JsonKey(name: 'packing_status') this.laserCuttingStatus,
-  }) : super._();
+  const _$PackingModelImpl(
+      {@JsonKey(name: 'name') this.name,
+      @JsonKey(name: 'customer_name') this.customerName,
+      @JsonKey(name: 'project_id') this.projectId,
+      @JsonKey(name: 'date') this.date,
+      @JsonKey(name: 'time') this.time,
+      @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
+      @JsonKey(name: 'packing_status') this.laserCuttingStatus})
+      : super._();
 
   factory _$PackingModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PackingModelImplFromJson(json);
@@ -263,16 +252,8 @@ class _$PackingModelImpl extends _PackingModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    name,
-    customerName,
-    projectId,
-    date,
-    time,
-    customerPhoneNumber,
-    laserCuttingStatus,
-  );
+  int get hashCode => Object.hash(runtimeType, name, customerName, projectId,
+      date, time, customerPhoneNumber, laserCuttingStatus);
 
   /// Create a copy of PackingModel
   /// with the given fields replaced by the non-null parameter values.
@@ -284,20 +265,22 @@ class _$PackingModelImpl extends _PackingModel {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PackingModelImplToJson(this);
+    return _$$PackingModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _PackingModel extends PackingModel {
-  const factory _PackingModel({
-    @JsonKey(name: 'name') final String? name,
-    @JsonKey(name: 'customer_name') final String? customerName,
-    @JsonKey(name: 'project_id') final String? projectId,
-    @JsonKey(name: 'date') final String? date,
-    @JsonKey(name: 'time') final String? time,
-    @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
-    @JsonKey(name: 'packing_status') final String? laserCuttingStatus,
-  }) = _$PackingModelImpl;
+  const factory _PackingModel(
+      {@JsonKey(name: 'name') final String? name,
+      @JsonKey(name: 'customer_name') final String? customerName,
+      @JsonKey(name: 'project_id') final String? projectId,
+      @JsonKey(name: 'date') final String? date,
+      @JsonKey(name: 'time') final String? time,
+      @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
+      @JsonKey(name: 'packing_status')
+      final String? laserCuttingStatus}) = _$PackingModelImpl;
   const _PackingModel._() : super._();
 
   factory _PackingModel.fromJson(Map<String, dynamic> json) =

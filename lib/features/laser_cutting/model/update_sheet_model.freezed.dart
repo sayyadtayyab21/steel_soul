@@ -12,8 +12,7 @@ part of 'update_sheet_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 UpdateSheetModel _$UpdateSheetModelFromJson(Map<String, dynamic> json) {
   return _UpdateSheetModel.fromJson(json);
@@ -39,14 +38,12 @@ mixin _$UpdateSheetModel {
 /// @nodoc
 abstract class $UpdateSheetModelCopyWith<$Res> {
   factory $UpdateSheetModelCopyWith(
-    UpdateSheetModel value,
-    $Res Function(UpdateSheetModel) then,
-  ) = _$UpdateSheetModelCopyWithImpl<$Res, UpdateSheetModel>;
+          UpdateSheetModel value, $Res Function(UpdateSheetModel) then) =
+      _$UpdateSheetModelCopyWithImpl<$Res, UpdateSheetModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'status') String? status,
-    @JsonKey(name: 'message') String? message,
-  });
+  $Res call(
+      {@JsonKey(name: 'status') String? status,
+      @JsonKey(name: 'message') String? message});
 }
 
 /// @nodoc
@@ -63,74 +60,72 @@ class _$UpdateSheetModelCopyWithImpl<$Res, $Val extends UpdateSheetModel>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? status = freezed, Object? message = freezed}) {
-    return _then(
-      _value.copyWith(
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            message: freezed == message
-                ? _value.message
-                : message // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? status = freezed,
+    Object? message = freezed,
+  }) {
+    return _then(_value.copyWith(
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$UpdateSheetModelImplCopyWith<$Res>
     implements $UpdateSheetModelCopyWith<$Res> {
-  factory _$$UpdateSheetModelImplCopyWith(
-    _$UpdateSheetModelImpl value,
-    $Res Function(_$UpdateSheetModelImpl) then,
-  ) = __$$UpdateSheetModelImplCopyWithImpl<$Res>;
+  factory _$$UpdateSheetModelImplCopyWith(_$UpdateSheetModelImpl value,
+          $Res Function(_$UpdateSheetModelImpl) then) =
+      __$$UpdateSheetModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'status') String? status,
-    @JsonKey(name: 'message') String? message,
-  });
+  $Res call(
+      {@JsonKey(name: 'status') String? status,
+      @JsonKey(name: 'message') String? message});
 }
 
 /// @nodoc
 class __$$UpdateSheetModelImplCopyWithImpl<$Res>
     extends _$UpdateSheetModelCopyWithImpl<$Res, _$UpdateSheetModelImpl>
     implements _$$UpdateSheetModelImplCopyWith<$Res> {
-  __$$UpdateSheetModelImplCopyWithImpl(
-    _$UpdateSheetModelImpl _value,
-    $Res Function(_$UpdateSheetModelImpl) _then,
-  ) : super(_value, _then);
+  __$$UpdateSheetModelImplCopyWithImpl(_$UpdateSheetModelImpl _value,
+      $Res Function(_$UpdateSheetModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of UpdateSheetModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? status = freezed, Object? message = freezed}) {
-    return _then(
-      _$UpdateSheetModelImpl(
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        message: freezed == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+  $Res call({
+    Object? status = freezed,
+    Object? message = freezed,
+  }) {
+    return _then(_$UpdateSheetModelImpl(
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$UpdateSheetModelImpl extends _UpdateSheetModel {
-  const _$UpdateSheetModelImpl({
-    @JsonKey(name: 'status') this.status,
-    @JsonKey(name: 'message') this.message,
-  }) : super._();
+  const _$UpdateSheetModelImpl(
+      {@JsonKey(name: 'status') this.status,
+      @JsonKey(name: 'message') this.message})
+      : super._();
 
   factory _$UpdateSheetModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UpdateSheetModelImplFromJson(json);
@@ -167,21 +162,21 @@ class _$UpdateSheetModelImpl extends _UpdateSheetModel {
   @pragma('vm:prefer-inline')
   _$$UpdateSheetModelImplCopyWith<_$UpdateSheetModelImpl> get copyWith =>
       __$$UpdateSheetModelImplCopyWithImpl<_$UpdateSheetModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UpdateSheetModelImplToJson(this);
+    return _$$UpdateSheetModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _UpdateSheetModel extends UpdateSheetModel {
-  const factory _UpdateSheetModel({
-    @JsonKey(name: 'status') final String? status,
-    @JsonKey(name: 'message') final String? message,
-  }) = _$UpdateSheetModelImpl;
+  const factory _UpdateSheetModel(
+          {@JsonKey(name: 'status') final String? status,
+          @JsonKey(name: 'message') final String? message}) =
+      _$UpdateSheetModelImpl;
   const _UpdateSheetModel._() : super._();
 
   factory _UpdateSheetModel.fromJson(Map<String, dynamic> json) =

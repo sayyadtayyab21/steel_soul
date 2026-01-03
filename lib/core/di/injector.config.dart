@@ -69,19 +69,22 @@ import '../network/internet_check.dart' as _i402;
 import 'injector.dart' as _i811;
 
 extension GetItInjectableX on _i174.GetIt {
-  // initializes the registration of main-scope dependencies inside of GetIt
+// initializes the registration of main-scope dependencies inside of GetIt
   Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
   }) async {
-    final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final gh = _i526.GetItHelper(
+      this,
+      environment,
+      environmentFilter,
+    );
     final thirdPartyDependencies = _$ThirdPartyDependencies();
     gh.factory<DateTime>(() => thirdPartyDependencies.defaultDateTime);
     gh.singleton<_i519.Client>(() => thirdPartyDependencies.httpClient);
     gh.singleton<_i895.Connectivity>(() => thirdPartyDependencies.connectivity);
     gh.singleton<_i558.FlutterSecureStorage>(
-      () => thirdPartyDependencies.secureStorage,
-    );
+        () => thirdPartyDependencies.secureStorage);
     await gh.singletonAsync<_i655.PackageInfo>(
       () => thirdPartyDependencies.packageInfo,
       preResolve: true,
@@ -91,100 +94,71 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i402.InternetConnectionChecker>(
-      () => _i402.InternetConnectionChecker(gh<_i895.Connectivity>()),
-    );
-    gh.factory<_i1012.KeyValueStorage>(
-      () => _i1012.KeyValueStorage(
-        gh<_i558.FlutterSecureStorage>(),
-        gh<_i460.SharedPreferences>(),
-      ),
-    );
+        () => _i402.InternetConnectionChecker(gh<_i895.Connectivity>()));
+    gh.factory<_i1012.KeyValueStorage>(() => _i1012.KeyValueStorage(
+          gh<_i558.FlutterSecureStorage>(),
+          gh<_i460.SharedPreferences>(),
+        ));
     gh.lazySingleton<_i346.AppVersion>(
-      () => _i346.AppVersion(gh<_i655.PackageInfo>()),
-    );
-    gh.factory<_i557.ApiClient>(
-      () => _i557.ApiClient(
-        gh<_i519.Client>(),
-        gh<_i402.InternetConnectionChecker>(),
-      ),
-    );
+        () => _i346.AppVersion(gh<_i655.PackageInfo>()));
+    gh.factory<_i557.ApiClient>(() => _i557.ApiClient(
+          gh<_i519.Client>(),
+          gh<_i402.InternetConnectionChecker>(),
+        ));
     gh.lazySingleton<_i742.PlasticFilmRepo>(
-      () => _i889.PlasticFilmRepoImp(gh<_i351.ApiClient>()),
-    );
-    gh.lazySingleton<_i585.AuthRepo>(
-      () => _i328.AuthRepoImpl(
-        gh<_i351.ApiClient>(),
-        gh<_i351.KeyValueStorage>(),
-      ),
-    );
+        () => _i889.PlasticFilmRepoImp(gh<_i351.ApiClient>()));
+    gh.lazySingleton<_i585.AuthRepo>(() => _i328.AuthRepoImpl(
+          gh<_i351.ApiClient>(),
+          gh<_i351.KeyValueStorage>(),
+        ));
     gh.lazySingleton<_i292.PackingRepo>(
-      () => _i729.PackingRepoImp(gh<_i351.ApiClient>()),
-    );
+        () => _i729.PackingRepoImp(gh<_i351.ApiClient>()));
     gh.lazySingleton<_i638.PufRepo>(
-      () => _i604.PufRepoImp(gh<_i351.ApiClient>()),
-    );
+        () => _i604.PufRepoImp(gh<_i351.ApiClient>()));
     gh.lazySingleton<_i626.PowderCoatingRepo>(
-      () => _i1070.PowderCoatingRepoImp(gh<_i351.ApiClient>()),
-    );
+        () => _i1070.PowderCoatingRepoImp(gh<_i351.ApiClient>()));
     gh.lazySingleton<_i326.PlasticFilmBlocProvider>(
-      () => _i326.PlasticFilmBlocProvider(gh<_i742.PlasticFilmRepo>()),
-    );
+        () => _i326.PlasticFilmBlocProvider(gh<_i742.PlasticFilmRepo>()));
     gh.factory<_i40.ScannerCubit>(() => _i40.ScannerCubit(gh<_i638.PufRepo>()));
     gh.lazySingleton<_i137.LaserCuttingRepo>(
-      () => _i147.LaserCuttingRepoImp(gh<_i351.ApiClient>()),
-    );
-    gh.lazySingleton<_i691.AppRepository>(
-      () => _i691.AppRepository(gh<_i351.ApiClient>(), gh<_i346.AppVersion>()),
-    );
+        () => _i147.LaserCuttingRepoImp(gh<_i351.ApiClient>()));
+    gh.lazySingleton<_i691.AppRepository>(() => _i691.AppRepository(
+          gh<_i351.ApiClient>(),
+          gh<_i346.AppVersion>(),
+        ));
     gh.lazySingleton<_i603.RivetingRepo>(
-      () => _i158.RivetingRepoImp(gh<_i351.ApiClient>()),
-    );
+        () => _i158.RivetingRepoImp(gh<_i351.ApiClient>()));
     gh.lazySingleton<_i166.PufBlocProvider>(
-      () => _i166.PufBlocProvider(gh<_i638.PufRepo>()),
-    );
+        () => _i166.PufBlocProvider(gh<_i638.PufRepo>()));
     gh.lazySingleton<_i266.AppUpdateBlocprovider>(
-      () => _i266.AppUpdateBlocprovider(gh<_i691.AppRepository>()),
-    );
+        () => _i266.AppUpdateBlocprovider(gh<_i691.AppRepository>()));
     gh.lazySingleton<_i680.PackingBlocProvider>(
-      () => _i680.PackingBlocProvider(gh<_i292.PackingRepo>()),
-    );
+        () => _i680.PackingBlocProvider(gh<_i292.PackingRepo>()));
     gh.lazySingleton<_i372.FoldingRepo>(
-      () => _i972.FoldingRepoImp(gh<_i351.ApiClient>()),
-    );
+        () => _i972.FoldingRepoImp(gh<_i351.ApiClient>()));
     gh.factory<_i818.ScannerCubit>(
-      () => _i818.ScannerCubit(gh<_i626.PowderCoatingRepo>()),
-    );
+        () => _i818.ScannerCubit(gh<_i626.PowderCoatingRepo>()));
     gh.factory<_i467.ScannerCubit>(
-      () => _i467.ScannerCubit(gh<_i603.RivetingRepo>()),
-    );
+        () => _i467.ScannerCubit(gh<_i603.RivetingRepo>()));
     gh.factory<_i585.ScannerCubit>(
-      () => _i585.ScannerCubit(gh<_i742.PlasticFilmRepo>()),
-    );
+        () => _i585.ScannerCubit(gh<_i742.PlasticFilmRepo>()));
     gh.factory<_i140.SignInCubit>(
-      () => _i140.SignInCubit(gh<_i585.AuthRepo>()),
-    );
+        () => _i140.SignInCubit(gh<_i585.AuthRepo>()));
     gh.factory<_i190.AuthCubit>(() => _i190.AuthCubit(gh<_i585.AuthRepo>()));
     gh.factory<_i1073.ScannerCubit>(
-      () => _i1073.ScannerCubit(gh<_i292.PackingRepo>()),
-    );
+        () => _i1073.ScannerCubit(gh<_i292.PackingRepo>()));
     gh.lazySingleton<_i158.LaserCuttingBlocProvider>(
-      () => _i158.LaserCuttingBlocProvider(gh<_i137.LaserCuttingRepo>()),
-    );
+        () => _i158.LaserCuttingBlocProvider(gh<_i137.LaserCuttingRepo>()));
     gh.lazySingleton<_i1032.RivetingBlocProvider>(
-      () => _i1032.RivetingBlocProvider(gh<_i603.RivetingRepo>()),
-    );
+        () => _i1032.RivetingBlocProvider(gh<_i603.RivetingRepo>()));
     gh.lazySingleton<_i66.PowderCoatingBlocProvider>(
-      () => _i66.PowderCoatingBlocProvider(gh<_i626.PowderCoatingRepo>()),
-    );
+        () => _i66.PowderCoatingBlocProvider(gh<_i626.PowderCoatingRepo>()));
     gh.factory<_i955.ScannerCubit>(
-      () => _i955.ScannerCubit(gh<_i137.LaserCuttingRepo>()),
-    );
+        () => _i955.ScannerCubit(gh<_i137.LaserCuttingRepo>()));
     gh.factory<_i482.ScannerCubit>(
-      () => _i482.ScannerCubit(gh<_i372.FoldingRepo>()),
-    );
+        () => _i482.ScannerCubit(gh<_i372.FoldingRepo>()));
     gh.lazySingleton<_i39.FoldingBlocProvider>(
-      () => _i39.FoldingBlocProvider(gh<_i372.FoldingRepo>()),
-    );
+        () => _i39.FoldingBlocProvider(gh<_i372.FoldingRepo>()));
     return this;
   }
 }

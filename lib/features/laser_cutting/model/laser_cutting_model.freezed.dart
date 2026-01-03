@@ -12,8 +12,7 @@ part of 'laser_cutting_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 LaserCuttingList _$LaserCuttingListFromJson(Map<String, dynamic> json) {
   return _LaserCuttingList.fromJson(json);
@@ -55,22 +54,20 @@ mixin _$LaserCuttingList {
 /// @nodoc
 abstract class $LaserCuttingListCopyWith<$Res> {
   factory $LaserCuttingListCopyWith(
-    LaserCuttingList value,
-    $Res Function(LaserCuttingList) then,
-  ) = _$LaserCuttingListCopyWithImpl<$Res, LaserCuttingList>;
+          LaserCuttingList value, $Res Function(LaserCuttingList) then) =
+      _$LaserCuttingListCopyWithImpl<$Res, LaserCuttingList>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'customer_name') String? customerName,
-    @JsonKey(name: 'project_id') String? projectId,
-    @JsonKey(name: 'date') String? date,
-    @JsonKey(name: 'time') String? time,
-    @JsonKey(name: 'full_sheet') int? fullSheetCount,
-    @JsonKey(name: 'half_sheet') int? halfSheetCount,
-    @JsonKey(name: 'quarter_sheet') int? quarterSheetCount,
-    @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
-    @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
-  });
+  $Res call(
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'customer_name') String? customerName,
+      @JsonKey(name: 'project_id') String? projectId,
+      @JsonKey(name: 'date') String? date,
+      @JsonKey(name: 'time') String? time,
+      @JsonKey(name: 'full_sheet') int? fullSheetCount,
+      @JsonKey(name: 'half_sheet') int? halfSheetCount,
+      @JsonKey(name: 'quarter_sheet') int? quarterSheetCount,
+      @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
+      @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus});
 }
 
 /// @nodoc
@@ -99,85 +96,79 @@ class _$LaserCuttingListCopyWithImpl<$Res, $Val extends LaserCuttingList>
     Object? customerPhoneNumber = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            customerName: freezed == customerName
-                ? _value.customerName
-                : customerName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            projectId: freezed == projectId
-                ? _value.projectId
-                : projectId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            date: freezed == date
-                ? _value.date
-                : date // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            time: freezed == time
-                ? _value.time
-                : time // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            fullSheetCount: freezed == fullSheetCount
-                ? _value.fullSheetCount
-                : fullSheetCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            halfSheetCount: freezed == halfSheetCount
-                ? _value.halfSheetCount
-                : halfSheetCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            quarterSheetCount: freezed == quarterSheetCount
-                ? _value.quarterSheetCount
-                : quarterSheetCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            customerPhoneNumber: freezed == customerPhoneNumber
-                ? _value.customerPhoneNumber
-                : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            laserCuttingStatus: freezed == laserCuttingStatus
-                ? _value.laserCuttingStatus
-                : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerName: freezed == customerName
+          ? _value.customerName
+          : customerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectId: freezed == projectId
+          ? _value.projectId
+          : projectId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fullSheetCount: freezed == fullSheetCount
+          ? _value.fullSheetCount
+          : fullSheetCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      halfSheetCount: freezed == halfSheetCount
+          ? _value.halfSheetCount
+          : halfSheetCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      quarterSheetCount: freezed == quarterSheetCount
+          ? _value.quarterSheetCount
+          : quarterSheetCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      customerPhoneNumber: freezed == customerPhoneNumber
+          ? _value.customerPhoneNumber
+          : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      laserCuttingStatus: freezed == laserCuttingStatus
+          ? _value.laserCuttingStatus
+          : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$LaserCuttingListImplCopyWith<$Res>
     implements $LaserCuttingListCopyWith<$Res> {
-  factory _$$LaserCuttingListImplCopyWith(
-    _$LaserCuttingListImpl value,
-    $Res Function(_$LaserCuttingListImpl) then,
-  ) = __$$LaserCuttingListImplCopyWithImpl<$Res>;
+  factory _$$LaserCuttingListImplCopyWith(_$LaserCuttingListImpl value,
+          $Res Function(_$LaserCuttingListImpl) then) =
+      __$$LaserCuttingListImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'customer_name') String? customerName,
-    @JsonKey(name: 'project_id') String? projectId,
-    @JsonKey(name: 'date') String? date,
-    @JsonKey(name: 'time') String? time,
-    @JsonKey(name: 'full_sheet') int? fullSheetCount,
-    @JsonKey(name: 'half_sheet') int? halfSheetCount,
-    @JsonKey(name: 'quarter_sheet') int? quarterSheetCount,
-    @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
-    @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
-  });
+  $Res call(
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'customer_name') String? customerName,
+      @JsonKey(name: 'project_id') String? projectId,
+      @JsonKey(name: 'date') String? date,
+      @JsonKey(name: 'time') String? time,
+      @JsonKey(name: 'full_sheet') int? fullSheetCount,
+      @JsonKey(name: 'half_sheet') int? halfSheetCount,
+      @JsonKey(name: 'quarter_sheet') int? quarterSheetCount,
+      @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
+      @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus});
 }
 
 /// @nodoc
 class __$$LaserCuttingListImplCopyWithImpl<$Res>
     extends _$LaserCuttingListCopyWithImpl<$Res, _$LaserCuttingListImpl>
     implements _$$LaserCuttingListImplCopyWith<$Res> {
-  __$$LaserCuttingListImplCopyWithImpl(
-    _$LaserCuttingListImpl _value,
-    $Res Function(_$LaserCuttingListImpl) _then,
-  ) : super(_value, _then);
+  __$$LaserCuttingListImplCopyWithImpl(_$LaserCuttingListImpl _value,
+      $Res Function(_$LaserCuttingListImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of LaserCuttingList
   /// with the given fields replaced by the non-null parameter values.
@@ -195,68 +186,66 @@ class __$$LaserCuttingListImplCopyWithImpl<$Res>
     Object? customerPhoneNumber = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
-    return _then(
-      _$LaserCuttingListImpl(
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        customerName: freezed == customerName
-            ? _value.customerName
-            : customerName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        projectId: freezed == projectId
-            ? _value.projectId
-            : projectId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        date: freezed == date
-            ? _value.date
-            : date // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        time: freezed == time
-            ? _value.time
-            : time // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        fullSheetCount: freezed == fullSheetCount
-            ? _value.fullSheetCount
-            : fullSheetCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        halfSheetCount: freezed == halfSheetCount
-            ? _value.halfSheetCount
-            : halfSheetCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        quarterSheetCount: freezed == quarterSheetCount
-            ? _value.quarterSheetCount
-            : quarterSheetCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        customerPhoneNumber: freezed == customerPhoneNumber
-            ? _value.customerPhoneNumber
-            : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        laserCuttingStatus: freezed == laserCuttingStatus
-            ? _value.laserCuttingStatus
-            : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$LaserCuttingListImpl(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerName: freezed == customerName
+          ? _value.customerName
+          : customerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectId: freezed == projectId
+          ? _value.projectId
+          : projectId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fullSheetCount: freezed == fullSheetCount
+          ? _value.fullSheetCount
+          : fullSheetCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      halfSheetCount: freezed == halfSheetCount
+          ? _value.halfSheetCount
+          : halfSheetCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      quarterSheetCount: freezed == quarterSheetCount
+          ? _value.quarterSheetCount
+          : quarterSheetCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      customerPhoneNumber: freezed == customerPhoneNumber
+          ? _value.customerPhoneNumber
+          : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      laserCuttingStatus: freezed == laserCuttingStatus
+          ? _value.laserCuttingStatus
+          : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$LaserCuttingListImpl extends _LaserCuttingList {
-  const _$LaserCuttingListImpl({
-    @JsonKey(name: 'name') this.name,
-    @JsonKey(name: 'customer_name') this.customerName,
-    @JsonKey(name: 'project_id') this.projectId,
-    @JsonKey(name: 'date') this.date,
-    @JsonKey(name: 'time') this.time,
-    @JsonKey(name: 'full_sheet') this.fullSheetCount,
-    @JsonKey(name: 'half_sheet') this.halfSheetCount,
-    @JsonKey(name: 'quarter_sheet') this.quarterSheetCount,
-    @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
-    @JsonKey(name: 'laser_cutting_status') this.laserCuttingStatus,
-  }) : super._();
+  const _$LaserCuttingListImpl(
+      {@JsonKey(name: 'name') this.name,
+      @JsonKey(name: 'customer_name') this.customerName,
+      @JsonKey(name: 'project_id') this.projectId,
+      @JsonKey(name: 'date') this.date,
+      @JsonKey(name: 'time') this.time,
+      @JsonKey(name: 'full_sheet') this.fullSheetCount,
+      @JsonKey(name: 'half_sheet') this.halfSheetCount,
+      @JsonKey(name: 'quarter_sheet') this.quarterSheetCount,
+      @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
+      @JsonKey(name: 'laser_cutting_status') this.laserCuttingStatus})
+      : super._();
 
   factory _$LaserCuttingListImpl.fromJson(Map<String, dynamic> json) =>
       _$$LaserCuttingListImplFromJson(json);
@@ -324,18 +313,17 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    name,
-    customerName,
-    projectId,
-    date,
-    time,
-    fullSheetCount,
-    halfSheetCount,
-    quarterSheetCount,
-    customerPhoneNumber,
-    laserCuttingStatus,
-  );
+      runtimeType,
+      name,
+      customerName,
+      projectId,
+      date,
+      time,
+      fullSheetCount,
+      halfSheetCount,
+      quarterSheetCount,
+      customerPhoneNumber,
+      laserCuttingStatus);
 
   /// Create a copy of LaserCuttingList
   /// with the given fields replaced by the non-null parameter values.
@@ -344,29 +332,29 @@ class _$LaserCuttingListImpl extends _LaserCuttingList {
   @pragma('vm:prefer-inline')
   _$$LaserCuttingListImplCopyWith<_$LaserCuttingListImpl> get copyWith =>
       __$$LaserCuttingListImplCopyWithImpl<_$LaserCuttingListImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LaserCuttingListImplToJson(this);
+    return _$$LaserCuttingListImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _LaserCuttingList extends LaserCuttingList {
-  const factory _LaserCuttingList({
-    @JsonKey(name: 'name') final String? name,
-    @JsonKey(name: 'customer_name') final String? customerName,
-    @JsonKey(name: 'project_id') final String? projectId,
-    @JsonKey(name: 'date') final String? date,
-    @JsonKey(name: 'time') final String? time,
-    @JsonKey(name: 'full_sheet') final int? fullSheetCount,
-    @JsonKey(name: 'half_sheet') final int? halfSheetCount,
-    @JsonKey(name: 'quarter_sheet') final int? quarterSheetCount,
-    @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
-    @JsonKey(name: 'laser_cutting_status') final String? laserCuttingStatus,
-  }) = _$LaserCuttingListImpl;
+  const factory _LaserCuttingList(
+      {@JsonKey(name: 'name') final String? name,
+      @JsonKey(name: 'customer_name') final String? customerName,
+      @JsonKey(name: 'project_id') final String? projectId,
+      @JsonKey(name: 'date') final String? date,
+      @JsonKey(name: 'time') final String? time,
+      @JsonKey(name: 'full_sheet') final int? fullSheetCount,
+      @JsonKey(name: 'half_sheet') final int? halfSheetCount,
+      @JsonKey(name: 'quarter_sheet') final int? quarterSheetCount,
+      @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
+      @JsonKey(name: 'laser_cutting_status')
+      final String? laserCuttingStatus}) = _$LaserCuttingListImpl;
   const _LaserCuttingList._() : super._();
 
   factory _LaserCuttingList.fromJson(Map<String, dynamic> json) =

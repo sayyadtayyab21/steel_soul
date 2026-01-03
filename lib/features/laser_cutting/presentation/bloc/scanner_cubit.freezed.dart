@@ -12,8 +12,7 @@ part of 'scanner_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ScannerState {
@@ -34,18 +33,16 @@ mixin _$ScannerState {
 /// @nodoc
 abstract class $ScannerStateCopyWith<$Res> {
   factory $ScannerStateCopyWith(
-    ScannerState value,
-    $Res Function(ScannerState) then,
-  ) = _$ScannerStateCopyWithImpl<$Res, ScannerState>;
+          ScannerState value, $Res Function(ScannerState) then) =
+      _$ScannerStateCopyWithImpl<$Res, ScannerState>;
   @useResult
-  $Res call({
-    bool isExtracting,
-    String? extractedWeight,
-    DateTime? captureTime,
-    File? capturedImage,
-    Failure? error,
-    String? base64Image,
-  });
+  $Res call(
+      {bool isExtracting,
+      String? extractedWeight,
+      DateTime? captureTime,
+      File? capturedImage,
+      Failure? error,
+      String? base64Image});
 
   $FailureCopyWith<$Res>? get error;
 }
@@ -72,35 +69,32 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
     Object? error = freezed,
     Object? base64Image = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            isExtracting: null == isExtracting
-                ? _value.isExtracting
-                : isExtracting // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            extractedWeight: freezed == extractedWeight
-                ? _value.extractedWeight
-                : extractedWeight // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            captureTime: freezed == captureTime
-                ? _value.captureTime
-                : captureTime // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            capturedImage: freezed == capturedImage
-                ? _value.capturedImage
-                : capturedImage // ignore: cast_nullable_to_non_nullable
-                      as File?,
-            error: freezed == error
-                ? _value.error
-                : error // ignore: cast_nullable_to_non_nullable
-                      as Failure?,
-            base64Image: freezed == base64Image
-                ? _value.base64Image
-                : base64Image // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      isExtracting: null == isExtracting
+          ? _value.isExtracting
+          : isExtracting // ignore: cast_nullable_to_non_nullable
+              as bool,
+      extractedWeight: freezed == extractedWeight
+          ? _value.extractedWeight
+          : extractedWeight // ignore: cast_nullable_to_non_nullable
+              as String?,
+      captureTime: freezed == captureTime
+          ? _value.captureTime
+          : captureTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      capturedImage: freezed == capturedImage
+          ? _value.capturedImage
+          : capturedImage // ignore: cast_nullable_to_non_nullable
+              as File?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Failure?,
+      base64Image: freezed == base64Image
+          ? _value.base64Image
+          : base64Image // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 
   /// Create a copy of ScannerState
@@ -122,19 +116,17 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
 abstract class _$$ScannerStateImplCopyWith<$Res>
     implements $ScannerStateCopyWith<$Res> {
   factory _$$ScannerStateImplCopyWith(
-    _$ScannerStateImpl value,
-    $Res Function(_$ScannerStateImpl) then,
-  ) = __$$ScannerStateImplCopyWithImpl<$Res>;
+          _$ScannerStateImpl value, $Res Function(_$ScannerStateImpl) then) =
+      __$$ScannerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    bool isExtracting,
-    String? extractedWeight,
-    DateTime? captureTime,
-    File? capturedImage,
-    Failure? error,
-    String? base64Image,
-  });
+  $Res call(
+      {bool isExtracting,
+      String? extractedWeight,
+      DateTime? captureTime,
+      File? capturedImage,
+      Failure? error,
+      String? base64Image});
 
   @override
   $FailureCopyWith<$Res>? get error;
@@ -145,9 +137,8 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
     extends _$ScannerStateCopyWithImpl<$Res, _$ScannerStateImpl>
     implements _$$ScannerStateImplCopyWith<$Res> {
   __$$ScannerStateImplCopyWithImpl(
-    _$ScannerStateImpl _value,
-    $Res Function(_$ScannerStateImpl) _then,
-  ) : super(_value, _then);
+      _$ScannerStateImpl _value, $Res Function(_$ScannerStateImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.
@@ -161,48 +152,45 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
     Object? error = freezed,
     Object? base64Image = freezed,
   }) {
-    return _then(
-      _$ScannerStateImpl(
-        isExtracting: null == isExtracting
-            ? _value.isExtracting
-            : isExtracting // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        extractedWeight: freezed == extractedWeight
-            ? _value.extractedWeight
-            : extractedWeight // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        captureTime: freezed == captureTime
-            ? _value.captureTime
-            : captureTime // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        capturedImage: freezed == capturedImage
-            ? _value.capturedImage
-            : capturedImage // ignore: cast_nullable_to_non_nullable
-                  as File?,
-        error: freezed == error
-            ? _value.error
-            : error // ignore: cast_nullable_to_non_nullable
-                  as Failure?,
-        base64Image: freezed == base64Image
-            ? _value.base64Image
-            : base64Image // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$ScannerStateImpl(
+      isExtracting: null == isExtracting
+          ? _value.isExtracting
+          : isExtracting // ignore: cast_nullable_to_non_nullable
+              as bool,
+      extractedWeight: freezed == extractedWeight
+          ? _value.extractedWeight
+          : extractedWeight // ignore: cast_nullable_to_non_nullable
+              as String?,
+      captureTime: freezed == captureTime
+          ? _value.captureTime
+          : captureTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      capturedImage: freezed == capturedImage
+          ? _value.capturedImage
+          : capturedImage // ignore: cast_nullable_to_non_nullable
+              as File?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Failure?,
+      base64Image: freezed == base64Image
+          ? _value.base64Image
+          : base64Image // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$ScannerStateImpl implements _ScannerState {
-  const _$ScannerStateImpl({
-    required this.isExtracting,
-    this.extractedWeight,
-    this.captureTime,
-    this.capturedImage,
-    this.error,
-    this.base64Image,
-  });
+  const _$ScannerStateImpl(
+      {required this.isExtracting,
+      this.extractedWeight,
+      this.captureTime,
+      this.capturedImage,
+      this.error,
+      this.base64Image});
 
   @override
   final bool isExtracting;
@@ -241,15 +229,8 @@ class _$ScannerStateImpl implements _ScannerState {
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    isExtracting,
-    extractedWeight,
-    captureTime,
-    capturedImage,
-    error,
-    base64Image,
-  );
+  int get hashCode => Object.hash(runtimeType, isExtracting, extractedWeight,
+      captureTime, capturedImage, error, base64Image);
 
   /// Create a copy of ScannerState
   /// with the given fields replaced by the non-null parameter values.
@@ -261,14 +242,13 @@ class _$ScannerStateImpl implements _ScannerState {
 }
 
 abstract class _ScannerState implements ScannerState {
-  const factory _ScannerState({
-    required final bool isExtracting,
-    final String? extractedWeight,
-    final DateTime? captureTime,
-    final File? capturedImage,
-    final Failure? error,
-    final String? base64Image,
-  }) = _$ScannerStateImpl;
+  const factory _ScannerState(
+      {required final bool isExtracting,
+      final String? extractedWeight,
+      final DateTime? captureTime,
+      final File? capturedImage,
+      final Failure? error,
+      final String? base64Image}) = _$ScannerStateImpl;
 
   @override
   bool get isExtracting;

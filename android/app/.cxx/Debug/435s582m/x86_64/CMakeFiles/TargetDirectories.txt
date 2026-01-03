@@ -1,0 +1,2 @@
+/Users/sumithtulluru/steel_soul/android/app/.cxx/Debug/435s582m/x86_64/CMakeFiles/edit_cache.dir
+/Users/sumithtulluru/steel_soul/android/app/.cxx/Debug/435s582m/x86_64/CMakeFiles/rebuild_cache.dir

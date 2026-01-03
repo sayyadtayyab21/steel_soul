@@ -12,8 +12,7 @@ part of 'puf_item_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 PufItemModel _$PufItemModelFromJson(Map<String, dynamic> json) {
   return _PufItemModel.fromJson(json);
@@ -47,18 +46,16 @@ mixin _$PufItemModel {
 /// @nodoc
 abstract class $PufItemModelCopyWith<$Res> {
   factory $PufItemModelCopyWith(
-    PufItemModel value,
-    $Res Function(PufItemModel) then,
-  ) = _$PufItemModelCopyWithImpl<$Res, PufItemModel>;
+          PufItemModel value, $Res Function(PufItemModel) then) =
+      _$PufItemModelCopyWithImpl<$Res, PufItemModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'puf_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'puf_status') String? status});
 }
 
 /// @nodoc
@@ -83,35 +80,32 @@ class _$PufItemModelCopyWithImpl<$Res, $Val extends PufItemModel>
     Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            unitName: freezed == unitName
-                ? _value.unitName
-                : unitName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            unitCode: freezed == unitCode
-                ? _value.unitCode
-                : unitCode // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            project: freezed == project
-                ? _value.project
-                : project // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            totalPanels: freezed == totalPanels
-                ? _value.totalPanels
-                : totalPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            scannedPanels: freezed == scannedPanels
-                ? _value.scannedPanels
-                : scannedPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
@@ -119,19 +113,17 @@ class _$PufItemModelCopyWithImpl<$Res, $Val extends PufItemModel>
 abstract class _$$PufItemModelImplCopyWith<$Res>
     implements $PufItemModelCopyWith<$Res> {
   factory _$$PufItemModelImplCopyWith(
-    _$PufItemModelImpl value,
-    $Res Function(_$PufItemModelImpl) then,
-  ) = __$$PufItemModelImplCopyWithImpl<$Res>;
+          _$PufItemModelImpl value, $Res Function(_$PufItemModelImpl) then) =
+      __$$PufItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'puf_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'puf_status') String? status});
 }
 
 /// @nodoc
@@ -139,9 +131,8 @@ class __$$PufItemModelImplCopyWithImpl<$Res>
     extends _$PufItemModelCopyWithImpl<$Res, _$PufItemModelImpl>
     implements _$$PufItemModelImplCopyWith<$Res> {
   __$$PufItemModelImplCopyWithImpl(
-    _$PufItemModelImpl _value,
-    $Res Function(_$PufItemModelImpl) _then,
-  ) : super(_value, _then);
+      _$PufItemModelImpl _value, $Res Function(_$PufItemModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of PufItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -155,48 +146,46 @@ class __$$PufItemModelImplCopyWithImpl<$Res>
     Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _$PufItemModelImpl(
-        unitName: freezed == unitName
-            ? _value.unitName
-            : unitName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        unitCode: freezed == unitCode
-            ? _value.unitCode
-            : unitCode // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        project: freezed == project
-            ? _value.project
-            : project // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        totalPanels: freezed == totalPanels
-            ? _value.totalPanels
-            : totalPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        scannedPanels: freezed == scannedPanels
-            ? _value.scannedPanels
-            : scannedPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$PufItemModelImpl(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$PufItemModelImpl extends _PufItemModel {
-  const _$PufItemModelImpl({
-    @JsonKey(name: 'unit_name') this.unitName,
-    @JsonKey(name: 'unit_code') this.unitCode,
-    @JsonKey(name: 'project') this.project,
-    @JsonKey(name: 'total_panels') this.totalPanels,
-    @JsonKey(name: 'scanned_panels') this.scannedPanels,
-    @JsonKey(name: 'puf_status') this.status,
-  }) : super._();
+  const _$PufItemModelImpl(
+      {@JsonKey(name: 'unit_name') this.unitName,
+      @JsonKey(name: 'unit_code') this.unitCode,
+      @JsonKey(name: 'project') this.project,
+      @JsonKey(name: 'total_panels') this.totalPanels,
+      @JsonKey(name: 'scanned_panels') this.scannedPanels,
+      @JsonKey(name: 'puf_status') this.status})
+      : super._();
 
   factory _$PufItemModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PufItemModelImplFromJson(json);
@@ -244,15 +233,8 @@ class _$PufItemModelImpl extends _PufItemModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    unitName,
-    unitCode,
-    project,
-    totalPanels,
-    scannedPanels,
-    status,
-  );
+  int get hashCode => Object.hash(runtimeType, unitName, unitCode, project,
+      totalPanels, scannedPanels, status);
 
   /// Create a copy of PufItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -264,19 +246,20 @@ class _$PufItemModelImpl extends _PufItemModel {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PufItemModelImplToJson(this);
+    return _$$PufItemModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _PufItemModel extends PufItemModel {
-  const factory _PufItemModel({
-    @JsonKey(name: 'unit_name') final String? unitName,
-    @JsonKey(name: 'unit_code') final String? unitCode,
-    @JsonKey(name: 'project') final String? project,
-    @JsonKey(name: 'total_panels') final int? totalPanels,
-    @JsonKey(name: 'scanned_panels') final int? scannedPanels,
-    @JsonKey(name: 'puf_status') final String? status,
-  }) = _$PufItemModelImpl;
+  const factory _PufItemModel(
+      {@JsonKey(name: 'unit_name') final String? unitName,
+      @JsonKey(name: 'unit_code') final String? unitCode,
+      @JsonKey(name: 'project') final String? project,
+      @JsonKey(name: 'total_panels') final int? totalPanels,
+      @JsonKey(name: 'scanned_panels') final int? scannedPanels,
+      @JsonKey(name: 'puf_status') final String? status}) = _$PufItemModelImpl;
   const _PufItemModel._() : super._();
 
   factory _PufItemModel.fromJson(Map<String, dynamic> json) =

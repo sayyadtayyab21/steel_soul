@@ -17,12 +17,12 @@ _$LaserItemModelImpl _$$LaserItemModelImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$LaserItemModelImplToJson(
-  _$LaserItemModelImpl instance,
-) => <String, dynamic>{
-  'unit_name': instance.unitName,
-  'unit_code': instance.unitCode,
-  'project': instance.project,
-  'total_panels': instance.totalPanels,
-  'scanned_panels': instance.scannedPanels,
-  'laser_cutting_status': instance.laserCuttingStatus,
-};
+        _$LaserItemModelImpl instance) =>
+    <String, dynamic>{
+      'unit_name': instance.unitName,
+      'unit_code': instance.unitCode,
+      'project': instance.project,
+      'total_panels': instance.totalPanels,
+      'scanned_panels': instance.scannedPanels,
+      'laser_cutting_status': instance.laserCuttingStatus,
+    };

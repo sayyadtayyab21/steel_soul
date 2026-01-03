@@ -12,8 +12,7 @@ part of 'riveting_item_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 RivetingItemModel _$RivetingItemModelFromJson(Map<String, dynamic> json) {
   return _RivetingItemModel.fromJson(json);
@@ -47,18 +46,16 @@ mixin _$RivetingItemModel {
 /// @nodoc
 abstract class $RivetingItemModelCopyWith<$Res> {
   factory $RivetingItemModelCopyWith(
-    RivetingItemModel value,
-    $Res Function(RivetingItemModel) then,
-  ) = _$RivetingItemModelCopyWithImpl<$Res, RivetingItemModel>;
+          RivetingItemModel value, $Res Function(RivetingItemModel) then) =
+      _$RivetingItemModelCopyWithImpl<$Res, RivetingItemModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'riveting_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'riveting_status') String? status});
 }
 
 /// @nodoc
@@ -83,65 +80,59 @@ class _$RivetingItemModelCopyWithImpl<$Res, $Val extends RivetingItemModel>
     Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            unitName: freezed == unitName
-                ? _value.unitName
-                : unitName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            unitCode: freezed == unitCode
-                ? _value.unitCode
-                : unitCode // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            project: freezed == project
-                ? _value.project
-                : project // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            totalPanels: freezed == totalPanels
-                ? _value.totalPanels
-                : totalPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            scannedPanels: freezed == scannedPanels
-                ? _value.scannedPanels
-                : scannedPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$RivetingItemModelImplCopyWith<$Res>
     implements $RivetingItemModelCopyWith<$Res> {
-  factory _$$RivetingItemModelImplCopyWith(
-    _$RivetingItemModelImpl value,
-    $Res Function(_$RivetingItemModelImpl) then,
-  ) = __$$RivetingItemModelImplCopyWithImpl<$Res>;
+  factory _$$RivetingItemModelImplCopyWith(_$RivetingItemModelImpl value,
+          $Res Function(_$RivetingItemModelImpl) then) =
+      __$$RivetingItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'riveting_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'riveting_status') String? status});
 }
 
 /// @nodoc
 class __$$RivetingItemModelImplCopyWithImpl<$Res>
     extends _$RivetingItemModelCopyWithImpl<$Res, _$RivetingItemModelImpl>
     implements _$$RivetingItemModelImplCopyWith<$Res> {
-  __$$RivetingItemModelImplCopyWithImpl(
-    _$RivetingItemModelImpl _value,
-    $Res Function(_$RivetingItemModelImpl) _then,
-  ) : super(_value, _then);
+  __$$RivetingItemModelImplCopyWithImpl(_$RivetingItemModelImpl _value,
+      $Res Function(_$RivetingItemModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of RivetingItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -155,48 +146,46 @@ class __$$RivetingItemModelImplCopyWithImpl<$Res>
     Object? scannedPanels = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _$RivetingItemModelImpl(
-        unitName: freezed == unitName
-            ? _value.unitName
-            : unitName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        unitCode: freezed == unitCode
-            ? _value.unitCode
-            : unitCode // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        project: freezed == project
-            ? _value.project
-            : project // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        totalPanels: freezed == totalPanels
-            ? _value.totalPanels
-            : totalPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        scannedPanels: freezed == scannedPanels
-            ? _value.scannedPanels
-            : scannedPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$RivetingItemModelImpl(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$RivetingItemModelImpl extends _RivetingItemModel {
-  const _$RivetingItemModelImpl({
-    @JsonKey(name: 'unit_name') this.unitName,
-    @JsonKey(name: 'unit_code') this.unitCode,
-    @JsonKey(name: 'project') this.project,
-    @JsonKey(name: 'total_panels') this.totalPanels,
-    @JsonKey(name: 'scanned_panels') this.scannedPanels,
-    @JsonKey(name: 'riveting_status') this.status,
-  }) : super._();
+  const _$RivetingItemModelImpl(
+      {@JsonKey(name: 'unit_name') this.unitName,
+      @JsonKey(name: 'unit_code') this.unitCode,
+      @JsonKey(name: 'project') this.project,
+      @JsonKey(name: 'total_panels') this.totalPanels,
+      @JsonKey(name: 'scanned_panels') this.scannedPanels,
+      @JsonKey(name: 'riveting_status') this.status})
+      : super._();
 
   factory _$RivetingItemModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RivetingItemModelImplFromJson(json);
@@ -244,15 +233,8 @@ class _$RivetingItemModelImpl extends _RivetingItemModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    unitName,
-    unitCode,
-    project,
-    totalPanels,
-    scannedPanels,
-    status,
-  );
+  int get hashCode => Object.hash(runtimeType, unitName, unitCode, project,
+      totalPanels, scannedPanels, status);
 
   /// Create a copy of RivetingItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -261,25 +243,25 @@ class _$RivetingItemModelImpl extends _RivetingItemModel {
   @pragma('vm:prefer-inline')
   _$$RivetingItemModelImplCopyWith<_$RivetingItemModelImpl> get copyWith =>
       __$$RivetingItemModelImplCopyWithImpl<_$RivetingItemModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RivetingItemModelImplToJson(this);
+    return _$$RivetingItemModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _RivetingItemModel extends RivetingItemModel {
-  const factory _RivetingItemModel({
-    @JsonKey(name: 'unit_name') final String? unitName,
-    @JsonKey(name: 'unit_code') final String? unitCode,
-    @JsonKey(name: 'project') final String? project,
-    @JsonKey(name: 'total_panels') final int? totalPanels,
-    @JsonKey(name: 'scanned_panels') final int? scannedPanels,
-    @JsonKey(name: 'riveting_status') final String? status,
-  }) = _$RivetingItemModelImpl;
+  const factory _RivetingItemModel(
+          {@JsonKey(name: 'unit_name') final String? unitName,
+          @JsonKey(name: 'unit_code') final String? unitCode,
+          @JsonKey(name: 'project') final String? project,
+          @JsonKey(name: 'total_panels') final int? totalPanels,
+          @JsonKey(name: 'scanned_panels') final int? scannedPanels,
+          @JsonKey(name: 'riveting_status') final String? status}) =
+      _$RivetingItemModelImpl;
   const _RivetingItemModel._() : super._();
 
   factory _RivetingItemModel.fromJson(Map<String, dynamic> json) =

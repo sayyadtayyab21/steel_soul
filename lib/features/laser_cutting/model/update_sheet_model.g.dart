@@ -7,12 +7,15 @@ part of 'update_sheet_model.dart';
 // **************************************************************************
 
 _$UpdateSheetModelImpl _$$UpdateSheetModelImplFromJson(
-  Map<String, dynamic> json,
-) => _$UpdateSheetModelImpl(
-  status: json['status'] as String?,
-  message: json['message'] as String?,
-);
+        Map<String, dynamic> json) =>
+    _$UpdateSheetModelImpl(
+      status: json['status'] as String?,
+      message: json['message'] as String?,
+    );
 
 Map<String, dynamic> _$$UpdateSheetModelImplToJson(
-  _$UpdateSheetModelImpl instance,
-) => <String, dynamic>{'status': instance.status, 'message': instance.message};
+        _$UpdateSheetModelImpl instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.message,
+    };

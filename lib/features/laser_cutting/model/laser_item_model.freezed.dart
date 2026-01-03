@@ -12,8 +12,7 @@ part of 'laser_item_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 LaserItemModel _$LaserItemModelFromJson(Map<String, dynamic> json) {
   return _LaserItemModel.fromJson(json);
@@ -47,18 +46,16 @@ mixin _$LaserItemModel {
 /// @nodoc
 abstract class $LaserItemModelCopyWith<$Res> {
   factory $LaserItemModelCopyWith(
-    LaserItemModel value,
-    $Res Function(LaserItemModel) then,
-  ) = _$LaserItemModelCopyWithImpl<$Res, LaserItemModel>;
+          LaserItemModel value, $Res Function(LaserItemModel) then) =
+      _$LaserItemModelCopyWithImpl<$Res, LaserItemModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus});
 }
 
 /// @nodoc
@@ -83,55 +80,50 @@ class _$LaserItemModelCopyWithImpl<$Res, $Val extends LaserItemModel>
     Object? scannedPanels = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            unitName: freezed == unitName
-                ? _value.unitName
-                : unitName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            unitCode: freezed == unitCode
-                ? _value.unitCode
-                : unitCode // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            project: freezed == project
-                ? _value.project
-                : project // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            totalPanels: freezed == totalPanels
-                ? _value.totalPanels
-                : totalPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            scannedPanels: freezed == scannedPanels
-                ? _value.scannedPanels
-                : scannedPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            laserCuttingStatus: freezed == laserCuttingStatus
-                ? _value.laserCuttingStatus
-                : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      laserCuttingStatus: freezed == laserCuttingStatus
+          ? _value.laserCuttingStatus
+          : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$LaserItemModelImplCopyWith<$Res>
     implements $LaserItemModelCopyWith<$Res> {
-  factory _$$LaserItemModelImplCopyWith(
-    _$LaserItemModelImpl value,
-    $Res Function(_$LaserItemModelImpl) then,
-  ) = __$$LaserItemModelImplCopyWithImpl<$Res>;
+  factory _$$LaserItemModelImplCopyWith(_$LaserItemModelImpl value,
+          $Res Function(_$LaserItemModelImpl) then) =
+      __$$LaserItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'unit_name') String? unitName,
-    @JsonKey(name: 'unit_code') String? unitCode,
-    @JsonKey(name: 'project') String? project,
-    @JsonKey(name: 'total_panels') int? totalPanels,
-    @JsonKey(name: 'scanned_panels') int? scannedPanels,
-    @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus,
-  });
+  $Res call(
+      {@JsonKey(name: 'unit_name') String? unitName,
+      @JsonKey(name: 'unit_code') String? unitCode,
+      @JsonKey(name: 'project') String? project,
+      @JsonKey(name: 'total_panels') int? totalPanels,
+      @JsonKey(name: 'scanned_panels') int? scannedPanels,
+      @JsonKey(name: 'laser_cutting_status') String? laserCuttingStatus});
 }
 
 /// @nodoc
@@ -139,9 +131,8 @@ class __$$LaserItemModelImplCopyWithImpl<$Res>
     extends _$LaserItemModelCopyWithImpl<$Res, _$LaserItemModelImpl>
     implements _$$LaserItemModelImplCopyWith<$Res> {
   __$$LaserItemModelImplCopyWithImpl(
-    _$LaserItemModelImpl _value,
-    $Res Function(_$LaserItemModelImpl) _then,
-  ) : super(_value, _then);
+      _$LaserItemModelImpl _value, $Res Function(_$LaserItemModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of LaserItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -155,48 +146,46 @@ class __$$LaserItemModelImplCopyWithImpl<$Res>
     Object? scannedPanels = freezed,
     Object? laserCuttingStatus = freezed,
   }) {
-    return _then(
-      _$LaserItemModelImpl(
-        unitName: freezed == unitName
-            ? _value.unitName
-            : unitName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        unitCode: freezed == unitCode
-            ? _value.unitCode
-            : unitCode // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        project: freezed == project
-            ? _value.project
-            : project // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        totalPanels: freezed == totalPanels
-            ? _value.totalPanels
-            : totalPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        scannedPanels: freezed == scannedPanels
-            ? _value.scannedPanels
-            : scannedPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        laserCuttingStatus: freezed == laserCuttingStatus
-            ? _value.laserCuttingStatus
-            : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$LaserItemModelImpl(
+      unitName: freezed == unitName
+          ? _value.unitName
+          : unitName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      unitCode: freezed == unitCode
+          ? _value.unitCode
+          : unitCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      project: freezed == project
+          ? _value.project
+          : project // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalPanels: freezed == totalPanels
+          ? _value.totalPanels
+          : totalPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      scannedPanels: freezed == scannedPanels
+          ? _value.scannedPanels
+          : scannedPanels // ignore: cast_nullable_to_non_nullable
+              as int?,
+      laserCuttingStatus: freezed == laserCuttingStatus
+          ? _value.laserCuttingStatus
+          : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$LaserItemModelImpl extends _LaserItemModel {
-  const _$LaserItemModelImpl({
-    @JsonKey(name: 'unit_name') this.unitName,
-    @JsonKey(name: 'unit_code') this.unitCode,
-    @JsonKey(name: 'project') this.project,
-    @JsonKey(name: 'total_panels') this.totalPanels,
-    @JsonKey(name: 'scanned_panels') this.scannedPanels,
-    @JsonKey(name: 'laser_cutting_status') this.laserCuttingStatus,
-  }) : super._();
+  const _$LaserItemModelImpl(
+      {@JsonKey(name: 'unit_name') this.unitName,
+      @JsonKey(name: 'unit_code') this.unitCode,
+      @JsonKey(name: 'project') this.project,
+      @JsonKey(name: 'total_panels') this.totalPanels,
+      @JsonKey(name: 'scanned_panels') this.scannedPanels,
+      @JsonKey(name: 'laser_cutting_status') this.laserCuttingStatus})
+      : super._();
 
   factory _$LaserItemModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LaserItemModelImplFromJson(json);
@@ -245,15 +234,8 @@ class _$LaserItemModelImpl extends _LaserItemModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    unitName,
-    unitCode,
-    project,
-    totalPanels,
-    scannedPanels,
-    laserCuttingStatus,
-  );
+  int get hashCode => Object.hash(runtimeType, unitName, unitCode, project,
+      totalPanels, scannedPanels, laserCuttingStatus);
 
   /// Create a copy of LaserItemModel
   /// with the given fields replaced by the non-null parameter values.
@@ -262,25 +244,25 @@ class _$LaserItemModelImpl extends _LaserItemModel {
   @pragma('vm:prefer-inline')
   _$$LaserItemModelImplCopyWith<_$LaserItemModelImpl> get copyWith =>
       __$$LaserItemModelImplCopyWithImpl<_$LaserItemModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LaserItemModelImplToJson(this);
+    return _$$LaserItemModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _LaserItemModel extends LaserItemModel {
-  const factory _LaserItemModel({
-    @JsonKey(name: 'unit_name') final String? unitName,
-    @JsonKey(name: 'unit_code') final String? unitCode,
-    @JsonKey(name: 'project') final String? project,
-    @JsonKey(name: 'total_panels') final int? totalPanels,
-    @JsonKey(name: 'scanned_panels') final int? scannedPanels,
-    @JsonKey(name: 'laser_cutting_status') final String? laserCuttingStatus,
-  }) = _$LaserItemModelImpl;
+  const factory _LaserItemModel(
+      {@JsonKey(name: 'unit_name') final String? unitName,
+      @JsonKey(name: 'unit_code') final String? unitCode,
+      @JsonKey(name: 'project') final String? project,
+      @JsonKey(name: 'total_panels') final int? totalPanels,
+      @JsonKey(name: 'scanned_panels') final int? scannedPanels,
+      @JsonKey(name: 'laser_cutting_status')
+      final String? laserCuttingStatus}) = _$LaserItemModelImpl;
   const _LaserItemModel._() : super._();
 
   factory _LaserItemModel.fromJson(Map<String, dynamic> json) =

@@ -4,12 +4,13 @@ final _reqisteredUrl = $sl.get<Urls>(instanceName: 'baseUrl');
 
 class Urls {
   factory Urls.uat() => const Urls('https://steelsouluat.easycloud.co.in/api');
+  
   // factory Urls.live() => const Urls('https://mtarlive.easycloud.co.in/api');
 
   //   factory Urls.steel_soulUAT() => const Urls('https://steel_soullive.easycloud.co.in/api');
 
   factory Urls.live() =>
-      const Urls('https://steel_soullive.easycloud.co.in/api');
+      const Urls('https://steelsoullive.easycloud.co.in/api');
   // factory Urls.steel_soulLive() =>
   //     const Urls('https://steel_soullive.easycloud.co.in/api');
 

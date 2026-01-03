@@ -12,8 +12,7 @@ part of 'riveting_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 RivetingModel _$RivetingModelFromJson(Map<String, dynamic> json) {
   return _RivetingModel.fromJson(json);
@@ -49,19 +48,17 @@ mixin _$RivetingModel {
 /// @nodoc
 abstract class $RivetingModelCopyWith<$Res> {
   factory $RivetingModelCopyWith(
-    RivetingModel value,
-    $Res Function(RivetingModel) then,
-  ) = _$RivetingModelCopyWithImpl<$Res, RivetingModel>;
+          RivetingModel value, $Res Function(RivetingModel) then) =
+      _$RivetingModelCopyWithImpl<$Res, RivetingModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'customer_name') String? customerName,
-    @JsonKey(name: 'project_id') String? projectId,
-    @JsonKey(name: 'date') String? date,
-    @JsonKey(name: 'time') String? time,
-    @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
-    @JsonKey(name: 'riveting_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'customer_name') String? customerName,
+      @JsonKey(name: 'project_id') String? projectId,
+      @JsonKey(name: 'date') String? date,
+      @JsonKey(name: 'time') String? time,
+      @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
+      @JsonKey(name: 'riveting_status') String? status});
 }
 
 /// @nodoc
@@ -87,39 +84,36 @@ class _$RivetingModelCopyWithImpl<$Res, $Val extends RivetingModel>
     Object? customerPhoneNumber = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            customerName: freezed == customerName
-                ? _value.customerName
-                : customerName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            projectId: freezed == projectId
-                ? _value.projectId
-                : projectId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            date: freezed == date
-                ? _value.date
-                : date // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            time: freezed == time
-                ? _value.time
-                : time // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            customerPhoneNumber: freezed == customerPhoneNumber
-                ? _value.customerPhoneNumber
-                : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerName: freezed == customerName
+          ? _value.customerName
+          : customerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectId: freezed == projectId
+          ? _value.projectId
+          : projectId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerPhoneNumber: freezed == customerPhoneNumber
+          ? _value.customerPhoneNumber
+          : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
@@ -127,20 +121,18 @@ class _$RivetingModelCopyWithImpl<$Res, $Val extends RivetingModel>
 abstract class _$$RivetingModelImplCopyWith<$Res>
     implements $RivetingModelCopyWith<$Res> {
   factory _$$RivetingModelImplCopyWith(
-    _$RivetingModelImpl value,
-    $Res Function(_$RivetingModelImpl) then,
-  ) = __$$RivetingModelImplCopyWithImpl<$Res>;
+          _$RivetingModelImpl value, $Res Function(_$RivetingModelImpl) then) =
+      __$$RivetingModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'customer_name') String? customerName,
-    @JsonKey(name: 'project_id') String? projectId,
-    @JsonKey(name: 'date') String? date,
-    @JsonKey(name: 'time') String? time,
-    @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
-    @JsonKey(name: 'riveting_status') String? status,
-  });
+  $Res call(
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'customer_name') String? customerName,
+      @JsonKey(name: 'project_id') String? projectId,
+      @JsonKey(name: 'date') String? date,
+      @JsonKey(name: 'time') String? time,
+      @JsonKey(name: 'customer_phone_number') String? customerPhoneNumber,
+      @JsonKey(name: 'riveting_status') String? status});
 }
 
 /// @nodoc
@@ -148,9 +140,8 @@ class __$$RivetingModelImplCopyWithImpl<$Res>
     extends _$RivetingModelCopyWithImpl<$Res, _$RivetingModelImpl>
     implements _$$RivetingModelImplCopyWith<$Res> {
   __$$RivetingModelImplCopyWithImpl(
-    _$RivetingModelImpl _value,
-    $Res Function(_$RivetingModelImpl) _then,
-  ) : super(_value, _then);
+      _$RivetingModelImpl _value, $Res Function(_$RivetingModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of RivetingModel
   /// with the given fields replaced by the non-null parameter values.
@@ -165,53 +156,51 @@ class __$$RivetingModelImplCopyWithImpl<$Res>
     Object? customerPhoneNumber = freezed,
     Object? status = freezed,
   }) {
-    return _then(
-      _$RivetingModelImpl(
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        customerName: freezed == customerName
-            ? _value.customerName
-            : customerName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        projectId: freezed == projectId
-            ? _value.projectId
-            : projectId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        date: freezed == date
-            ? _value.date
-            : date // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        time: freezed == time
-            ? _value.time
-            : time // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        customerPhoneNumber: freezed == customerPhoneNumber
-            ? _value.customerPhoneNumber
-            : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$RivetingModelImpl(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerName: freezed == customerName
+          ? _value.customerName
+          : customerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectId: freezed == projectId
+          ? _value.projectId
+          : projectId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customerPhoneNumber: freezed == customerPhoneNumber
+          ? _value.customerPhoneNumber
+          : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$RivetingModelImpl extends _RivetingModel {
-  const _$RivetingModelImpl({
-    @JsonKey(name: 'name') this.name,
-    @JsonKey(name: 'customer_name') this.customerName,
-    @JsonKey(name: 'project_id') this.projectId,
-    @JsonKey(name: 'date') this.date,
-    @JsonKey(name: 'time') this.time,
-    @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
-    @JsonKey(name: 'riveting_status') this.status,
-  }) : super._();
+  const _$RivetingModelImpl(
+      {@JsonKey(name: 'name') this.name,
+      @JsonKey(name: 'customer_name') this.customerName,
+      @JsonKey(name: 'project_id') this.projectId,
+      @JsonKey(name: 'date') this.date,
+      @JsonKey(name: 'time') this.time,
+      @JsonKey(name: 'customer_phone_number') this.customerPhoneNumber,
+      @JsonKey(name: 'riveting_status') this.status})
+      : super._();
 
   factory _$RivetingModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RivetingModelImplFromJson(json);
@@ -262,16 +251,8 @@ class _$RivetingModelImpl extends _RivetingModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    name,
-    customerName,
-    projectId,
-    date,
-    time,
-    customerPhoneNumber,
-    status,
-  );
+  int get hashCode => Object.hash(runtimeType, name, customerName, projectId,
+      date, time, customerPhoneNumber, status);
 
   /// Create a copy of RivetingModel
   /// with the given fields replaced by the non-null parameter values.
@@ -283,20 +264,22 @@ class _$RivetingModelImpl extends _RivetingModel {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RivetingModelImplToJson(this);
+    return _$$RivetingModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _RivetingModel extends RivetingModel {
-  const factory _RivetingModel({
-    @JsonKey(name: 'name') final String? name,
-    @JsonKey(name: 'customer_name') final String? customerName,
-    @JsonKey(name: 'project_id') final String? projectId,
-    @JsonKey(name: 'date') final String? date,
-    @JsonKey(name: 'time') final String? time,
-    @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
-    @JsonKey(name: 'riveting_status') final String? status,
-  }) = _$RivetingModelImpl;
+  const factory _RivetingModel(
+      {@JsonKey(name: 'name') final String? name,
+      @JsonKey(name: 'customer_name') final String? customerName,
+      @JsonKey(name: 'project_id') final String? projectId,
+      @JsonKey(name: 'date') final String? date,
+      @JsonKey(name: 'time') final String? time,
+      @JsonKey(name: 'customer_phone_number') final String? customerPhoneNumber,
+      @JsonKey(name: 'riveting_status')
+      final String? status}) = _$RivetingModelImpl;
   const _RivetingModel._() : super._();
 
   factory _RivetingModel.fromJson(Map<String, dynamic> json) =
