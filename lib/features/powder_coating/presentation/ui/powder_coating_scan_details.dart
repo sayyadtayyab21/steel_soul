@@ -150,40 +150,33 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                               .where((item) => item.status == 'Scanned')
                               .length;
 
-                         return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: SummaryBox(
-                                      borderColor: const Color(0xFFffb23f),
-                                      label: 'Scanned Panels',
-                                      colors: const[
-                                       Color(0xFFffb23f),
-                                       Color(0xFFffb23f),
-                                      ],
-                                      value: '$scanned',
-                                    ),
+                return Row(
+                              children: [
+                                Expanded(
+                                  child: SummaryBox(
+                                    borderColor: const Color(0xFF64B5F6),
+                                    label: 'Scanned Panels',
+                                    colors: const [
+                                      Color(0xFF62CEFF),
+                                      Color(0xFF1AA2E0),
+                                    ],
+                                    value: '$scanned',
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: SummaryBox(
-                                      borderColor: const Color(0xFFFFC1C4),
-                                      label: 'Total Panels',
-                                      colors: const[
-                                       Color(0xFFFFA5A5),
-                                       Color(0xFFFF7F7E),
-                                      ],
-                                      value: '$total',
-                                    ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: SummaryBox(
+                                    borderColor: const Color(0xFFFFC1C4),
+                                    label: 'Total Panels',
+                                    colors: const [
+                                      Color(0xFFFFA5A5),
+                                      Color(0xFFFF7F7E),
+                                    ],
+                                    value: '$total',
                                   ),
-                                  
-                                ],
-                              ),
-
-                            ),
-                          );
+                                ),
+                              ],
+                            );
                         },
                         // Show empty string or 0 ^ 0 while loading
                         orElse: () => const SizedBox.shrink(),

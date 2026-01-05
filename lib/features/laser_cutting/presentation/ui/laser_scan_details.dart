@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/buildbadge/summarybox.dart';
 
 import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
@@ -157,24 +158,28 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
 
                             return Row(
                               children: [
-                                _buildSummaryBox(
-                                  label: 'Scanned Panels',
-                                  value: '$scanned',
-                                  colors: [
-                                    const Color(0xFF62CEFF),
-                                    const Color(0xFF1AA2E0),
-                                  ],
-                                  borderColor: const Color(0xFF64B5F6),
+                                Expanded(
+                                  child: SummaryBox(
+                                    borderColor: const Color(0xFF64B5F6),
+                                    label: 'Scanned Panels',
+                                    colors: const [
+                                      Color(0xFF62CEFF),
+                                      Color(0xFF1AA2E0),
+                                    ],
+                                    value: '$scanned',
+                                  ),
                                 ),
                                 const SizedBox(width: 12),
-                                _buildSummaryBox(
-                                  label: 'Total Panels',
-                                  value: '$total',
-                                  colors: [
-                                    const Color(0xFFFFA5A5),
-                                    const Color(0xFFFF7F7E),
-                                  ],
-                                  borderColor: const Color(0xFFFFC1C4),
+                                Expanded(
+                                  child: SummaryBox(
+                                    borderColor: const Color(0xFFFFC1C4),
+                                    label: 'Total Panels',
+                                    colors: const [
+                                      Color(0xFFFFA5A5),
+                                      Color(0xFFFF7F7E),
+                                    ],
+                                    value: '$total',
+                                  ),
                                 ),
                               ],
                             );

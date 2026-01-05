@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,9 +7,6 @@ import 'package:steel_soul/core/model/pair.dart' show Pair;
 import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/buildbadge/summarybox.dart';
 import 'package:steel_soul/features/riveting/model/scanner_details_model.dart';
-
-
-
 
 import 'package:steel_soul/features/riveting/presentation%20/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/riveting/presentation%20/bloc/scanner_cubit.dart';
@@ -67,7 +63,7 @@ class _RivetingScanDetailsState extends State<RivetingScanDetails> {
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         scannedId,
-                        state.base64Image?? '',
+                        state.base64Image ?? '',
                         state.captureTime!.toIso8601String(),
                       ),
                     );
@@ -136,60 +132,54 @@ class _RivetingScanDetailsState extends State<RivetingScanDetails> {
                 ),
                 child: Column(
                   children: [
-                     BlocBuilder<
-                    LaserCuttingScanCubit,
-                    LaserCuttingScanCubitState
-                  >(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        success: (items) {
-                          final scannedList = items.cast<SacnnerDetailsModel>();
-                          final int total = scannedList.length;
-                          final int scanned = scannedList
-                              .where((item) => item.status == 'Scanned')
-                              .length;
+                    BlocBuilder<
+                      LaserCuttingScanCubit,
+                      LaserCuttingScanCubitState
+                    >(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          success: (items) {
+                            final scannedList = items
+                                .cast<SacnnerDetailsModel>();
+                            final int total = scannedList.length;
+                            final int scanned = scannedList
+                                .where((item) => item.status == 'Scanned')
+                                .length;
 
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: SummaryBox(
-                                      borderColor: const Color(0xFF3181ff),
-                                      label: 'Scanned Panels',
-                                      colors: const[
-                                       Color(0xFF3181ff),
-                                       Color(0xFF3181ff),
-                                      ],
-                                      value: '$scanned',
-                                    ),
+                            return Row(
+                              children: [
+                                Expanded(
+                                  child: SummaryBox(
+                                    borderColor: const Color(0xFF64B5F6),
+                                    label: 'Scanned Panels',
+                                    colors: const [
+                                      Color(0xFF62CEFF),
+                                      Color(0xFF1AA2E0),
+                                    ],
+                                    value: '$scanned',
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: SummaryBox(
-                                      borderColor: const Color(0xFFFFC1C4),
-                                      label: 'Total Panels',
-                                      colors: const[
-                                       Color(0xFFFFA5A5),
-                                       Color(0xFFFF7F7E),
-                                      ],
-                                      value: '$total',
-                                    ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: SummaryBox(
+                                    borderColor: const Color(0xFFFFC1C4),
+                                    label: 'Total Panels',
+                                    colors: const [
+                                      Color(0xFFFFA5A5),
+                                      Color(0xFFFF7F7E),
+                                    ],
+                                    value: '$total',
                                   ),
-                                  
-                                ],
-                              ),
-
-                            ),
-                          );
-                          
-                        },
-                        // Show empty string or 0 ^ 0 while loading
-                        orElse: () => const SizedBox.shrink(),
-                      );
-                    },
-                  ),const SizedBox(height: 16,),
+                                ),
+                              ],
+                            );
+                          },
+                          // Show empty string or 0 ^ 0 while loading
+                          orElse: () => const SizedBox.shrink(),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 16),
                     Expanded(
                       child:
                           BlocBuilder<
@@ -237,34 +227,34 @@ class _RivetingScanDetailsState extends State<RivetingScanDetails> {
     );
   }
 
-
-
   void _showStatusSnackBar(BuildContext context, String message, Color color) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Row(
-        children: [
-          Icon(
-            color == Colors.green ? Icons.check_circle : Icons.error,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              message,
-              style: UrbanistTextStyles.bodyMedium.copyWith(color: Colors.white),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              color == Colors.green ? Icons.check_circle : Icons.error,
+              color: Colors.white,
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating, // Makes it float above the UI
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
       ),
-      backgroundColor: color,
-      behavior: SnackBarBehavior.floating, // Makes it float above the UI
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
-    ),
-  );
-}
+    );
+  }
 
   void _showBlurredStatusDialog(
     BuildContext context,
@@ -343,10 +333,7 @@ class _RivetingScanDetailsState extends State<RivetingScanDetails> {
                 Container(
                   decoration: const BoxDecoration(
                     border: Border(
-                      left: BorderSide(
-                        color: Color(0xFF3181ff),
-                        width: 3,
-                      ),
+                      left: BorderSide(color: Color(0xFF3181ff), width: 3),
                     ),
                   ),
                   child: Padding(

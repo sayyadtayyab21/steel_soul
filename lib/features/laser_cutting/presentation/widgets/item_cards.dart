@@ -44,6 +44,7 @@ class ItemCards extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              
               // Left side - ID and Badges
               Expanded(
                 child: Column(
@@ -71,7 +72,12 @@ class ItemCards extends StatelessWidget {
                               color: Colors.black87,
                             ),
                           ),
-                          SizedBox(height: 10,),
+                     
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                 
                            Row(
                             children: [
                               BuildBadge(
@@ -89,10 +95,8 @@ class ItemCards extends StatelessWidget {
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10), // Space between ID and Badges
+                          
+                          // Space between ID and Badges
                     // Row(
                     //   children: [
                     //     // Scanned Quantity Badge

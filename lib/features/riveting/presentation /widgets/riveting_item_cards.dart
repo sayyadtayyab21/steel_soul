@@ -44,55 +44,79 @@ class RivetingItemCards extends StatelessWidget {
           child: Row(
             children: [
               // Left side - Project ID
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        left: BorderSide(color: Color(0xFF3181ff), width: 3),
+             Expanded(
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start, // Aligns content to the left
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(color: Color(0xFF3181ff), width: 3),
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                      ), // Added padding for left border separation
+                      padding: const EdgeInsets.only(left: 10),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            id, // Use the actual project ID
+                            id,
                             style: const TextStyle(
                               fontSize: 16,
-                              fontFamily: "Urbanist",
+                              fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w600,
+                              color: Colors.black87,
                             ),
                           ),
-                          const SizedBox(height: 4),
-                           Row(
-                            children: [
-                              BuildBadge(
-                                bgColor: Colors.white,
-                                borderColor: Colors.orangeAccent,
-                                label: 'Scanned: $scannedPanels',
-                                textColor: Colors.black,
-                              ),
-                              const SizedBox(width: 8),
-                              BuildBadge(
-                                bgColor: Colors.white,
-                                borderColor: Colors.blueAccent,
-                                label: 'Total: $totalPanels',
-                                textColor: Colors.black,
-                              ),
-                            ],
-                          ),
-                          // Optional: Add a placeholder for a second line of text if needed
                         ],
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 10),
+
+                    Row(
+                      children: [
+                        BuildBadge(
+                          bgColor: Colors.white,
+                          borderColor: Colors.orangeAccent,
+                          label: 'Scanned: $scannedPanels',
+                          textColor: Colors.black,
+                        ),
+                        const SizedBox(width: 8),
+                        BuildBadge(
+                          bgColor: Colors.white,
+                          borderColor: Colors.blueAccent,
+                          label: 'Total: $totalPanels',
+                          textColor: Colors.black,
+                        ),
+                      ],
+                    ),
+
+                    // Space between ID and Badges
+                    // Row(
+                    //   children: [
+                    //     // Scanned Quantity Badge
+                    //     _buildBadge(
+                    //       label: 'Scanned: $scannedPanels',
+                    //       bgColor: Colors.white,
+                    //       borderColor: Colors.orangeAccent,
+                    //       textColor: Colors.black,
+                    //     ),
+                    //     const SizedBox(width: 8),
+                    //     // Total Quantity Badge
+                    //     _buildBadge(
+                    //       label: 'Total: $totalPanels',
+                    //       bgColor: Colors.white,
+                    //       borderColor: Colors.blueAccent,
+                    //       textColor: Colors.black,
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
                 ),
               ),
+
 
               // Right side - Date and View button
               Column(

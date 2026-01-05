@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,6 @@ import 'package:steel_soul/features/puf/model/scanner_details_model.dart';
 import 'package:steel_soul/features/puf/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/puf/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/puf/presentation/widgets/scanner_button.dart';
-
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -61,13 +59,12 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                     }
                   }
 
-                
                   if (state.extractedWeight != null) {
                     final String scannedId = state.extractedWeight!.trim();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         scannedId,
-                        state.base64Image?? '',
+                        state.base64Image ?? '',
                         state.captureTime!.toIso8601String(),
                       ),
                     );
@@ -128,8 +125,8 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                 title: Text(widget.unit, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
                 // actions: [
-                  // BlocBuilder specifically for the scan count summary
-                 
+                // BlocBuilder specifically for the scan count summary
+
                 // ],
               ),
               body: Padding(
@@ -139,60 +136,54 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                 ),
                 child: Column(
                   children: [
-                     BlocBuilder<
-                    LaserCuttingScanCubit,
-                    LaserCuttingScanCubitState
-                  >(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        success: (items) {
-                          final scannedList = items.cast<SacnnerDetailsModel>();
-                          final int total = scannedList.length;
-                          final int scanned = scannedList
-                              .where((item) => item.status == 'Scanned')
-                              .length;
+                    BlocBuilder<
+                      LaserCuttingScanCubit,
+                      LaserCuttingScanCubitState
+                    >(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          success: (items) {
+                            final scannedList = items
+                                .cast<SacnnerDetailsModel>();
+                            final int total = scannedList.length;
+                            final int scanned = scannedList
+                                .where((item) => item.status == 'Scanned')
+                                .length;
 
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: SummaryBox(
-                                      borderColor: const Color(0xFF1ad0d0),
-                                      label: 'Scanned Panels',
-                                      colors: const[
-                                       Color(0xFF1ad0d0),
-                                       Color(0xFF1ad0d0),
-                                      ],
-                                      value: '$scanned',
-                                    ),
+                            return Row(
+                              children: [
+                                Expanded(
+                                  child: SummaryBox(
+                                    borderColor: const Color(0xFF64B5F6),
+                                    label: 'Scanned Panels',
+                                    colors: const [
+                                      Color(0xFF62CEFF),
+                                      Color(0xFF1AA2E0),
+                                    ],
+                                    value: '$scanned',
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: SummaryBox(
-                                      borderColor: const Color(0xFFFFC1C4),
-                                      label: 'Total Panels',
-                                      colors: const[
-                                       Color(0xFFFFA5A5),
-                                       Color(0xFFFF7F7E),
-                                      ],
-                                      value: '$total',
-                                    ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: SummaryBox(
+                                    borderColor: const Color(0xFFFFC1C4),
+                                    label: 'Total Panels',
+                                    colors: const [
+                                      Color(0xFFFFA5A5),
+                                      Color(0xFFFF7F7E),
+                                    ],
+                                    value: '$total',
                                   ),
-                                  
-                                ],
-                              ),
-
-                            ),
-                          );
-                          
-                        },
-                        // Show empty string or 0 ^ 0 while loading
-                        orElse: () => const SizedBox.shrink(),
-                      );
-                    },
-                  ),const SizedBox(height: 16,),
+                                ),
+                              ],
+                            );
+                          },
+                          // Show empty string or 0 ^ 0 while loading
+                          orElse: () => const SizedBox.shrink(),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 16),
                     Expanded(
                       child:
                           BlocBuilder<
@@ -283,31 +274,33 @@ class _PufScanDetailsState extends State<PufScanDetails> {
   }
 
   void _showStatusSnackBar(BuildContext context, String message, Color color) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Row(
-        children: [
-          Icon(
-            color == Colors.green ? Icons.check_circle : Icons.error,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              message,
-              style: UrbanistTextStyles.bodyMedium.copyWith(color: Colors.white),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              color == Colors.green ? Icons.check_circle : Icons.error,
+              color: Colors.white,
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                message,
+                style: UrbanistTextStyles.bodyMedium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating, // Makes it float above the UI
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
       ),
-      backgroundColor: color,
-      behavior: SnackBarBehavior.floating, // Makes it float above the UI
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
-    ),
-  );
-}
+    );
+  }
 
   // Simple loading helper
   void _showLoadingDialog(BuildContext context) {
@@ -328,7 +321,7 @@ class _PufScanDetailsState extends State<PufScanDetails> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-     color: const Color(0xFFe4fcfc),
+        color: const Color(0xFFe4fcfc),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isScanned ? Colors.green : Colors.grey.shade200,
@@ -344,10 +337,7 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                 Container(
                   decoration: const BoxDecoration(
                     border: Border(
-                      left: BorderSide(
-                        color: Color(0xFF1ad0d0),
-                        width: 3,
-                      ),
+                      left: BorderSide(color: Color(0xFF1ad0d0), width: 3),
                     ),
                   ),
                   child: Padding(
