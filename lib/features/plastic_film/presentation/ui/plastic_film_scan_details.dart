@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/buildbadge/summarybox.dart';
 
 import 'package:steel_soul/features/plastic_film/model/scanner_details_model.dart';
 import 'package:steel_soul/features/plastic_film/presentation/bloc/bloc_provider.dart';
@@ -132,9 +133,19 @@ class _PlasticFilmScanDetailsState extends State<PlasticFilmScanDetails> {
                 ),
                 title: Text(widget.unit, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
-                actions: [
+                // actions: [
                   // BlocBuilder specifically for the scan count summary
-                  BlocBuilder<
+                  
+                // ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Column(
+                  children: [
+                    BlocBuilder<
                     LaserCuttingScanCubit,
                     LaserCuttingScanCubitState
                   >(
@@ -152,24 +163,33 @@ class _PlasticFilmScanDetailsState extends State<PlasticFilmScanDetails> {
                               padding: const EdgeInsets.only(right: 16.0),
                               child: Row(
                                 children: [
-                                  Text(
-                                    'Scanned:', // Using your separator preference
-                                    style: UrbanistTextStyles.bodySmall.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[600],
+                                  Expanded(
+                                    child: SummaryBox(
+                                      borderColor: const Color(0xFf8490ff),
+                                      label: 'Scanned Panels',
+                                      colors: const[
+                                       Color(0xFf8490ff),
+                                       Color(0xFf8490ff),
+                                      ],
+                                      value: '$scanned',
                                     ),
                                   ),
-                                  Text(
-                                    '$scanned/$total', // Using your separator preference
-                                    style: UrbanistTextStyles.bodySmall.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[600],
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: SummaryBox(
+                                      borderColor: const Color(0xFFFFC1C4),
+                                      label: 'Total Panels',
+                                      colors: const[
+                                       Color(0xFFFFA5A5),
+                                       Color(0xFFFF7F7E),
+                                      ],
+                                      value: '$total',
                                     ),
                                   ),
+                                  
                                 ],
                               ),
+
                             ),
                           );
                         },
@@ -177,16 +197,7 @@ class _PlasticFilmScanDetailsState extends State<PlasticFilmScanDetails> {
                         orElse: () => const SizedBox.shrink(),
                       );
                     },
-                  ),
-                ],
-              ),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
-                ),
-                child: Column(
-                  children: [
+                  ),const SizedBox(height: 16,),
                     Expanded(
                       child:
                           BlocBuilder<

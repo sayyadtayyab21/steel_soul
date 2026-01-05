@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/buildbadge/summarybox.dart';
 
 import 'package:steel_soul/features/puf/model/scanner_details_model.dart';
 import 'package:steel_soul/features/puf/presentation/bloc/bloc_provider.dart';
@@ -126,9 +127,19 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                 ),
                 title: Text(widget.unit, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
-                actions: [
+                // actions: [
                   // BlocBuilder specifically for the scan count summary
-                  BlocBuilder<
+                 
+                // ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Column(
+                  children: [
+                     BlocBuilder<
                     LaserCuttingScanCubit,
                     LaserCuttingScanCubitState
                   >(
@@ -146,41 +157,42 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                               padding: const EdgeInsets.only(right: 16.0),
                               child: Row(
                                 children: [
-                                   Text(
-                                    'Scanned:', // Using your separator preference
-                                    style: UrbanistTextStyles.bodySmall.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[600],
+                                  Expanded(
+                                    child: SummaryBox(
+                                      borderColor: const Color(0xFF1ad0d0),
+                                      label: 'Scanned Panels',
+                                      colors: const[
+                                       Color(0xFF1ad0d0),
+                                       Color(0xFF1ad0d0),
+                                      ],
+                                      value: '$scanned',
                                     ),
                                   ),
-                                  Text(
-                                    '$scanned/$total', // Using your separator preference
-                                    style: UrbanistTextStyles.bodySmall.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[900],
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: SummaryBox(
+                                      borderColor: const Color(0xFFFFC1C4),
+                                      label: 'Total Panels',
+                                      colors: const[
+                                       Color(0xFFFFA5A5),
+                                       Color(0xFFFF7F7E),
+                                      ],
+                                      value: '$total',
                                     ),
                                   ),
+                                  
                                 ],
                               ),
+
                             ),
                           );
+                          
                         },
                         // Show empty string or 0 ^ 0 while loading
                         orElse: () => const SizedBox.shrink(),
                       );
                     },
-                  ),
-                ],
-              ),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
-                ),
-                child: Column(
-                  children: [
+                  ),const SizedBox(height: 16,),
                     Expanded(
                       child:
                           BlocBuilder<

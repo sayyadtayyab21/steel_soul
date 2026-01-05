@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:steel_soul/features/buildbadge/badge.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class FoldingItemCards extends StatelessWidget {
@@ -68,6 +69,23 @@ class FoldingItemCards extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              BuildBadge(
+                                bgColor: Colors.white,
+                                borderColor: Colors.orangeAccent,
+                                label: 'Scanned: $scannedPanels',
+                                textColor: Colors.black,
+                              ),
+                              const SizedBox(width: 8),
+                              BuildBadge(
+                                bgColor: Colors.white,
+                                borderColor: Colors.blueAccent,
+                                label: 'Total: $totalPanels',
+                                textColor: Colors.black,
+                              ),
+                            ],
+                          ),
                           // Optional: Add a placeholder for a second line of text if needed
                         ],
                       ),
@@ -76,29 +94,9 @@ class FoldingItemCards extends StatelessWidget {
                 ),
               ),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                            'Sacnned:', 
-                            style: UrbanistTextStyles.bodySmall.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.grey[600], // Using a clear grey color
-                            ),
-                          ),
-                      Text(
-                        '$scannedPanels/$totalPanels', 
-                        style: UrbanistTextStyles.bodySmall.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey[600], // Using a clear grey color
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(height: 3),
                   Container(
                     height: 32, // Increased height slightly

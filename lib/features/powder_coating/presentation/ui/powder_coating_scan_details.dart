@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/buildbadge/summarybox.dart';
 
 import 'package:steel_soul/features/powder_coating/model/scanner_details_model.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/bloc_provider.dart';
@@ -128,9 +129,15 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                 ),
                 title: Text(widget.unit, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
-                actions: [
-                  // BlocBuilder specifically for the scan count summary
-                  BlocBuilder<
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Column(
+                  children: [
+                     BlocBuilder<
                     LaserCuttingScanCubit,
                     LaserCuttingScanCubitState
                   >(
@@ -143,29 +150,38 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                               .where((item) => item.status == 'Scanned')
                               .length;
 
-                          return Center(
+                         return Center(
                             child: Padding(
                               padding: const EdgeInsets.only(right: 16.0),
                               child: Row(
                                 children: [
-                                  Text(
-                                    'Scanned:', // Using your separator preference
-                                    style: UrbanistTextStyles.bodySmall.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[600],
+                                  Expanded(
+                                    child: SummaryBox(
+                                      borderColor: const Color(0xFFffb23f),
+                                      label: 'Scanned Panels',
+                                      colors: const[
+                                       Color(0xFFffb23f),
+                                       Color(0xFFffb23f),
+                                      ],
+                                      value: '$scanned',
                                     ),
                                   ),
-                                  Text(
-                                    '$scanned/$total', // Using your separator preference
-                                    style: UrbanistTextStyles.bodySmall.copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[600],
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: SummaryBox(
+                                      borderColor: const Color(0xFFFFC1C4),
+                                      label: 'Total Panels',
+                                      colors: const[
+                                       Color(0xFFFFA5A5),
+                                       Color(0xFFFF7F7E),
+                                      ],
+                                      value: '$total',
                                     ),
                                   ),
+                                  
                                 ],
                               ),
+
                             ),
                           );
                         },
@@ -174,15 +190,7 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                       );
                     },
                   ),
-                ],
-              ),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8.0,
-                ),
-                child: Column(
-                  children: [
+                  const SizedBox(height: 16),
                     Expanded(
                       child:
                           BlocBuilder<
@@ -190,6 +198,7 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                             LaserCuttingScanCubitState
                           >(
                             builder: (context, state) {
+                              
                               return state.when(
                                 initial: () => const SizedBox(),
                                 loading: () => const Center(

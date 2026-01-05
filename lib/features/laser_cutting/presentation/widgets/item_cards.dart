@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:steel_soul/features/buildbadge/badge.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class ItemCards extends StatelessWidget {
@@ -57,36 +58,61 @@ class ItemCards extends StatelessWidget {
                         ),
                       ),
                       padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        id,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Urbanist',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            id,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                           Row(
+                            children: [
+                              BuildBadge(
+                                bgColor: Colors.white,
+                                borderColor: Colors.orangeAccent,
+                                label: 'Scanned: $scannedPanels',
+                                textColor: Colors.black,
+                              ),
+                              const SizedBox(width: 8),
+                              BuildBadge(
+                                bgColor: Colors.white,
+                                borderColor: Colors.blueAccent,
+                                label: 'Total: $totalPanels',
+                                textColor: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 10), // Space between ID and Badges
-                    Row(
-                      children: [
-                        // Scanned Quantity Badge
-                        _buildBadge(
-                          label: 'Scanned: $scannedPanels',
-                          bgColor: Colors.white,
-                          borderColor: Colors.orangeAccent,
-                          textColor: Colors.black,
-                        ),
-                        const SizedBox(width: 8),
-                        // Total Quantity Badge
-                        _buildBadge(
-                          label: 'Total: $totalPanels',
-                          bgColor: Colors.white,
-                          borderColor: Colors.blueAccent,
-                          textColor: Colors.black,
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     // Scanned Quantity Badge
+                    //     _buildBadge(
+                    //       label: 'Scanned: $scannedPanels',
+                    //       bgColor: Colors.white,
+                    //       borderColor: Colors.orangeAccent,
+                    //       textColor: Colors.black,
+                    //     ),
+                    //     const SizedBox(width: 8),
+                    //     // Total Quantity Badge
+                    //     _buildBadge(
+                    //       label: 'Total: $totalPanels',
+                    //       bgColor: Colors.white,
+                    //       borderColor: Colors.blueAccent,
+                    //       textColor: Colors.black,
+                    //     ),
+                    //   ],
+                    // ),
+                   
                   ],
                 ),
               ),
@@ -131,27 +157,5 @@ class ItemCards extends StatelessWidget {
   }
 
   // Helper method to keep code clean
-  Widget _buildBadge({
-    required String label,
-    required Color bgColor,
-    required Color borderColor,
-    required Color textColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: borderColor),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 11,
-          color: textColor,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
+
 }
