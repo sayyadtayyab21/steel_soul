@@ -74,30 +74,36 @@ class _$RequestConfigCopyWithImpl<T, $Res, $Val extends RequestConfig<T>>
   }) {
     return _then(
       _value.copyWith(
-            url: null == url
-                ? _value.url
-                : url // ignore: cast_nullable_to_non_nullable
-                      as String,
-            parser: null == parser
-                ? _value.parser
-                : parser // ignore: cast_nullable_to_non_nullable
-                      as T Function(Map<String, dynamic>),
-            reqParams: freezed == reqParams
-                ? _value.reqParams
-                : reqParams // ignore: cast_nullable_to_non_nullable
-                      as Map<String, dynamic>?,
-            headers: freezed == headers
-                ? _value.headers
-                : headers // ignore: cast_nullable_to_non_nullable
-                      as Map<String, String>?,
-            apiResponseParser: freezed == apiResponseParser
-                ? _value.apiResponseParser
-                : apiResponseParser // ignore: cast_nullable_to_non_nullable
-                      as ApiResponseParser<T>?,
-            body: freezed == body
-                ? _value.body
-                : body // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            url:
+                null == url
+                    ? _value.url
+                    : url // ignore: cast_nullable_to_non_nullable
+                        as String,
+            parser:
+                null == parser
+                    ? _value.parser
+                    : parser // ignore: cast_nullable_to_non_nullable
+                        as T Function(Map<String, dynamic>),
+            reqParams:
+                freezed == reqParams
+                    ? _value.reqParams
+                    : reqParams // ignore: cast_nullable_to_non_nullable
+                        as Map<String, dynamic>?,
+            headers:
+                freezed == headers
+                    ? _value.headers
+                    : headers // ignore: cast_nullable_to_non_nullable
+                        as Map<String, String>?,
+            apiResponseParser:
+                freezed == apiResponseParser
+                    ? _value.apiResponseParser
+                    : apiResponseParser // ignore: cast_nullable_to_non_nullable
+                        as ApiResponseParser<T>?,
+            body:
+                freezed == body
+                    ? _value.body
+                    : body // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -146,30 +152,36 @@ class __$$RequestConfigImplCopyWithImpl<T, $Res>
   }) {
     return _then(
       _$RequestConfigImpl<T>(
-        url: null == url
-            ? _value.url
-            : url // ignore: cast_nullable_to_non_nullable
-                  as String,
-        parser: null == parser
-            ? _value.parser
-            : parser // ignore: cast_nullable_to_non_nullable
-                  as T Function(Map<String, dynamic>),
-        reqParams: freezed == reqParams
-            ? _value._reqParams
-            : reqParams // ignore: cast_nullable_to_non_nullable
-                  as Map<String, dynamic>?,
-        headers: freezed == headers
-            ? _value._headers
-            : headers // ignore: cast_nullable_to_non_nullable
-                  as Map<String, String>?,
-        apiResponseParser: freezed == apiResponseParser
-            ? _value.apiResponseParser
-            : apiResponseParser // ignore: cast_nullable_to_non_nullable
-                  as ApiResponseParser<T>?,
-        body: freezed == body
-            ? _value.body
-            : body // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        url:
+            null == url
+                ? _value.url
+                : url // ignore: cast_nullable_to_non_nullable
+                    as String,
+        parser:
+            null == parser
+                ? _value.parser
+                : parser // ignore: cast_nullable_to_non_nullable
+                    as T Function(Map<String, dynamic>),
+        reqParams:
+            freezed == reqParams
+                ? _value._reqParams
+                : reqParams // ignore: cast_nullable_to_non_nullable
+                    as Map<String, dynamic>?,
+        headers:
+            freezed == headers
+                ? _value._headers
+                : headers // ignore: cast_nullable_to_non_nullable
+                    as Map<String, String>?,
+        apiResponseParser:
+            freezed == apiResponseParser
+                ? _value.apiResponseParser
+                : apiResponseParser // ignore: cast_nullable_to_non_nullable
+                    as ApiResponseParser<T>?,
+        body:
+            freezed == body
+                ? _value.body
+                : body // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }

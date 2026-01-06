@@ -74,30 +74,36 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
   }) {
     return _then(
       _value.copyWith(
-            isExtracting: null == isExtracting
-                ? _value.isExtracting
-                : isExtracting // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            extractedWeight: freezed == extractedWeight
-                ? _value.extractedWeight
-                : extractedWeight // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            captureTime: freezed == captureTime
-                ? _value.captureTime
-                : captureTime // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            capturedImage: freezed == capturedImage
-                ? _value.capturedImage
-                : capturedImage // ignore: cast_nullable_to_non_nullable
-                      as File?,
-            error: freezed == error
-                ? _value.error
-                : error // ignore: cast_nullable_to_non_nullable
-                      as Failure?,
-            base64Image: freezed == base64Image
-                ? _value.base64Image
-                : base64Image // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            isExtracting:
+                null == isExtracting
+                    ? _value.isExtracting
+                    : isExtracting // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            extractedWeight:
+                freezed == extractedWeight
+                    ? _value.extractedWeight
+                    : extractedWeight // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            captureTime:
+                freezed == captureTime
+                    ? _value.captureTime
+                    : captureTime // ignore: cast_nullable_to_non_nullable
+                        as DateTime?,
+            capturedImage:
+                freezed == capturedImage
+                    ? _value.capturedImage
+                    : capturedImage // ignore: cast_nullable_to_non_nullable
+                        as File?,
+            error:
+                freezed == error
+                    ? _value.error
+                    : error // ignore: cast_nullable_to_non_nullable
+                        as Failure?,
+            base64Image:
+                freezed == base64Image
+                    ? _value.base64Image
+                    : base64Image // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -163,30 +169,36 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$ScannerStateImpl(
-        isExtracting: null == isExtracting
-            ? _value.isExtracting
-            : isExtracting // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        extractedWeight: freezed == extractedWeight
-            ? _value.extractedWeight
-            : extractedWeight // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        captureTime: freezed == captureTime
-            ? _value.captureTime
-            : captureTime // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        capturedImage: freezed == capturedImage
-            ? _value.capturedImage
-            : capturedImage // ignore: cast_nullable_to_non_nullable
-                  as File?,
-        error: freezed == error
-            ? _value.error
-            : error // ignore: cast_nullable_to_non_nullable
-                  as Failure?,
-        base64Image: freezed == base64Image
-            ? _value.base64Image
-            : base64Image // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        isExtracting:
+            null == isExtracting
+                ? _value.isExtracting
+                : isExtracting // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        extractedWeight:
+            freezed == extractedWeight
+                ? _value.extractedWeight
+                : extractedWeight // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        captureTime:
+            freezed == captureTime
+                ? _value.captureTime
+                : captureTime // ignore: cast_nullable_to_non_nullable
+                    as DateTime?,
+        capturedImage:
+            freezed == capturedImage
+                ? _value.capturedImage
+                : capturedImage // ignore: cast_nullable_to_non_nullable
+                    as File?,
+        error:
+            freezed == error
+                ? _value.error
+                : error // ignore: cast_nullable_to_non_nullable
+                    as Failure?,
+        base64Image:
+            freezed == base64Image
+                ? _value.base64Image
+                : base64Image // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }

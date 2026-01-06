@@ -85,30 +85,36 @@ class _$RivetingItemModelCopyWithImpl<$Res, $Val extends RivetingItemModel>
   }) {
     return _then(
       _value.copyWith(
-            unitName: freezed == unitName
-                ? _value.unitName
-                : unitName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            unitCode: freezed == unitCode
-                ? _value.unitCode
-                : unitCode // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            project: freezed == project
-                ? _value.project
-                : project // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            totalPanels: freezed == totalPanels
-                ? _value.totalPanels
-                : totalPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            scannedPanels: freezed == scannedPanels
-                ? _value.scannedPanels
-                : scannedPanels // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            unitName:
+                freezed == unitName
+                    ? _value.unitName
+                    : unitName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            unitCode:
+                freezed == unitCode
+                    ? _value.unitCode
+                    : unitCode // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            project:
+                freezed == project
+                    ? _value.project
+                    : project // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            totalPanels:
+                freezed == totalPanels
+                    ? _value.totalPanels
+                    : totalPanels // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            scannedPanels:
+                freezed == scannedPanels
+                    ? _value.scannedPanels
+                    : scannedPanels // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            status:
+                freezed == status
+                    ? _value.status
+                    : status // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -157,30 +163,36 @@ class __$$RivetingItemModelImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$RivetingItemModelImpl(
-        unitName: freezed == unitName
-            ? _value.unitName
-            : unitName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        unitCode: freezed == unitCode
-            ? _value.unitCode
-            : unitCode // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        project: freezed == project
-            ? _value.project
-            : project // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        totalPanels: freezed == totalPanels
-            ? _value.totalPanels
-            : totalPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        scannedPanels: freezed == scannedPanels
-            ? _value.scannedPanels
-            : scannedPanels // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        unitName:
+            freezed == unitName
+                ? _value.unitName
+                : unitName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        unitCode:
+            freezed == unitCode
+                ? _value.unitCode
+                : unitCode // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        project:
+            freezed == project
+                ? _value.project
+                : project // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        totalPanels:
+            freezed == totalPanels
+                ? _value.totalPanels
+                : totalPanels // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        scannedPanels:
+            freezed == scannedPanels
+                ? _value.scannedPanels
+                : scannedPanels // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        status:
+            freezed == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }

@@ -375,7 +375,7 @@ class __$$NetworkRequestSuccessImplCopyWithImpl<T, $Res>
         freezed == data
             ? _value.data
             : data // ignore: cast_nullable_to_non_nullable
-                  as T,
+                as T,
       ),
     );
   }
@@ -412,11 +412,10 @@ class _$NetworkRequestSuccessImpl<T> extends _NetworkRequestSuccess<T> {
   @override
   @pragma('vm:prefer-inline')
   _$$NetworkRequestSuccessImplCopyWith<T, _$NetworkRequestSuccessImpl<T>>
-  get copyWith =>
-      __$$NetworkRequestSuccessImplCopyWithImpl<
-        T,
-        _$NetworkRequestSuccessImpl<T>
-      >(this, _$identity);
+  get copyWith => __$$NetworkRequestSuccessImplCopyWithImpl<
+    T,
+    _$NetworkRequestSuccessImpl<T>
+  >(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -543,7 +542,7 @@ class __$$NetworkRequestFailureImplCopyWithImpl<T, $Res>
         null == failure
             ? _value.failure
             : failure // ignore: cast_nullable_to_non_nullable
-                  as Failure,
+                as Failure,
       ),
     );
   }
@@ -589,11 +588,10 @@ class _$NetworkRequestFailureImpl<T> extends _NetworkRequestFailure<T> {
   @override
   @pragma('vm:prefer-inline')
   _$$NetworkRequestFailureImplCopyWith<T, _$NetworkRequestFailureImpl<T>>
-  get copyWith =>
-      __$$NetworkRequestFailureImplCopyWithImpl<
-        T,
-        _$NetworkRequestFailureImpl<T>
-      >(this, _$identity);
+  get copyWith => __$$NetworkRequestFailureImplCopyWithImpl<
+    T,
+    _$NetworkRequestFailureImpl<T>
+  >(this, _$identity);
 
   @override
   @optionalTypeArgs

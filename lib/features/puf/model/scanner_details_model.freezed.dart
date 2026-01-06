@@ -81,26 +81,31 @@ class _$SacnnerDetailsModelCopyWithImpl<$Res, $Val extends SacnnerDetailsModel>
   }) {
     return _then(
       _value.copyWith(
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            panelName: freezed == panelName
-                ? _value.panelName
-                : panelName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            project: freezed == project
-                ? _value.project
-                : project // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            unit: freezed == unit
-                ? _value.unit
-                : unit // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            name:
+                freezed == name
+                    ? _value.name
+                    : name // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            panelName:
+                freezed == panelName
+                    ? _value.panelName
+                    : panelName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            project:
+                freezed == project
+                    ? _value.project
+                    : project // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            unit:
+                freezed == unit
+                    ? _value.unit
+                    : unit // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            status:
+                freezed == status
+                    ? _value.status
+                    : status // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -147,26 +152,31 @@ class __$$SacnnerDetailsModelImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$SacnnerDetailsModelImpl(
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        panelName: freezed == panelName
-            ? _value.panelName
-            : panelName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        project: freezed == project
-            ? _value.project
-            : project // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        unit: freezed == unit
-            ? _value.unit
-            : unit // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        name:
+            freezed == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        panelName:
+            freezed == panelName
+                ? _value.panelName
+                : panelName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        project:
+            freezed == project
+                ? _value.project
+                : project // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        unit:
+            freezed == unit
+                ? _value.unit
+                : unit // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        status:
+            freezed == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }

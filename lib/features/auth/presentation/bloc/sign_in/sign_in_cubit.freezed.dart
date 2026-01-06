@@ -473,7 +473,7 @@ class __$$FailureImplCopyWithImpl<$Res>
         null == failure
             ? _value.failure
             : failure // ignore: cast_nullable_to_non_nullable
-                  as Failure,
+                as Failure,
       ),
     );
   }

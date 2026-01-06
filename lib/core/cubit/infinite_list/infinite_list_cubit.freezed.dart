@@ -75,26 +75,31 @@ class _$InfiniteListStateCopyWithImpl<
   }) {
     return _then(
       _value.copyWith(
-            apiState: null == apiState
-                ? _value.apiState
-                : apiState // ignore: cast_nullable_to_non_nullable
-                      as ApiState,
-            records: null == records
-                ? _value.records
-                : records // ignore: cast_nullable_to_non_nullable
-                      as List<T>,
-            hasReachedMax: null == hasReachedMax
-                ? _value.hasReachedMax
-                : hasReachedMax // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            query: freezed == query
-                ? _value.query
-                : query // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            failure: freezed == failure
-                ? _value.failure
-                : failure // ignore: cast_nullable_to_non_nullable
-                      as Failure?,
+            apiState:
+                null == apiState
+                    ? _value.apiState
+                    : apiState // ignore: cast_nullable_to_non_nullable
+                        as ApiState,
+            records:
+                null == records
+                    ? _value.records
+                    : records // ignore: cast_nullable_to_non_nullable
+                        as List<T>,
+            hasReachedMax:
+                null == hasReachedMax
+                    ? _value.hasReachedMax
+                    : hasReachedMax // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            query:
+                freezed == query
+                    ? _value.query
+                    : query // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            failure:
+                freezed == failure
+                    ? _value.failure
+                    : failure // ignore: cast_nullable_to_non_nullable
+                        as Failure?,
           )
           as $Val,
     );
@@ -158,26 +163,31 @@ class __$$InfiniteListStateImplCopyWithImpl<T, $Res>
   }) {
     return _then(
       _$InfiniteListStateImpl<T>(
-        apiState: null == apiState
-            ? _value.apiState
-            : apiState // ignore: cast_nullable_to_non_nullable
-                  as ApiState,
-        records: null == records
-            ? _value._records
-            : records // ignore: cast_nullable_to_non_nullable
-                  as List<T>,
-        hasReachedMax: null == hasReachedMax
-            ? _value.hasReachedMax
-            : hasReachedMax // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        query: freezed == query
-            ? _value.query
-            : query // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        failure: freezed == failure
-            ? _value.failure
-            : failure // ignore: cast_nullable_to_non_nullable
-                  as Failure?,
+        apiState:
+            null == apiState
+                ? _value.apiState
+                : apiState // ignore: cast_nullable_to_non_nullable
+                    as ApiState,
+        records:
+            null == records
+                ? _value._records
+                : records // ignore: cast_nullable_to_non_nullable
+                    as List<T>,
+        hasReachedMax:
+            null == hasReachedMax
+                ? _value.hasReachedMax
+                : hasReachedMax // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        query:
+            freezed == query
+                ? _value.query
+                : query // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        failure:
+            freezed == failure
+                ? _value.failure
+                : failure // ignore: cast_nullable_to_non_nullable
+                    as Failure?,
       ),
     );
   }

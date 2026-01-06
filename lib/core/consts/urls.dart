@@ -9,7 +9,7 @@ class Urls {
   //   factory Urls.steel_soulUAT() => const Urls('https://steel_soullive.easycloud.co.in/api');
 
   factory Urls.live() =>
-      const Urls('https://steel_soullive.easycloud.co.in/api');
+      const Urls('https://steelsoullive.easycloud.co.in/api');
   // factory Urls.steel_soulLive() =>
   //     const Urls('https://steel_soullive.easycloud.co.in/api');
 

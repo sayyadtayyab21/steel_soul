@@ -89,34 +89,41 @@ class _$ProjectDetailsModelCopyWithImpl<$Res, $Val extends ProjectDetailsModel>
   }) {
     return _then(
       _value.copyWith(
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            customerName: freezed == customerName
-                ? _value.customerName
-                : customerName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            projectId: freezed == projectId
-                ? _value.projectId
-                : projectId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            date: freezed == date
-                ? _value.date
-                : date // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            time: freezed == time
-                ? _value.time
-                : time // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            customerPhoneNumber: freezed == customerPhoneNumber
-                ? _value.customerPhoneNumber
-                : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            name:
+                freezed == name
+                    ? _value.name
+                    : name // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            customerName:
+                freezed == customerName
+                    ? _value.customerName
+                    : customerName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            projectId:
+                freezed == projectId
+                    ? _value.projectId
+                    : projectId // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            date:
+                freezed == date
+                    ? _value.date
+                    : date // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            time:
+                freezed == time
+                    ? _value.time
+                    : time // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            customerPhoneNumber:
+                freezed == customerPhoneNumber
+                    ? _value.customerPhoneNumber
+                    : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            status:
+                freezed == status
+                    ? _value.status
+                    : status // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -167,34 +174,41 @@ class __$$ProjectDetailsModelImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$ProjectDetailsModelImpl(
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        customerName: freezed == customerName
-            ? _value.customerName
-            : customerName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        projectId: freezed == projectId
-            ? _value.projectId
-            : projectId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        date: freezed == date
-            ? _value.date
-            : date // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        time: freezed == time
-            ? _value.time
-            : time // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        customerPhoneNumber: freezed == customerPhoneNumber
-            ? _value.customerPhoneNumber
-            : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        name:
+            freezed == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        customerName:
+            freezed == customerName
+                ? _value.customerName
+                : customerName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        projectId:
+            freezed == projectId
+                ? _value.projectId
+                : projectId // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        date:
+            freezed == date
+                ? _value.date
+                : date // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        time:
+            freezed == time
+                ? _value.time
+                : time // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        customerPhoneNumber:
+            freezed == customerPhoneNumber
+                ? _value.customerPhoneNumber
+                : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        status:
+            freezed == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }

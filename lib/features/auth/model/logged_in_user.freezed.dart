@@ -121,70 +121,86 @@ class _$LoggedInUserCopyWithImpl<$Res, $Val extends LoggedInUser>
   }) {
     return _then(
       _value.copyWith(
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            username: freezed == username
-                ? _value.username
-                : username // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            firstName: null == firstName
-                ? _value.firstName
-                : firstName // ignore: cast_nullable_to_non_nullable
-                      as String,
-            lastName: null == lastName
-                ? _value.lastName
-                : lastName // ignore: cast_nullable_to_non_nullable
-                      as String,
-            apiKey: null == apiKey
-                ? _value.apiKey
-                : apiKey // ignore: cast_nullable_to_non_nullable
-                      as String,
-            apiSecret: null == apiSecret
-                ? _value.apiSecret
-                : apiSecret // ignore: cast_nullable_to_non_nullable
-                      as String,
-            email: freezed == email
-                ? _value.email
-                : email // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            password: null == password
-                ? _value.password
-                : password // ignore: cast_nullable_to_non_nullable
-                      as String,
-            roleProfileName: freezed == roleProfileName
-                ? _value.roleProfileName
-                : roleProfileName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            gender: freezed == gender
-                ? _value.gender
-                : gender // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            bithDate: freezed == bithDate
-                ? _value.bithDate
-                : bithDate // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            phone: freezed == phone
-                ? _value.phone
-                : phone // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            location: freezed == location
-                ? _value.location
-                : location // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            bio: freezed == bio
-                ? _value.bio
-                : bio // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            mobileNo: freezed == mobileNo
-                ? _value.mobileNo
-                : mobileNo // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            role: freezed == role
-                ? _value.role
-                : role // ignore: cast_nullable_to_non_nullable
-                      as int?,
+            name:
+                freezed == name
+                    ? _value.name
+                    : name // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            username:
+                freezed == username
+                    ? _value.username
+                    : username // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            firstName:
+                null == firstName
+                    ? _value.firstName
+                    : firstName // ignore: cast_nullable_to_non_nullable
+                        as String,
+            lastName:
+                null == lastName
+                    ? _value.lastName
+                    : lastName // ignore: cast_nullable_to_non_nullable
+                        as String,
+            apiKey:
+                null == apiKey
+                    ? _value.apiKey
+                    : apiKey // ignore: cast_nullable_to_non_nullable
+                        as String,
+            apiSecret:
+                null == apiSecret
+                    ? _value.apiSecret
+                    : apiSecret // ignore: cast_nullable_to_non_nullable
+                        as String,
+            email:
+                freezed == email
+                    ? _value.email
+                    : email // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            password:
+                null == password
+                    ? _value.password
+                    : password // ignore: cast_nullable_to_non_nullable
+                        as String,
+            roleProfileName:
+                freezed == roleProfileName
+                    ? _value.roleProfileName
+                    : roleProfileName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            gender:
+                freezed == gender
+                    ? _value.gender
+                    : gender // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            bithDate:
+                freezed == bithDate
+                    ? _value.bithDate
+                    : bithDate // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            phone:
+                freezed == phone
+                    ? _value.phone
+                    : phone // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            location:
+                freezed == location
+                    ? _value.location
+                    : location // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            bio:
+                freezed == bio
+                    ? _value.bio
+                    : bio // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            mobileNo:
+                freezed == mobileNo
+                    ? _value.mobileNo
+                    : mobileNo // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            role:
+                freezed == role
+                    ? _value.role
+                    : role // ignore: cast_nullable_to_non_nullable
+                        as int?,
           )
           as $Val,
     );
@@ -254,70 +270,86 @@ class __$$LoggedInUserImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$LoggedInUserImpl(
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        username: freezed == username
-            ? _value.username
-            : username // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        firstName: null == firstName
-            ? _value.firstName
-            : firstName // ignore: cast_nullable_to_non_nullable
-                  as String,
-        lastName: null == lastName
-            ? _value.lastName
-            : lastName // ignore: cast_nullable_to_non_nullable
-                  as String,
-        apiKey: null == apiKey
-            ? _value.apiKey
-            : apiKey // ignore: cast_nullable_to_non_nullable
-                  as String,
-        apiSecret: null == apiSecret
-            ? _value.apiSecret
-            : apiSecret // ignore: cast_nullable_to_non_nullable
-                  as String,
-        email: freezed == email
-            ? _value.email
-            : email // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        password: null == password
-            ? _value.password
-            : password // ignore: cast_nullable_to_non_nullable
-                  as String,
-        roleProfileName: freezed == roleProfileName
-            ? _value.roleProfileName
-            : roleProfileName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        gender: freezed == gender
-            ? _value.gender
-            : gender // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        bithDate: freezed == bithDate
-            ? _value.bithDate
-            : bithDate // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        phone: freezed == phone
-            ? _value.phone
-            : phone // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        location: freezed == location
-            ? _value.location
-            : location // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        bio: freezed == bio
-            ? _value.bio
-            : bio // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        mobileNo: freezed == mobileNo
-            ? _value.mobileNo
-            : mobileNo // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        role: freezed == role
-            ? _value.role
-            : role // ignore: cast_nullable_to_non_nullable
-                  as int?,
+        name:
+            freezed == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        username:
+            freezed == username
+                ? _value.username
+                : username // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        firstName:
+            null == firstName
+                ? _value.firstName
+                : firstName // ignore: cast_nullable_to_non_nullable
+                    as String,
+        lastName:
+            null == lastName
+                ? _value.lastName
+                : lastName // ignore: cast_nullable_to_non_nullable
+                    as String,
+        apiKey:
+            null == apiKey
+                ? _value.apiKey
+                : apiKey // ignore: cast_nullable_to_non_nullable
+                    as String,
+        apiSecret:
+            null == apiSecret
+                ? _value.apiSecret
+                : apiSecret // ignore: cast_nullable_to_non_nullable
+                    as String,
+        email:
+            freezed == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        password:
+            null == password
+                ? _value.password
+                : password // ignore: cast_nullable_to_non_nullable
+                    as String,
+        roleProfileName:
+            freezed == roleProfileName
+                ? _value.roleProfileName
+                : roleProfileName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        gender:
+            freezed == gender
+                ? _value.gender
+                : gender // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        bithDate:
+            freezed == bithDate
+                ? _value.bithDate
+                : bithDate // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        phone:
+            freezed == phone
+                ? _value.phone
+                : phone // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        location:
+            freezed == location
+                ? _value.location
+                : location // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        bio:
+            freezed == bio
+                ? _value.bio
+                : bio // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        mobileNo:
+            freezed == mobileNo
+                ? _value.mobileNo
+                : mobileNo // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        role:
+            freezed == role
+                ? _value.role
+                : role // ignore: cast_nullable_to_non_nullable
+                    as int?,
       ),
     );
   }

@@ -66,14 +66,16 @@ class _$PanelStatusModelCopyWithImpl<$Res, $Val extends PanelStatusModel>
   $Res call({Object? status = freezed, Object? message = freezed}) {
     return _then(
       _value.copyWith(
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            message: freezed == message
-                ? _value.message
-                : message // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            status:
+                freezed == status
+                    ? _value.status
+                    : status // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            message:
+                freezed == message
+                    ? _value.message
+                    : message // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -111,14 +113,16 @@ class __$$PanelStatusModelImplCopyWithImpl<$Res>
   $Res call({Object? status = freezed, Object? message = freezed}) {
     return _then(
       _$PanelStatusModelImpl(
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        message: freezed == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        status:
+            freezed == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        message:
+            freezed == message
+                ? _value.message
+                : message // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }

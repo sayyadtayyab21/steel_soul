@@ -79,22 +79,26 @@ class _$TextScannerModelCopyWithImpl<$Res, $Val extends TextScannerModel>
   }) {
     return _then(
       _value.copyWith(
-            status: freezed == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            message: freezed == message
-                ? _value.message
-                : message // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            ocrData: null == ocrData
-                ? _value.ocrData
-                : ocrData // ignore: cast_nullable_to_non_nullable
-                      as OcrData,
-            baseImage: freezed == baseImage
-                ? _value.baseImage
-                : baseImage // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            status:
+                freezed == status
+                    ? _value.status
+                    : status // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            message:
+                freezed == message
+                    ? _value.message
+                    : message // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            ocrData:
+                null == ocrData
+                    ? _value.ocrData
+                    : ocrData // ignore: cast_nullable_to_non_nullable
+                        as OcrData,
+            baseImage:
+                freezed == baseImage
+                    ? _value.baseImage
+                    : baseImage // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -152,22 +156,26 @@ class __$$TextScannerModelImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$TextScannerModelImpl(
-        status: freezed == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        message: freezed == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        ocrData: null == ocrData
-            ? _value.ocrData
-            : ocrData // ignore: cast_nullable_to_non_nullable
-                  as OcrData,
-        baseImage: freezed == baseImage
-            ? _value.baseImage
-            : baseImage // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        status:
+            freezed == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        message:
+            freezed == message
+                ? _value.message
+                : message // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        ocrData:
+            null == ocrData
+                ? _value.ocrData
+                : ocrData // ignore: cast_nullable_to_non_nullable
+                    as OcrData,
+        baseImage:
+            freezed == baseImage
+                ? _value.baseImage
+                : baseImage // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }
@@ -314,10 +322,11 @@ class _$OcrDataCopyWithImpl<$Res, $Val extends OcrData>
   $Res call({Object? text = freezed}) {
     return _then(
       _value.copyWith(
-            text: freezed == text
-                ? _value.text
-                : text // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            text:
+                freezed == text
+                    ? _value.text
+                    : text // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -351,10 +360,11 @@ class __$$OcrDataImplCopyWithImpl<$Res>
   $Res call({Object? text = freezed}) {
     return _then(
       _$OcrDataImpl(
-        text: freezed == text
-            ? _value.text
-            : text // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        text:
+            freezed == text
+                ? _value.text
+                : text // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }

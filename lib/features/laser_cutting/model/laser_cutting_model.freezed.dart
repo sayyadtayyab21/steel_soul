@@ -101,46 +101,56 @@ class _$LaserCuttingListCopyWithImpl<$Res, $Val extends LaserCuttingList>
   }) {
     return _then(
       _value.copyWith(
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            customerName: freezed == customerName
-                ? _value.customerName
-                : customerName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            projectId: freezed == projectId
-                ? _value.projectId
-                : projectId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            date: freezed == date
-                ? _value.date
-                : date // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            time: freezed == time
-                ? _value.time
-                : time // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            fullSheetCount: freezed == fullSheetCount
-                ? _value.fullSheetCount
-                : fullSheetCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            halfSheetCount: freezed == halfSheetCount
-                ? _value.halfSheetCount
-                : halfSheetCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            quarterSheetCount: freezed == quarterSheetCount
-                ? _value.quarterSheetCount
-                : quarterSheetCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            customerPhoneNumber: freezed == customerPhoneNumber
-                ? _value.customerPhoneNumber
-                : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            laserCuttingStatus: freezed == laserCuttingStatus
-                ? _value.laserCuttingStatus
-                : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            name:
+                freezed == name
+                    ? _value.name
+                    : name // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            customerName:
+                freezed == customerName
+                    ? _value.customerName
+                    : customerName // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            projectId:
+                freezed == projectId
+                    ? _value.projectId
+                    : projectId // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            date:
+                freezed == date
+                    ? _value.date
+                    : date // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            time:
+                freezed == time
+                    ? _value.time
+                    : time // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            fullSheetCount:
+                freezed == fullSheetCount
+                    ? _value.fullSheetCount
+                    : fullSheetCount // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            halfSheetCount:
+                freezed == halfSheetCount
+                    ? _value.halfSheetCount
+                    : halfSheetCount // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            quarterSheetCount:
+                freezed == quarterSheetCount
+                    ? _value.quarterSheetCount
+                    : quarterSheetCount // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            customerPhoneNumber:
+                freezed == customerPhoneNumber
+                    ? _value.customerPhoneNumber
+                    : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            laserCuttingStatus:
+                freezed == laserCuttingStatus
+                    ? _value.laserCuttingStatus
+                    : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -197,46 +207,56 @@ class __$$LaserCuttingListImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$LaserCuttingListImpl(
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        customerName: freezed == customerName
-            ? _value.customerName
-            : customerName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        projectId: freezed == projectId
-            ? _value.projectId
-            : projectId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        date: freezed == date
-            ? _value.date
-            : date // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        time: freezed == time
-            ? _value.time
-            : time // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        fullSheetCount: freezed == fullSheetCount
-            ? _value.fullSheetCount
-            : fullSheetCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        halfSheetCount: freezed == halfSheetCount
-            ? _value.halfSheetCount
-            : halfSheetCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        quarterSheetCount: freezed == quarterSheetCount
-            ? _value.quarterSheetCount
-            : quarterSheetCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        customerPhoneNumber: freezed == customerPhoneNumber
-            ? _value.customerPhoneNumber
-            : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        laserCuttingStatus: freezed == laserCuttingStatus
-            ? _value.laserCuttingStatus
-            : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        name:
+            freezed == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        customerName:
+            freezed == customerName
+                ? _value.customerName
+                : customerName // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        projectId:
+            freezed == projectId
+                ? _value.projectId
+                : projectId // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        date:
+            freezed == date
+                ? _value.date
+                : date // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        time:
+            freezed == time
+                ? _value.time
+                : time // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        fullSheetCount:
+            freezed == fullSheetCount
+                ? _value.fullSheetCount
+                : fullSheetCount // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        halfSheetCount:
+            freezed == halfSheetCount
+                ? _value.halfSheetCount
+                : halfSheetCount // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        quarterSheetCount:
+            freezed == quarterSheetCount
+                ? _value.quarterSheetCount
+                : quarterSheetCount // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        customerPhoneNumber:
+            freezed == customerPhoneNumber
+                ? _value.customerPhoneNumber
+                : customerPhoneNumber // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        laserCuttingStatus:
+            freezed == laserCuttingStatus
+                ? _value.laserCuttingStatus
+                : laserCuttingStatus // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }
