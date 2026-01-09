@@ -5,16 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/quad.dart';
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/welding/presentation/bloc/bloc_provider.dart';
+import 'package:steel_soul/features/welding/presentation/bloc/scanner_cubit.dart';
+import 'package:steel_soul/features/welding/presentation/ui/welding_scan_details.dart';
+import 'package:steel_soul/features/welding/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/welding/presentation/widgets/welding_item_cards.dart';
 
-import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_scan_details.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_button.dart';
-import 'package:steel_soul/features/laser_cutting/presentation/widgets/item_cards.dart';
+
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-class LaserItemDetails extends StatefulWidget {
-  LaserItemDetails({
+class WeldingItemDetails extends StatefulWidget {
+  WeldingItemDetails({
     super.key,
     required this.id,
     required this.fullProjectSheetCount,
@@ -23,15 +24,15 @@ class LaserItemDetails extends StatefulWidget {
   });
 
   final String id;
-  final int fullProjectSheetCount;
-  final int halfProjectSheetCount;
-  final int quarterProjectSheetCount;
+  int fullProjectSheetCount;
+  int halfProjectSheetCount;
+  int quarterProjectSheetCount;
 
   @override
-  State<LaserItemDetails> createState() => _LaserItemDetailsState();
+  State<WeldingItemDetails> createState() => _LaserItemDetailsState();
 }
 
-class _LaserItemDetailsState extends State<LaserItemDetails> {
+class _LaserItemDetailsState extends State<WeldingItemDetails> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
@@ -65,30 +66,30 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
   @override
   Widget build(BuildContext context) {
     log(
-      'Building LaserItemDetails for project: ${widget.fullProjectSheetCount}',
+      'Building WeldingItemDetails for project: ${widget.fullProjectSheetCount}',
     );
     log(
-      'Building LaserItemDetails for project: ${widget.halfProjectSheetCount}',
+      'Building WeldingItemDetails for project: ${widget.halfProjectSheetCount}',
     );
     log(
-      'Building LaserItemDetails for project: ${widget.quarterProjectSheetCount}',
+      'Building WeldingItemDetails for project: ${widget.quarterProjectSheetCount}',
     );
-    log('Building LaserItemDetails for project: ${widget.id}');
+    log('Building WeldingItemDetails for project: ${widget.id}');
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (_) =>
-              LaserCuttingBlocProvider.get().fetchLaserItemsList()
+              WeldingBlocProvider.get().fetchLaserItemsList()
                 ..request(widget.id),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         BlocProvider(
-          create: (_) => LaserCuttingBlocProvider.get().fetchLaserPanelStatus(),
+          create: (_) => WeldingBlocProvider.get().fetchLaserPanelStatus(),
         ),
         BlocProvider(
           create: (_) =>
-              LaserCuttingBlocProvider.get().fetchLaserUpdateSheetStatus(),
+              WeldingBlocProvider.get().fetchLaserUpdateSheetStatus(),
         ),
       ],
       child: Builder(
@@ -172,8 +173,8 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
                   children: [
                     _searchBar(),
                     const SizedBox(height: 10),
-                    _buildSheetCounterSection(innerContext),
-                    const SizedBox(height: 10),
+                    // _buildSheetCounterSection(innerContext),
+                    // const SizedBox(height: 10),
                     Expanded(
                       child:
                           BlocBuilder<
@@ -199,7 +200,7 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
                                       .toList();
 
                                   return RefreshIndicator(
-                                    color: const Color(0xFF5FD6FF),
+                                    color: const Color.fromARGB(255, 255, 152, 92),
                                     onRefresh: () => _onRefresh(context),
                                     child: filteredItems.isEmpty
                                         ? ListView(
@@ -224,10 +225,10 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
                                                 padding: const EdgeInsets.only(
                                                   bottom: 8,
                                                 ),
-                                                child: ItemCards(
+                                                child: WeldingItemCards(
                                                   id: item.unitCode ?? '',
                                                   scan:
-                                                      item.laserCuttingStatus ??
+                                                      item.status ??
                                                       '',
                                                   totalPanels:
                                                       item.totalPanels ?? 0,
@@ -238,7 +239,7 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (_) =>
-                                                            LaserScanDetails(
+                                                            WeldingScanDetails(
                                                               projectId:
                                                                   widget.id,
                                                               unit:
@@ -271,101 +272,101 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
     );
   }
 
-  Widget _buildSheetCounterSection(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-        ],
-        border: Border.all(color: Colors.grey[200]!),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Project Sheet Inventory',
-            style: UrbanistTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildCounterItem(
-                'Full Sheet',
-                fullSheetCount,
-                // fullSheetCount,
-                (val) => setState(() => fullSheetCount = val),
-              ),
-              _buildCounterItem(
-                'Half Sheet',
-                halfSheetCount,
-                (val) => setState(() => halfSheetCount = val),
-              ),
-              _buildCounterItem(
-                'Quarter Sheet',
-                quarterSheetCount,
-                (val) => setState(() => quarterSheetCount = val),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF5FD6FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                elevation: 0,
-              ),
-              onPressed: () {
-                context.read<LaserCuttiingUpdateSheetCubit>().request(
-                  Quad(
-                    widget.id,
-                    fullSheetCount,
-                    halfSheetCount,
-                    quarterSheetCount,
-                  ),
-                );
-              },
-              child:
-                  BlocBuilder<
-                    LaserCuttiingUpdateSheetCubit,
-                    LaserCuttiingUpdateSheetCubitState
-                  >(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        loading: () => const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
-                        ),
-                        orElse: () => const Text(
-                          'SAVE SHEET COUNTS',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildSheetCounterSection(BuildContext context) {
+  //   return Container(
+  //     padding: const EdgeInsets.all(8),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(12),
+  //       boxShadow: const [
+  //         BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
+  //       ],
+  //       border: Border.all(color: Colors.grey[200]!),
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Text(
+  //           'Project Sheet Inventory',
+  //           style: UrbanistTextStyles.bodyMedium.copyWith(
+  //             fontWeight: FontWeight.bold,
+  //           ),
+  //         ),
+  //         const SizedBox(height: 6),
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             _buildCounterItem(
+  //               'Full Sheet',
+  //               fullSheetCount,
+  //               // fullSheetCount,
+  //               (val) => setState(() => fullSheetCount = val),
+  //             ),
+  //             _buildCounterItem(
+  //               'Half Sheet',
+  //               halfSheetCount,
+  //               (val) => setState(() => halfSheetCount = val),
+  //             ),
+  //             _buildCounterItem(
+  //               'Quarter Sheet',
+  //               quarterSheetCount,
+  //               (val) => setState(() => quarterSheetCount = val),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 16),
+  //         SizedBox(
+  //           width: double.infinity,
+  //           height: 48,
+  //           child: ElevatedButton(
+  //             style: ElevatedButton.styleFrom(
+  //               backgroundColor: const Color(0xFF5FD6FF),
+  //               shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(8),
+  //               ),
+  //               elevation: 0,
+  //             ),
+  //             onPressed: () {
+  //               context.read<LaserCuttiingUpdateSheetCubit>().request(
+  //                 Quad(
+  //                   widget.id,
+  //                   fullSheetCount,
+  //                   halfSheetCount,
+  //                   quarterSheetCount,
+  //                 ),
+  //               );
+  //             },
+  //             child:
+  //                 BlocBuilder<
+  //                   LaserCuttiingUpdateSheetCubit,
+  //                   LaserCuttiingUpdateSheetCubitState
+  //                 >(
+  //                   builder: (context, state) {
+  //                     return state.maybeWhen(
+  //                       loading: () => const SizedBox(
+  //                         height: 20,
+  //                         width: 20,
+  //                         child: CircularProgressIndicator(
+  //                           color: Colors.white,
+  //                           strokeWidth: 2,
+  //                         ),
+  //                       ),
+  //                       orElse: () => const Text(
+  //                         'SAVE SHEET COUNTS',
+  //                         style: TextStyle(
+  //                           color: Colors.white,
+  //                           fontWeight: FontWeight.bold,
+  //                         ),
+  //                       ),
+  //                     );
+  //                   },
+  //                 ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildCounterItem(String label, int value, Function(int) onChanged) {
     return Column(
@@ -417,7 +418,7 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
         onChanged: (value) => setState(() => _searchQuery = value),
         decoration: InputDecoration(
           hintText: 'Search Unit Code',
-          prefixIcon: const Icon(Icons.search, color: Color(0xFF5FD6FF)),
+          prefixIcon: const Icon(Icons.search, color: const Color.fromARGB(255, 255, 152, 92),),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
                   icon: const Icon(Icons.clear, size: 20),
@@ -441,7 +442,7 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
     return Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: const Color(0xFF5FD6FF),
+        color: const Color.fromARGB(255, 255, 152, 92),
         borderRadius: BorderRadius.circular(8),
       ),
       child: IconButton(

@@ -6,15 +6,16 @@ import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
 import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/buildbadge/summarybox.dart';
-import 'package:steel_soul/features/packing/model/scanner_details_model.dart';
-import 'package:steel_soul/features/packing/presentation/bloc/bloc_provider.dart';
-import 'package:steel_soul/features/packing/presentation/bloc/scanner_cubit.dart';
-import 'package:steel_soul/features/packing/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/welding/model/scanner_details_model.dart';
+import 'package:steel_soul/features/welding/presentation/bloc/bloc_provider.dart';
+import 'package:steel_soul/features/welding/presentation/bloc/scanner_cubit.dart';
+import 'package:steel_soul/features/welding/presentation/widgets/scanner_button.dart';
+
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-class PackingScanDetails extends StatefulWidget {
-  const PackingScanDetails({
+class WeldingScanDetails extends StatefulWidget {
+  const WeldingScanDetails({
     super.key,
     required this.projectId,
     required this.unit,
@@ -23,11 +24,12 @@ class PackingScanDetails extends StatefulWidget {
   final String unit;
 
   @override
-  State<PackingScanDetails> createState() => _PackingScanDetailsState();
+  State<WeldingScanDetails> createState() => _LaserScanDetailsState();
 }
 // ... (imports remain the same)
 
-class _PackingScanDetailsState extends State<PackingScanDetails> {
+class _LaserScanDetailsState extends State<WeldingScanDetails> {
+
   Future<void> _handleRefresh(BuildContext context) async {
 context.read<LaserCuttingScanCubit>().request(
 Pair<String, String>(widget.projectId, widget.unit),
@@ -44,13 +46,13 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
       providers: [
         BlocProvider(
           create: (_) =>
-              PackingBlocProvider.get().fetchLaserScanList()
+              WeldingBlocProvider.get().fetchLaserScanList()
                 ..request(Pair<String, String>(widget.projectId, widget.unit)),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         // This provides the Panel Status Cubit to the tree
         BlocProvider(
-          create: (_) => PackingBlocProvider.get().fetchLaserPanelStatus(),
+          create: (_) => WeldingBlocProvider.get().fetchLaserPanelStatus(),
         ),
       ],
       child: Builder(
@@ -76,12 +78,13 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         scannedId,
-                        state.base64Image ?? '',
-                        state.captureTime!.toIso8601String(),
+                        state.base64Image,
+                        state.captureTime?.toIso8601String(),
                       ),
                     );
                     context.read<ScannerCubit>().reset();
                   }
+
                   // 3. Handle Errors
                   if (state.error != null) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -130,7 +133,7 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                 leading: Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFDB7B6C),
+                    color: const Color.fromARGB(255, 255, 152, 92),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: IconButton(
@@ -140,10 +143,6 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                 ),
                 title: Text(widget.unit, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
-                // actions: [
-                // BlocBuilder specifically for the scan count summary
-
-                // ],
               ),
               body: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -165,7 +164,7 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                             final int scanned = scannedList
                                 .where(
                                   (item) =>
-                                      item.laserCuttingStatus == 'Scanned',
+                                      item.status == 'Scanned',
                                 )
                                 .length;
 
@@ -197,7 +196,6 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                               ],
                             );
                           },
-                          // Show empty string or 0 ^ 0 while loading
                           orElse: () => const SizedBox.shrink(),
                         );
                       },
@@ -216,7 +214,7 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                                   child: CircularProgressIndicator(),
                                 ),
                                 failure: (e) =>
-                                    Center(child: Text('//${e.error}')),
+                                    Center(child: Text('Error: ${e.error}')),
                                 success: (items) {
                                   final scannedItems = items
                                       .cast<SacnnerDetailsModel>();
@@ -226,7 +224,7 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                                     );
                                   }
                                   return RefreshIndicator(
-                                    color: Colors.brown,
+                                    color: const Color.fromARGB(255, 254, 189, 75),
                                     onRefresh: () => _handleRefresh(context),
                                     child: ListView.builder(
                                       itemCount: scannedItems.length,
@@ -250,6 +248,49 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildSummaryBox({
+    required String label,
+    required String value,
+    required List<Color> colors,
+    required Color borderColor,
+  }) {
+    return Expanded(
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: colors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: borderColor),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+            Text(
+              value,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w900,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -335,16 +376,16 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
   }
 
   Widget _buildScanDetailCard(BuildContext context, SacnnerDetailsModel item) {
-    final bool isScanned = item.laserCuttingStatus == 'Scanned';
+    final bool isScanned = item.status == 'Scanned';
     final Color statusColor = isScanned
         ? const Color(0xff3db678)
         : const Color(0xff858585);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFEDED),
+        color: const Color.fromARGB(255, 253, 240, 233),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isScanned ? Colors.green : Colors.grey.shade200,
@@ -360,7 +401,10 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                 Container(
                   decoration: const BoxDecoration(
                     border: Border(
-                      left: BorderSide(color: Color(0xFFDB7B6C), width: 3),
+                      left: BorderSide(
+                        color: Color.fromARGB(255, 255, 152, 92),
+                        width: 3,
+                      ),
                     ),
                   ),
                   child: Padding(
@@ -386,7 +430,7 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
             ),
             child: Center(
               child: Text(
-                item.laserCuttingStatus ?? 'Unknown',
+                item.status ?? 'Unknown',
                 style: UrbanistTextStyles.bodySmall.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

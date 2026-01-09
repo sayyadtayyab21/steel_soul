@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-class LaserCard extends StatefulWidget {
-  const LaserCard({
+class WeldingCards extends StatefulWidget {
+  const WeldingCards({
     super.key,
     required this.id,
     required this.date,
@@ -18,10 +18,10 @@ class LaserCard extends StatefulWidget {
   final Function() onTap;
 
   @override
-  State<LaserCard> createState() => _LaserCardState();
+  State<WeldingCards> createState() => _LaserCardState();
 }
 
-class _LaserCardState extends State<LaserCard> {
+class _LaserCardState extends State<WeldingCards> {
   @override
   Widget build(BuildContext context) {
     // Date formatting logic
@@ -55,7 +55,7 @@ class _LaserCardState extends State<LaserCard> {
       onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFE6F3FF),
+          color: const Color.fromARGB(255, 255, 239, 230),
           border: Border.all(
             color: widget.scan == 'Completed'
                 ? Colors.green
@@ -72,7 +72,7 @@ class _LaserCardState extends State<LaserCard> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               // Left side - Project ID
@@ -83,7 +83,7 @@ class _LaserCardState extends State<LaserCard> {
                     decoration: const BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color: Color.fromARGB(255, 80, 193, 231),
+                          color:  Color.fromARGB(255, 255, 152, 92),
                           width: 3,
                         ),
                       ),
@@ -133,7 +133,7 @@ class _LaserCardState extends State<LaserCard> {
                       gradient: const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Color(0xFF62CEFF), Color(0xFF1AA2E0)],
+                        colors: [ Color.fromARGB(255, 255, 173, 126),  Color.fromARGB(255, 255, 152, 92),],
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),

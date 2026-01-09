@@ -14,6 +14,7 @@ import 'package:steel_soul/features/plastic_film/presentation/ui/plastic_film_sc
 import 'package:steel_soul/features/powder_coating/presentation/ui/powder_coating_screen.dart';
 import 'package:steel_soul/features/puf/presentation/ui/puf_screen.dart';
 import 'package:steel_soul/features/riveting/presentation%20/ui/riveting_screen.dart';
+import 'package:steel_soul/features/welding/presentation/ui/welding_screen.dart';
 
 class AppHomePage extends StatelessWidget {
   const AppHomePage({super.key});
@@ -192,8 +193,37 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/folding.png',
           sectionCount: 2,
         ),
-        if (userPermission.role == 3 || userPermission.role == 0)
+        // if (userPermission.role == 3 || userPermission.role == 0)
         _buildFeatureCard(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const WeldingScreen(),
+              ),
+            );
+          },
+          // onTap: () {
+          //   // Navigator.push(
+          //   //   context,
+          //   //   MaterialPageRoute(
+          //   //     builder: (context) => BlocProvider(
+          //   //       create: (context) =>
+          //   //           PdiBlocProvider.get().fetchPdiListCubit()..fetchInitial(),
+          //   //       child: const PdiGetItems(),
+          //   //     ),
+          //   //   ),
+          //   // );
+          // },
+        context,
+          title: 'Welding',
+          color: const Color.fromARGB(255, 255, 160, 105), // ✅ Deep Golden Amber
+          icon: Icons.engineering_outlined,
+          imagePath: 'assets/images/welding.png',
+          sectionCount: 3
+        ),
+         if (userPermission.role == 3 || userPermission.role == 0)
+            _buildFeatureCard(
           onTap: () {
             Navigator.push(
               context,
@@ -219,7 +249,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color.fromARGB(255, 234, 163, 101), // Orange
           icon: Icons.engineering_outlined,
           imagePath: 'assets/images/powdercoat.png',
-          sectionCount: 3
+          sectionCount: 4
         ),
         if (userPermission.role == 4 || userPermission.role == 0)
         _buildFeatureCard(
@@ -249,7 +279,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color.fromARGB(255, 157, 152, 237), // Purple
           icon: Icons.category_outlined,
           imagePath: 'assets/images/plasticfilm.png',
-          sectionCount: 4,
+          sectionCount: 5,
         ),
         if (userPermission.role == 5 || userPermission.role == 0)
         _buildFeatureCard(
@@ -277,7 +307,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color(0xFF1AD0D0),
           icon: Icons.construction_outlined,
           imagePath: 'assets/images/puf.png',
-          sectionCount: 5,
+          sectionCount: 6,
         ),
         if (userPermission.role == 6 || userPermission.role == 0)
         _buildFeatureCard(
@@ -305,7 +335,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color(0xFF6EA7FF), // ✅ Teal Blue
           icon: Icons.construction_outlined,
           imagePath: 'assets/images/riveting.png',
-          sectionCount: 6,
+          sectionCount: 7,
         ),
         if (userPermission.role == 7 || userPermission.role == 0)
         _buildFeatureCard(
@@ -333,7 +363,7 @@ class AppHomePage extends StatelessWidget {
           color: const Color(0xFFF6997F), // ✅ Teal Blue
           icon: Icons.construction_outlined,
           imagePath: 'assets/images/packing.png',
-          sectionCount: 7
+          sectionCount: 8
         ),
       ],
     );

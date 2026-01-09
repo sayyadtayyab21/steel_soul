@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,14 +29,27 @@ class FoldingScanDetails extends StatefulWidget {
 // ... (imports remain the same)
 
 class _FoldingScanDetailsState extends State<FoldingScanDetails> {
+  Future<void> _handleRefresh(BuildContext context) async {
+    context.read<LaserCuttingScanCubit>().request(
+      Pair<String, String>(widget.projectId, widget.unit),
+    );
+
+    // Wait until the cubit is no longer loading
+    await context.read<LaserCuttingScanCubit>().stream.firstWhere(
+      (state) => !state.isLoading,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              FoldingBlocProvider.get().fetchLaserScanList()
-                ..request(Pair<String, String>(widget.projectId, widget.unit)),
+          create:
+              (_) =>
+                  FoldingBlocProvider.get().fetchLaserScanList()..request(
+                    Pair<String, String>(widget.projectId, widget.unit),
+                  ),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         // This provides the Panel Status Cubit to the tree
@@ -60,7 +72,7 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                     }
                   }
 
-                 if (state.extractedWeight != null) {
+                  if (state.extractedWeight != null) {
                     final String scannedId = state.extractedWeight!.trim();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
@@ -127,8 +139,8 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                 title: Text(widget.unit, style: UrbanistTextStyles.heading3),
                 centerTitle: true,
                 // actions: [
-                  // BlocBuilder specifically for the scan count summary
-                
+                // BlocBuilder specifically for the scan count summary
+
                 // ],
               ),
               body: Padding(
@@ -138,20 +150,22 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                 ),
                 child: Column(
                   children: [
-                      BlocBuilder<
-                    LaserCuttingScanCubit,
-                    LaserCuttingScanCubitState
-                  >(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        success: (items) {
-                          final scannedList = items.cast<SacnnerDetailsModel>();
-                          final int total = scannedList.length;
-                          final int scanned = scannedList
-                              .where((item) => item.status == 'Scanned')
-                              .length;
+                    BlocBuilder<
+                      LaserCuttingScanCubit,
+                      LaserCuttingScanCubitState
+                    >(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          success: (items) {
+                            final scannedList =
+                                items.cast<SacnnerDetailsModel>();
+                            final int total = scannedList.length;
+                            final int scanned =
+                                scannedList
+                                    .where((item) => item.status == 'Scanned')
+                                    .length;
 
-                           return Row(
+                            return Row(
                               children: [
                                 Expanded(
                                   child: SummaryBox(
@@ -178,50 +192,52 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                                 ),
                               ],
                             );
-                        },
-                     
-                        orElse: () => const SizedBox.shrink(),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 16),
+                          },
 
+                          orElse: () => const SizedBox.shrink(),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 16),
 
                     Expanded(
-                      child:
-                          BlocBuilder<
-                            LaserCuttingScanCubit,
-                            LaserCuttingScanCubitState
-                          >(
-                            builder: (context, state) {
-                              return state.when(
-                                initial: () => const SizedBox(),
-                                loading: () => const Center(
+                      child: BlocBuilder<
+                        LaserCuttingScanCubit,
+                        LaserCuttingScanCubitState
+                      >(
+                        builder: (context, state) {
+                          return state.when(
+                            initial: () => const SizedBox(),
+                            loading:
+                                () => const Center(
                                   child: CircularProgressIndicator(),
                                 ),
-                                failure: (e) =>
-                                    Center(child: Text('//${e.error}')),
-                                success: (items) {
-                                  final scannedItems = items
-                                      .cast<SacnnerDetailsModel>();
-                                  if (scannedItems.isEmpty) {
-                                    return const Center(
-                                      child: Text('No items found'),
+                            failure: (e) => Center(child: Text('//${e.error}')),
+                            success: (items) {
+                              final scannedItems =
+                                  items.cast<SacnnerDetailsModel>();
+                              if (scannedItems.isEmpty) {
+                                return const Center(
+                                  child: Text('No items found'),
+                                );
+                              }
+                              return RefreshIndicator(
+                                color: const Color.fromARGB(255, 255, 126, 56), // Matches your app theme
+                                onRefresh: () => _handleRefresh(context),
+                                child: ListView.builder(
+                                  itemCount: scannedItems.length,
+                                  itemBuilder: (context, index) {
+                                    return _buildScanDetailCard(
+                                      context,
+                                      scannedItems[index],
                                     );
-                                  }
-                                  return ListView.builder(
-                                    itemCount: scannedItems.length,
-                                    itemBuilder: (context, index) {
-                                      return _buildScanDetailCard(
-                                        context,
-                                        scannedItems[index],
-                                      );
-                                    },
-                                  );
-                                },
+                                  },
+                                ),
                               );
                             },
-                          ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -316,9 +332,8 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
 
   Widget _buildScanDetailCard(BuildContext context, SacnnerDetailsModel item) {
     final bool isScanned = item.status == 'Scanned';
-    final Color statusColor = isScanned
-        ? const Color(0xff3db678)
-        : const Color(0xff858585);
+    final Color statusColor =
+        isScanned ? const Color(0xff3db678) : const Color(0xff858585);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 6),

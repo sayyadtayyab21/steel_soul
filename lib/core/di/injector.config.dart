@@ -62,6 +62,10 @@ import '../../features/riveting/presentation%20/bloc/bloc_provider.dart'
     as _i1032;
 import '../../features/riveting/presentation%20/bloc/scanner_cubit.dart'
     as _i467;
+import '../../features/welding/data/welding_repo.dart' as _i926;
+import '../../features/welding/data/welding_repo_imp.dart' as _i104;
+import '../../features/welding/presentation/bloc/bloc_provider.dart' as _i247;
+import '../../features/welding/presentation/bloc/scanner_cubit.dart' as _i368;
 import '../core.dart' as _i351;
 import '../local_storage/key_vale_storage.dart' as _i1012;
 import '../network/api_client.dart' as _i557;
@@ -151,6 +155,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i372.FoldingRepo>(
       () => _i972.FoldingRepoImp(gh<_i351.ApiClient>()),
     );
+    gh.lazySingleton<_i926.WeldingRepo>(
+      () => _i104.WeldingRepoImp(gh<_i351.ApiClient>()),
+    );
     gh.factory<_i818.ScannerCubit>(
       () => _i818.ScannerCubit(gh<_i626.PowderCoatingRepo>()),
     );
@@ -179,8 +186,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i955.ScannerCubit>(
       () => _i955.ScannerCubit(gh<_i137.LaserCuttingRepo>()),
     );
+    gh.factory<_i368.ScannerCubit>(
+      () => _i368.ScannerCubit(gh<_i137.LaserCuttingRepo>()),
+    );
     gh.factory<_i482.ScannerCubit>(
       () => _i482.ScannerCubit(gh<_i372.FoldingRepo>()),
+    );
+    gh.lazySingleton<_i247.WeldingBlocProvider>(
+      () => _i247.WeldingBlocProvider(gh<_i926.WeldingRepo>()),
     );
     gh.lazySingleton<_i39.FoldingBlocProvider>(
       () => _i39.FoldingBlocProvider(gh<_i372.FoldingRepo>()),

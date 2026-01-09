@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:steel_soul/features/buildbadge/badge.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
-class ItemCards extends StatelessWidget {
-  const ItemCards({
+class WeldingItemCards extends StatelessWidget {
+  const WeldingItemCards({
     super.key,
     required this.id,
     required this.onTap,
@@ -25,7 +25,7 @@ class ItemCards extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
-          color: const Color(0xFFE6F3FF),
+          color: const Color.fromARGB(255, 252, 238, 230),
           border: Border.all(
             color: scan == 'Completed' ? Colors.green : Colors.grey.shade200,
             width: 3,
@@ -40,7 +40,7 @@ class ItemCards extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -55,7 +55,7 @@ class ItemCards extends StatelessWidget {
                     Container(
                       decoration: const BoxDecoration(
                         border: Border(
-                          left: BorderSide(color: Color(0xFF50C1E7), width: 3),
+                          left: BorderSide(color:  Color.fromARGB(255, 255, 152, 92), width: 3),
                         ),
                       ),
                       padding: const EdgeInsets.only(left: 10),
@@ -128,7 +128,7 @@ class ItemCards extends StatelessWidget {
                   gradient: const LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: [Color(0xFF62CEFF), Color(0xFF1AA2E0)],
+                    colors: [Color.fromARGB(255, 255, 152, 92),  Color.fromARGB(255, 255, 152, 92),],
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),

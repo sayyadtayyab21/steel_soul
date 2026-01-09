@@ -29,6 +29,16 @@ class PufScanDetails extends StatefulWidget {
 // ... (imports remain the same)
 
 class _PufScanDetailsState extends State<PufScanDetails> {
+  Future<void> _handleRefresh(BuildContext context) async {
+context.read<LaserCuttingScanCubit>().request(
+Pair<String, String>(widget.projectId, widget.unit),
+);
+
+// Wait until the cubit is no longer loading
+await context.read<LaserCuttingScanCubit>().stream.firstWhere(
+(state) => !state.isLoading,
+);
+}
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -206,14 +216,18 @@ class _PufScanDetailsState extends State<PufScanDetails> {
                                       child: Text('No items found'),
                                     );
                                   }
-                                  return ListView.builder(
-                                    itemCount: scannedItems.length,
-                                    itemBuilder: (context, index) {
-                                      return _buildScanDetailCard(
-                                        context,
-                                        scannedItems[index],
-                                      );
-                                    },
+                                  return RefreshIndicator(
+                                    color: const Color.fromARGB(255, 34, 200, 246),
+                                    onRefresh: ()=> _handleRefresh(context),
+                                    child: ListView.builder(
+                                      itemCount: scannedItems.length,
+                                      itemBuilder: (context, index) {
+                                        return _buildScanDetailCard(
+                                          context,
+                                          scannedItems[index],
+                                        );
+                                      },
+                                    ),
                                   );
                                 },
                               );
