@@ -193,7 +193,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/folding.png',
           sectionCount: 2,
         ),
-        // if (userPermission.role == 3 || userPermission.role == 0)
+        if (userPermission.role == 3 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -222,7 +222,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/welding.png',
           sectionCount: 3
         ),
-         if (userPermission.role == 3 || userPermission.role == 0)
+         if (userPermission.role == 4|| userPermission.role == 0)
             _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -251,7 +251,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/powdercoat.png',
           sectionCount: 4
         ),
-        if (userPermission.role == 4 || userPermission.role == 0)
+        if (userPermission.role == 5 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -281,7 +281,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/plasticfilm.png',
           sectionCount: 5,
         ),
-        if (userPermission.role == 5 || userPermission.role == 0)
+        if (userPermission.role == 6 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -309,7 +309,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/puf.png',
           sectionCount: 6,
         ),
-        if (userPermission.role == 6 || userPermission.role == 0)
+        if (userPermission.role == 7 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
@@ -337,7 +337,7 @@ class AppHomePage extends StatelessWidget {
           imagePath: 'assets/images/riveting.png',
           sectionCount: 7,
         ),
-        if (userPermission.role == 7 || userPermission.role == 0)
+        if (userPermission.role == 8 || userPermission.role == 0)
         _buildFeatureCard(
           onTap: () {
             Navigator.push(
