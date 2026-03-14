@@ -23,7 +23,9 @@ _$LoggedInUserImpl _$$LoggedInUserImplFromJson(Map<String, dynamic> json) =>
       location: json['location'] as String?,
       bio: json['bio'] as String?,
       mobileNo: json['mobile_no'] as String?,
-      role: (json['role'] as num?)?.toInt(),
+      role:
+          (json['role'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          [],
     );
 
 Map<String, dynamic> _$$LoggedInUserImplToJson(_$LoggedInUserImpl instance) =>

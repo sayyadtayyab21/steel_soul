@@ -229,6 +229,7 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
 @override
 AsyncValueOf<UpdateSheetModel> updateSheetCount(
   String projectId,
+  final String sheetType,
   int fullSheetCount,
   int halfSheetCount,
   int quarterSheetCount,
@@ -247,6 +248,7 @@ AsyncValueOf<UpdateSheetModel> updateSheetCount(
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     reqParams: {
       'project': projectId,
+      'sheet_type':sheetType,
       'full_sheet': fullSheetCount,
       'half_sheet': halfSheetCount,
       'quarter_sheet': quarterSheetCount,

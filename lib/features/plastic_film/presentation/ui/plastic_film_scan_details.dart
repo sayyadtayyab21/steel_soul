@@ -315,7 +315,7 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
         ],
       ),
       backgroundColor: color,
-      behavior: SnackBarBehavior.floating, // Makes it float above the UI
+      behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: const EdgeInsets.all(16),
       duration: const Duration(seconds: 3),

@@ -22,7 +22,8 @@ class LoggedInUser with _$LoggedInUser {
     String? location,
     String? bio,
     @JsonKey(name: 'mobile_no') String? mobileNo,
-   @JsonKey(name: 'role', ) int? role,
+ @JsonKey(name: 'role', defaultValue: [])
+required List<String> role,
 
 
   }) = _LoggedInUser;

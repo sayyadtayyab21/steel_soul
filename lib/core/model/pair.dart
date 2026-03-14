@@ -5,6 +5,7 @@ class Pair<A, B> {
 
   final A first;
   final B second;
+  
 
   @override
   bool operator ==(Object other) =>

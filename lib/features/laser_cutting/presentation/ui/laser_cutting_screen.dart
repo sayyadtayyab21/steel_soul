@@ -41,8 +41,8 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
       providers: [
         // 1. Project List Cubit
         BlocProvider(
-          create: (_) =>
-              LaserCuttingBlocProvider.get().fetchLaserList()..request(),
+          create:
+              (_) => LaserCuttingBlocProvider.get().fetchLaserList()..request(),
         ),
         // 2. Scanner Cubit (Handles Image Picking & OCR)
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
@@ -132,89 +132,103 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                     _searchBar(),
                     const SizedBox(height: 10),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
+                      child: BlocBuilder<
+                        LaserCuttingCubit,
+                        LaserCuttingCubitState
+                      >(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            loading:
+                                () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                             failure: (e) => Center(child: Text(e.error)),
                             success: (List<LaserCuttingList> projects) {
-                              final filteredProjects = projects.where((
-                                project,
-                              ) {
-                                final id =
-                                    project.projectId?.toLowerCase() ?? '';
-                                return id.contains(_searchQuery.toLowerCase());
-                              }).toList();
+                              final filteredProjects =
+                                  projects.where((project) {
+                                    final id =
+                                        project.projectId?.toLowerCase() ?? '';
+                                    return id.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
                               return RefreshIndicator(
                                 color: const Color(0xFF5FD6FF),
                                 onRefresh: () => _onRefresh(context),
-                                child: filteredProjects.isEmpty
-                                    ? ListView(
-                                        children: const [
-                                          SizedBox(height: 100),
-                                          Center(
-                                            child: Text('No projects found'),
-                                          ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        itemCount: filteredProjects.length,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          final project =
-                                              filteredProjects[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6,
+                                child:
+                                    filteredProjects.isEmpty
+                                        ? ListView(
+                                          children: const [
+                                            SizedBox(height: 100),
+                                            Center(
+                                              child: Text('No projects found'),
                                             ),
-                                            child: LaserCard(
-                                              id: project.projectId ?? '',
-                                              date: project.date ?? '',
-                                              scan:
-                                                  project.laserCuttingStatus ??
-                                                  '',
-                                              time: project.time??'' ,
-                                              onTap: () async {
-                                                // We wait for the result
-                                                final result = await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) => LaserItemDetails(
-                                                      id:
-                                                          project.projectId ??
-                                                          '',
-                                                      fullProjectSheetCount:
-                                                          project
-                                                              .fullSheetCount ??
-                                                          0,
-                                                      halfProjectSheetCount:
-                                                          project
-                                                              .halfSheetCount ??
-                                                          0,
-                                                      quarterProjectSheetCount:
-                                                          project
-                                                              .quarterSheetCount ??
-                                                          0,
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: filteredProjects.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            final project =
+                                                filteredProjects[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 6,
+                                              ),
+                                              child: LaserCard(
+                                                id: project.projectId ?? '',
+                                                date: project.date ?? '',
+                                                scan:
+                                                    project
+                                                        .laserCuttingStatus ??
+                                                    '',
+                                                time: project.time ?? '',
+                                                onTap: () async {
+                                                  final result = await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (
+                                                            _,
+                                                          ) => LaserItemDetails(
+                                                            id:
+                                                                project
+                                                                    .projectId ??
+                                                                '',
+                                                            sheets: {
+                                                              'MS 0.6 mm':
+                                                                  project.ms06,
+                                                              'MS 0.8 mm':
+                                                                  project.ms08,
+                                                              'MS 1.0 mm':
+                                                                  project.ms10,
+                                                              'MS 1.2 mm':
+                                                                  project.ms12,
+                                                              'SS 0.8 mm':
+                                                                  project.ss08,
+                                                              'SS 1.0 mm':
+                                                                  project.ss10,
+                                                            },
+                                                            laserCuttingStatus:project.laserCuttingStatus?? ''
+                                                          ),
                                                     ),
-                                                  ),
-                                                );
+                                                  );
 
-                                                // If we return, we MUST refresh the main list to get the new '1' counts from server
-                                                if (context.mounted) {
-                                                  context
-                                                      .read<LaserCuttingCubit>()
-                                                      .request();
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                                  if (context.mounted) {
+                                                    context
+                                                        .read<
+                                                          LaserCuttingCubit
+                                                        >()
+                                                        .request();
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
                           );
@@ -283,15 +297,16 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
         decoration: InputDecoration(
           hintText: 'Search Project ID',
           prefixIcon: const Icon(Icons.search, color: Color(0xFF5FD6FF)),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
-                )
-              : null,
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

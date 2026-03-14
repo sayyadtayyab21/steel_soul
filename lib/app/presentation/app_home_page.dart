@@ -34,10 +34,11 @@ class AppHomePage extends StatelessWidget {
                 if (data) {
                   showDialog(
                     context: context,
-                    builder: (ctx) => const AppUpdateDialog(
-                      appName: 'steel_soul',
-                      packageName: 'in.easycloud.steel_soul',
-                    ),
+                    builder:
+                        (ctx) => const AppUpdateDialog(
+                          appName: 'steel_soul',
+                          packageName: 'in.easycloud.steel_soul',
+                        ),
                     barrierDismissible: false,
                   );
                 }
@@ -69,33 +70,6 @@ class AppHomePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Top Bar with Menu
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //   children: [
-        //     // Text(
-        //     //   '9:41',
-        //     //   style: TextStyle(
-        //     //     fontSize: 16,
-        //     //     fontWeight: FontWeight.w500,
-        //     //     color: Colors.grey[600],
-        //     //   ),
-        //     // ),
-        //     Container(
-        //       width: 40,
-        //       height: 40,
-        //       decoration: BoxDecoration(
-        //         color: const Color(0xFF3498DB),
-        //         borderRadius: BorderRadius.circular(12),
-        //       ),
-        //       child: const Icon(
-        //         Icons.menu,
-        //         color: Colors.white,
-        //         size: 20,
-        //       ),
-        //     ),
-        //   ],
-        // ),
         const SizedBox(height: 20),
 
         // Greeting
@@ -106,10 +80,6 @@ class AppHomePage extends StatelessWidget {
               _getTimeBasedGreeting(),
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
-            // Container(
-            // height: 30,width: 30,
-            // decoration: BoxDecoration(borderRadius: BorderRadius.circular(6),color: const Color.fromARGB(255, 80, 186, 242),),
-            //   child: Icon(Icons.menu,color: Colors.white,))
           ],
         ),
         const SizedBox(height: 8),
@@ -117,7 +87,7 @@ class AppHomePage extends StatelessWidget {
         // Main Title
         const Text(
           'Let\'s make this day\nProductive',
-          style:  TextStyle(
+          style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Color(0xFF2C3E50),
@@ -137,234 +107,150 @@ class AppHomePage extends StatelessWidget {
       mainAxisSpacing: 16,
       childAspectRatio: 1.0,
       children: [
-        if (userPermission.role == 1 || userPermission.role == 0)
-        _buildFeatureCard(
-          // onTap: () {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(builder: (context) => const LaserCuttingScreen()),
-          //   );
-          // },
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BlocProvider(
-                  create: (context) =>
-                      LaserCuttingBlocProvider.get().fetchLaserList()
-                        ..request(),
-                  child: const LaserCuttingScreen(),
+        if (userPermission.role.contains('Laser Cutting User') ||
+            userPermission.role.contains('Steel Soul Manager'))
+          _buildFeatureCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => BlocProvider(
+                        create:
+                            (context) =>
+                                LaserCuttingBlocProvider.get().fetchLaserList()
+                                  ..request(),
+                        child: const LaserCuttingScreen(),
+                      ),
                 ),
-              ),
-            );
-          },
-          context,
-          title: 'Laser Cutting',
-          color: const Color.fromARGB(255, 100, 203, 241), // Light Blue
-          icon: Icons.inbox_outlined,
-          imagePath: 'assets/images/laserCutting.png',
-          sectionCount: 1
-        ),
-        if (userPermission.role == 2 || userPermission.role == 0)
-        _buildFeatureCard(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FoldingScreen()),
-            );
-          },
-          // onTap: () {
-          //   // Navigator.push(
-          //   //   context,
-          //   //   // MaterialPageRoute(
-          //   //   //   builder: (context) => BlocProvider(
-          //   //   //     create: (context) =>
-          //   //   //         PickingBlocProvider.get().fetchPickingListCubit()
-          //   //   //           ..fetchInitial(),
-          //   //   //     child: const PickingListScrn(),
-          //   //   //   ),
-          //   //   // ),
-          //   // );
-          // },
-          context,
-          title: 'Folding',
-          color: const Color.fromARGB(255, 255, 154, 154), // ✅ Vibrant Orange
-          icon: Icons.inventory_2_outlined,
-          imagePath: 'assets/images/folding.png',
-          sectionCount: 2,
-        ),
-        if (userPermission.role == 3 || userPermission.role == 0)
-        _buildFeatureCard(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const WeldingScreen(),
-              ),
-            );
-          },
-          // onTap: () {
-          //   // Navigator.push(
-          //   //   context,
-          //   //   MaterialPageRoute(
-          //   //     builder: (context) => BlocProvider(
-          //   //       create: (context) =>
-          //   //           PdiBlocProvider.get().fetchPdiListCubit()..fetchInitial(),
-          //   //       child: const PdiGetItems(),
-          //   //     ),
-          //   //   ),
-          //   // );
-          // },
-        context,
-          title: 'Welding',
-          color: const Color.fromARGB(255, 255, 160, 105), // ✅ Deep Golden Amber
-          icon: Icons.engineering_outlined,
-          imagePath: 'assets/images/welding.png',
-          sectionCount: 3
-        ),
-         if (userPermission.role == 4|| userPermission.role == 0)
-            _buildFeatureCard(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PowderCoatingScreen(),
-              ),
-            );
-          },
-          // onTap: () {
-          //   // Navigator.push(
-          //   //   context,
-          //   //   MaterialPageRoute(
-          //   //     builder: (context) => BlocProvider(
-          //   //       create: (context) =>
-          //   //           PdiBlocProvider.get().fetchPdiListCubit()..fetchInitial(),
-          //   //       child: const PdiGetItems(),
-          //   //     ),
-          //   //   ),
-          //   // );
-          // },
-          context,
-          title: 'Powder Coating',
-          color: const Color.fromARGB(255, 234, 163, 101), // Orange
-          icon: Icons.engineering_outlined,
-          imagePath: 'assets/images/powdercoat.png',
-          sectionCount: 4
-        ),
-        if (userPermission.role == 5 || userPermission.role == 0)
-        _buildFeatureCard(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PlasticFilmScreen(),
-              ),
-            );
-          },
-          // onTap: () {
-          //   // Navigator.push(
-          //   //   context,
-          //   //   MaterialPageRoute(
-          //   //     builder: (context) => BlocProvider(
-          //   //       create: (context) =>
-          //   //           KittingBlocProvider.get().fetchKittingListCubit()
-          //   //             ..fetchInitial(),
-          //   //       child: const KittingGetItems(),
-          //   //     ),
-          //   //   ),
-          //   // );
-          // },
-          context,
-          title: 'Plastic Film',
-          color: const Color.fromARGB(255, 157, 152, 237), // Purple
-          icon: Icons.category_outlined,
-          imagePath: 'assets/images/plasticfilm.png',
-          sectionCount: 5,
-        ),
-        if (userPermission.role == 6 || userPermission.role == 0)
-        _buildFeatureCard(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const PufScreen()),
-            );
-          },
-          // onTap: () {
-          //   // Navigator.push(
-          //   //   context,
-          //   //   MaterialPageRoute(
-          //   //     builder: (context) => BlocProvider(
-          //   //       create: (context) =>
-          //   //           WoodenBlocProvider.get().fetchWoodenListCubit()
-          //   //             ..fetchInitial(),
-          //   //       child: const WoodenCreatingListScrn(),
-          //   //     ),
-          //   //   ),
-          //   // );
-          // },
-          context,
-          title: 'PUF',
-          color: const Color(0xFF1AD0D0),
-          icon: Icons.construction_outlined,
-          imagePath: 'assets/images/puf.png',
-          sectionCount: 6,
-        ),
-        if (userPermission.role == 7 || userPermission.role == 0)
-        _buildFeatureCard(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const RivetingScreen()),
-            );
-          },
-          // onTap: () {
-          //   // Navigator.push(
-          //   //   context,
-          //   //   MaterialPageRoute(
-          //   //     builder: (context) => BlocProvider(
-          //   //       create: (context) =>
-          //   //           WoodenBlocProvider.get().fetchWoodenListCubit()
-          //   //             ..fetchInitial(),
-          //   //       child: const WoodenCreatingListScrn(),
-          //   //     ),
-          //   //   ),
-          //   // );
-          // },
-          context,
-          title: 'Riveting',
-          color: const Color(0xFF6EA7FF), // ✅ Teal Blue
-          icon: Icons.construction_outlined,
-          imagePath: 'assets/images/riveting.png',
-          sectionCount: 7,
-        ),
-        if (userPermission.role == 8 || userPermission.role == 0)
-        _buildFeatureCard(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const PackingScreen()),
-            );
-          },
-          // onTap: () {
-          //   // Navigator.push(
-          //   //   context,
-          //   //   MaterialPageRoute(
-          //   //     builder: (context) => BlocProvider(
-          //   //       create: (context) =>
-          //   //           WoodenBlocProvider.get().fetchWoodenListCubit()
-          //   //             ..fetchInitial(),
-          //   //       child: const WoodenCreatingListScrn(),
-          //   //     ),
-          //   //   ),
-          //   // );
-          // },
-          context,
-          title: 'Packing',
-          color: const Color(0xFFF6997F), // ✅ Teal Blue
-          icon: Icons.construction_outlined,
-          imagePath: 'assets/images/packing.png',
-          sectionCount: 8
-        ),
+              );
+            },
+            context,
+            title: 'Laser Cutting',
+            color: const Color.fromARGB(255, 100, 203, 241), // Light Blue
+            icon: Icons.inbox_outlined,
+            imagePath: 'assets/images/laserCutting.png',
+          ),
+        if (userPermission.role.contains('Folding User') ||
+            userPermission.role.contains('Steel Soul Manager'))
+          _buildFeatureCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FoldingScreen()),
+              );
+            },
+
+            context,
+            title: 'Folding',
+            color: const Color.fromARGB(255, 255, 154, 154), // ✅ Vibrant Orange
+            icon: Icons.inventory_2_outlined,
+            imagePath: 'assets/images/folding.png',
+          ),
+        if (userPermission.role.contains('Welding User') ||
+            userPermission.role.contains('Steel Soul Manager'))
+          _buildFeatureCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const WeldingScreen()),
+              );
+            },
+
+            context,
+            title: 'Welding',
+            color: const Color.fromARGB(
+              255,
+              255,
+              160,
+              105,
+            ), // ✅ Deep Golden Amber
+            icon: Icons.engineering_outlined,
+            imagePath: 'assets/images/welding.png',
+          ),
+        if (userPermission.role.contains('Powder Coating User') ||
+            userPermission.role.contains('Steel Soul Manager'))
+          _buildFeatureCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PowderCoatingScreen(),
+                ),
+              );
+            },
+
+            context,
+            title: 'Powder Coating',
+            color: const Color.fromARGB(255, 234, 163, 101), // Orange
+            icon: Icons.engineering_outlined,
+            imagePath: 'assets/images/powdercoat.png',
+          ),
+        if (userPermission.role.contains('Plastic Film User'))
+          _buildFeatureCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PlasticFilmScreen(),
+                ),
+              );
+            },
+
+            context,
+            title: 'Plastic Film',
+            color: const Color.fromARGB(255, 157, 152, 237), // Purple
+            icon: Icons.category_outlined,
+            imagePath: 'assets/images/plasticfilm.png',
+          ),
+        if (userPermission.role.contains('PUF User') ||
+            userPermission.role.contains('Steel Soul Manager'))
+          _buildFeatureCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PufScreen()),
+              );
+            },
+
+            context,
+            title: 'PUF',
+            color: const Color(0xFF1AD0D0),
+            icon: Icons.construction_outlined,
+            imagePath: 'assets/images/puf.png',
+          ),
+        if (userPermission.role.contains('Riveting User') ||
+            userPermission.role.contains('Steel Soul Manager'))
+          _buildFeatureCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RivetingScreen()),
+              );
+            },
+
+            context,
+            title: 'Riveting',
+            color: const Color(0xFF6EA7FF), // ✅ Teal Blue
+            icon: Icons.construction_outlined,
+            imagePath: 'assets/images/riveting.png',
+          ),
+        if (userPermission.role.contains('Packing User') ||
+            userPermission.role.contains('Steel Soul Manager'))
+          _buildFeatureCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PackingScreen()),
+              );
+            },
+
+            context,
+            title: 'Packing',
+            color: const Color(0xFFF6997F), // ✅ Teal Blue
+            icon: Icons.construction_outlined,
+            imagePath: 'assets/images/packing.png',
+          ),
       ],
     );
   }
@@ -376,9 +262,7 @@ class AppHomePage extends StatelessWidget {
     required IconData icon,
     required Function() onTap,
     String? imagePath,
-    int? sectionCount,
   }) {
-    
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -411,15 +295,16 @@ class AppHomePage extends StatelessWidget {
                     children: [
                       // Large Image/Icon
                       Center(
-                        child: imagePath != null
-                            ? Image.asset(
-                                imagePath,
-                                width: 110,
-                                height: 110,
+                        child:
+                            imagePath != null
+                                ? Image.asset(
+                                  imagePath,
+                                  width: 110,
+                                  height: 110,
 
-                                fit: BoxFit.contain,
-                              )
-                            : Icon(icon, color: Colors.white, size: 150),
+                                  fit: BoxFit.contain,
+                                )
+                                : Icon(icon, color: Colors.white, size: 150),
                       ),
                       // Arrow in top-right corner
                       Positioned(
@@ -449,10 +334,7 @@ class AppHomePage extends StatelessWidget {
                             vertical: 0,
                             horizontal: 12,
                           ),
-                          // decoration: BoxDecoration(
-                          //   color: Colors.black.withOpacity(0.3),
-                          //   borderRadius: BorderRadius.circular(8),
-                          // ),
+
                           child: Text(
                             title,
                             style: const TextStyle(
@@ -463,32 +345,6 @@ class AppHomePage extends StatelessWidget {
                             textAlign: TextAlign.left,
                           ),
                         ),
-                      ),
-
-                      Positioned(
-                        top: 8,
-                        left: 8,
-                        child: Text(
-                          sectionCount?.toString() ?? '',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        // child: Container(
-                        //   width: 24,
-                        //   height: 24,
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.white.withOpacity(0.2),
-                        //     borderRadius: BorderRadius.circular(6),
-                        //   ),
-                        //   child: const Icon(
-                        //     Icons.arrow_forward_ios,
-                        //     color: Colors.white,
-                        //     size: 12,
-                        //   ),
-                        // ),
                       ),
                     ],
                   ),

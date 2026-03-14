@@ -29,6 +29,7 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
 
   AsyncValueOf<UpdateSheetModel> updateSheetCount(
     String projectId,
+    String sheetType,
     int fullSheetCount,
     int halfSheetCount,
     int quarterSheetCount,
