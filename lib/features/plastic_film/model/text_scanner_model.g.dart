@@ -25,7 +25,10 @@ Map<String, dynamic> _$$TextScannerModelImplToJson(
 };
 
 _$OcrDataImpl _$$OcrDataImplFromJson(Map<String, dynamic> json) =>
-    _$OcrDataImpl(text: json['text'] as String?);
+    _$OcrDataImpl(
+      texts:
+          (json['texts'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    );
 
 Map<String, dynamic> _$$OcrDataImplToJson(_$OcrDataImpl instance) =>
-    <String, dynamic>{'text': instance.text};
+    <String, dynamic>{'texts': instance.texts};

@@ -23,7 +23,7 @@ abstract interface class PufRepo{
   );
 
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+  List<String> scannerPanelId,
   String? file,
   String timeOfScan
 );

@@ -86,31 +86,6 @@ class PowderCoatingRepoImp extends BaseApiRepository
     return response.process((r) => right(r.data!));
   }
 
-  //   @override
-  // AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
-  //   final requestConfig = RequestConfig(
-  //     url: Urls.scannerCubit,
-  //     parser: (json) {
-  //       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-  //       return TextScannerModel.fromJson(data);
-  //     },
-  //     reqParams: {
-  //       'files': [
-  //         {
-  //           'filedata': base64DataUri,
-  //           // 'filename': 'scan_${DateTime.now().millisecondsSinceEpoch}.jpg', // Add this
-  //         }
-  //       ],
-  //     },
-  //     headers: {
-  //       HttpHeaders.contentTypeHeader: 'application/json',
-  //       // Ensure the authorization header is correctly passed if not handled globally
-  //     },
-  //   );
-
-  //   final response = await post(requestConfig);
-  //   return response.process((r) => right(r.data!));
-  // }
 
   @override
   AsyncValueOf<List<SacnnerDetailsModel>> fetchLaserCuttingScanDetails(
@@ -142,7 +117,7 @@ class PowderCoatingRepoImp extends BaseApiRepository
 
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+  List<String> scannerPanelId,
   String? file,
   String? timeOfScan
 ) async {

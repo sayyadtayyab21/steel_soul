@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,11 +67,13 @@ class _PackingScreenState extends State<PackingScreen> {
                     }
                   }
 
-                  if (state.extractedWeight != null) {
-                    final String scannedId = state.extractedWeight!.trim();
+                  if (state.extractedCodes!= null) {
+                    log('Extracted Codes: ${state.extractedCodes}');
+                    final List<String> scannedIds = state.extractedCodes!;
+                    log('Scanned IDs: $scannedIds');
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
-                        scannedId,
+                        scannedIds,
                         state.base64Image ?? '',
                         state.captureTime!.toIso8601String(),
                       ),

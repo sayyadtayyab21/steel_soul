@@ -67,11 +67,11 @@ class _PlasticFilmItemDetailsState extends State<PlasticFilmItemDetails> {
                     }
                   }
 
-                  if (state.extractedWeight != null) {
-                    final String scannedId = state.extractedWeight!.trim();
+                  if (state.extractedCodes != null) {
+                    final List<String> scannedIds = state.extractedCodes ?? [];
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
-                        scannedId,
+                        scannedIds,
                         state.base64Image ?? '',
                         state.captureTime!.toIso8601String(),
                       ),

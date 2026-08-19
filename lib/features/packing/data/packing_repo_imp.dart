@@ -149,48 +149,11 @@ class PackingRepoImp extends BaseApiRepository
     return response.process((r) => right(r.data!));
   }
 
-  // @override
-  // AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  //   // String project, String unitId,
-  //   String scannerPanelId,
-  //   String? file
-  // ) async {
-  //   final requestConfig = RequestConfig(
-  //     url: Urls.getPanel,
-  //     parser: (json) {
-  //       // The JSON structure is: {"message": {"status": "success", "message": "..."}}
-  //       // We extract the Map inside 'message'
-  //       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
 
-  //       // Pass that map to your fromJson factory
-  //       return PanelStatusModel.fromJson(data);
-  //     },
-  //     reqParams: {
-  //       'section_name': 'Packing',
-  //       // 'project_id': project,
-  //       // 'unit_id': unitId,
-
-  //       'scanned_panel_id': scannerPanelId,
-  //       'file': file,
-  //     },
-  //     headers: {
-  //       HttpHeaders.contentTypeHeader: 'application/json'
-  //     },
-  //   );
-
-  //   log('.....................................$requestConfig');
-
-  //   final response = await post(requestConfig);
-
-  //   log('Response for Panel Status: $response');
-
-  //   // response.process usually handles the Left/Right (Failure/Success) conversion
-  //   return response.process((r) => right(r.data!));
-  // }
 
   @override
   AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-    String scannerPanelId,
+   List<String> scannerPanelId,
     String? file,
     String timeOfScan
   ) async {

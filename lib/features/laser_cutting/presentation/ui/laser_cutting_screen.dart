@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,13 +70,15 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
 
                   if (state.extractedCodes != null &&
                       state.extractedCodes!.isNotEmpty) {
-                    final String scannedId = state.extractedCodes!.first.trim();
+                        log('Extracted Codes: ${state.extractedCodes}');
+            
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         state.extractedCodes!,
                         state.base64Image,
                         state.captureTime?.toIso8601String(),
                       ),
+                      
                     );
                     context.read<ScannerCubit>().reset();
                   }

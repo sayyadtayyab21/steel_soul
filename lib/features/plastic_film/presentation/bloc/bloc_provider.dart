@@ -29,7 +29,7 @@ typedef LaserCuttingScanCubitState = NetworkRequestState<List<SacnnerDetailsMode
 
 // T is PanelStatusModel
 // RP is Triple<String, String, String>
-typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Triple< String, String,String>>;
+typedef LaserCuttingPanelCubit = NetworkRequestCubit<PanelStatusModel, Triple<List<String>, String,String>>;
 
 typedef LaserCuttingPanelCubitState = NetworkRequestState<PanelStatusModel>;
 

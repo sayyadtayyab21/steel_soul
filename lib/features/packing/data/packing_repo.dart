@@ -20,7 +20,7 @@ abstract interface class PackingRepo{
   );
 
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+ List<String> scannerPanelId,
   String? file,
   String timeOfScan
   );

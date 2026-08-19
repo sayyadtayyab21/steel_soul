@@ -9,61 +9,71 @@ import 'package:steel_soul/core/model/failure.dart';
 import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
 
 part 'scanner_cubit.freezed.dart';
-@injectable
 
+@injectable
 class ScannerCubit extends Cubit<ScannerState> {
   ScannerCubit(this.repo) : super(ScannerState.initial());
   final LaserCuttingRepo repo;
-// Inside ScannerCubit.dart
+  // Inside ScannerCubit.dart
 
-Future<void> extractWeight(File file) async {
-  try {
-    final now = DateTime.now();
-    final timeString = now.toIso8601String(); 
+  Future<void> extractWeight(File file) async {
+    try {
+      final now = DateTime.now();
+      final timeString = now.toIso8601String();
 
-    emit(state.copyWith(
-      isExtracting: true, 
-      error: null, 
-      extractedCodes: null,
-      capturedImage: file,
-      captureTime: now,
-      base64Image: null,
-    ));
+      emit(
+        state.copyWith(
+          isExtracting: true,
+          error: null,
+          extractedCodes: null,
+          capturedImage: file,
+          captureTime: now,
+          base64Image: null,
+        ),
+      );
 
-    final bytes = await file.readAsBytes();
-    final base64Image = base64Encode(bytes);
-    final extension = p.extension(file.path).toLowerCase();
+      final bytes = await file.readAsBytes();
+      final base64Image = base64Encode(bytes);
+      final extension = p.extension(file.path).toLowerCase();
 
-    String mimeType = (extension == '.png') ? 'png' : (extension == '.webp' ? 'webp' : 'jpeg');
-    final dataUri = 'data:image/$mimeType;base64,$base64Image';
+      String mimeType =
+          (extension == '.png')
+              ? 'png'
+              : (extension == '.webp' ? 'webp' : 'jpeg');
+      final dataUri = 'data:image/$mimeType;base64,$base64Image';
 
-    // Pass the timestamp as a positional argument (ensure the Repo method accepts it as positional)
-    final response = await repo.textScannerUpload(
-      dataUri,
-      timeString,
-    );
+      // Pass the timestamp as a positional argument (ensure the Repo method accepts it as positional)
+      final response = await repo.textScannerUpload(dataUri, timeString);
 
-    response.fold(
-      (l) => emit(state.copyWith(
-        isExtracting: false,
-        error: Failure(error: l.error, title: 'Extraction Failed'),
-      )),
-     (r) => emit(state.copyWith(
-  isExtracting: false,
-  extractedCodes: r.ocrData.texts, // was: extractedWeight: r.ocrData.text
-  base64Image: r.baseImage,
-)),
-    );
-  } catch (e) {
-    emit(state.copyWith(
-      isExtracting: false, 
-      error: Failure(error: e.toString(), title: 'System Error')
-    ));
+      response.fold(
+        (l) => emit(
+          state.copyWith(
+            isExtracting: false,
+            error: Failure(error: l.error, title: 'Extraction Failed'),
+          ),
+        ),
+        (r) => emit(
+          state.copyWith(
+            isExtracting: false,
+            extractedCodes:
+                r.ocrData.texts, // was: extractedWeight: r.ocrData.text
+            base64Image: r.baseImage,
+          ),
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isExtracting: false,
+          error: Failure(error: e.toString(), title: 'System Error'),
+        ),
+      );
+    }
   }
-}
 
   void reset() => emit(ScannerState.initial());
 }
+
 @freezed
 class ScannerState with _$ScannerState {
   const factory ScannerState({

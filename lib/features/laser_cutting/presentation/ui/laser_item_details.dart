@@ -12,9 +12,6 @@ import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_b
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class LaserItemDetails extends StatefulWidget {
-  final String id;
-  final Map<String, dynamic> sheets;
-  final String laserCuttingStatus;
 
   const LaserItemDetails({
     super.key,
@@ -22,6 +19,9 @@ class LaserItemDetails extends StatefulWidget {
     required this.sheets,
     required this.laserCuttingStatus,
   });
+  final String id;
+  final Map<String, dynamic> sheets;
+  final String laserCuttingStatus;
 
   @override
   State<LaserItemDetails> createState() => _LaserItemDetailsState();
@@ -36,7 +36,7 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
   final ValueNotifier<int> quarterSheetCount = ValueNotifier(0);
   final ValueNotifier<String> searchQuery = ValueNotifier('');
 
-  bool _hasChanges = false;
+  final bool _hasChanges = false;
 
   final List<String> sheetTypes = [
     'M.S - 0.6mm',

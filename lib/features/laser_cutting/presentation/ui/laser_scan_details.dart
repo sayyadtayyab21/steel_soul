@@ -76,11 +76,11 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
 
                   // 2. Handle Success (Text Extracted + Image Available)
                   if (state.extractedCodes != null && state.extractedCodes!.isNotEmpty) {
-                    final String scannedId = state.extractedCodes!.first.trim();
+              
                     try {
                       context.read<LaserCuttingPanelCubit>().request(
                         Triple(
-                          [scannedId],
+                          state.extractedCodes!,
                           state.base64Image,
                           state.captureTime?.toIso8601String(),
                         ),

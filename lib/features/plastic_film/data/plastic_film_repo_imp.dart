@@ -169,7 +169,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String? ca
 
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+  List<String> scannerPanelId,
   String? file,
   String timeOfScan
 ) async {

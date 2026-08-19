@@ -69,11 +69,11 @@ class _PufScreenState extends State<PufScreen> {
                     }
                   }
 
-                  if (state.extractedWeight != null) {
-                    final String scannedId = state.extractedWeight!.trim();
+                  if (state.extractedCodes!= null) {
+                 
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
-                        scannedId,
+                        state.extractedCodes!,
                         state.base64Image ?? '',
                         state.captureTime!.toIso8601String(),
                       ),

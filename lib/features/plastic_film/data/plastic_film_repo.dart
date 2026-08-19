@@ -23,7 +23,7 @@ abstract interface class PlasticFilmRepo{
   );
 
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+  List<String> scannerPanelId,
   String? file,
   String timeOfScan
 );

@@ -20,7 +20,7 @@ class TextScannerModel with _$TextScannerModel{
 @freezed
 class OcrData with _$OcrData {
   const factory OcrData({
- @JsonKey(name: 'text')String? text,
+ @JsonKey(name: 'texts')List<String>? texts,
   }) = _OcrData;
 
   factory OcrData.fromJson(Map<String, dynamic> json) =>

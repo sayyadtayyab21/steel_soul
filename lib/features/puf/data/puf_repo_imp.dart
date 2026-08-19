@@ -38,9 +38,10 @@ class PufRepoImp extends BaseApiRepository implements PufRepo{
   
       },
     );
-    $logger.devLog('PUF requesting...:$requestConfig');
+    $logger.devLog('PUF project list requesting...:$requestConfig');
     final response = await post(requestConfig);
     print(response);
+    log('PUF project list response: $response');
     return response.process((r)=> right(r.data!));
 
   }
@@ -71,6 +72,7 @@ class PufRepoImp extends BaseApiRepository implements PufRepo{
     $logger.devLog('PUF item details requesting...:$requestConfig');
     final response = await post(requestConfig);
     print(response);
+    log('PUF item details response: $response');
     return response.process((r)=> right(r.data!));
 
   }
@@ -99,38 +101,13 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String  ca
       HttpHeaders.contentTypeHeader: 'application/json',
     },
   );
-  log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$requestConfig');
+  log('textScannerUpload puf : $requestConfig');
 
   final response = await post(requestConfig);
+  log(' puf textScannerUpload response: $response');
   return response.process((r) => right(r.data!));
 }
 
-
-//   @override
-// AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
-//   final requestConfig = RequestConfig(
-//     url: Urls.scannerCubit,
-//     parser: (json) {
-//       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-//       return TextScannerModel.fromJson(data);
-//     },
-//     reqParams: {
-//       'files': [
-//         {
-//           'filedata': base64DataUri,
-//           // 'filename': 'scan_${DateTime.now().millisecondsSinceEpoch}.jpg', // Add this
-//         }
-//       ],
-//     },
-//     headers: {
-//       HttpHeaders.contentTypeHeader: 'application/json',
-//       // Ensure the authorization header is correctly passed if not handled globally
-//     },
-//   );
-
-//   final response = await post(requestConfig);
-//   return response.process((r) => right(r.data!));
-// }
 
 
 
@@ -160,6 +137,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String  ca
     );
     $logger.devLog('puf scan details requesting...:$requestConfig');
     final response = await post(requestConfig);
+    log(  ' Puf scan Detailsresponse: $response');
     print(response);
     return response.process((r)=> right(r.data!));
 
@@ -169,7 +147,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String  ca
 
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+  List<String> scannerPanelId,
   String? file,
   String timeOfScan
 ) async {
@@ -196,7 +174,7 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
     },
   );
 
-  log('.....................................$requestConfig');
+  log('requestConfig for Panel Status: $requestConfig');
 
   // 4. Execute the post
   final response = await post(requestConfig);
