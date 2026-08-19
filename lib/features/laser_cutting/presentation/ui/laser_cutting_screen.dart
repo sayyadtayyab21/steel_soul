@@ -67,11 +67,12 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                     }
                   }
 
-                  if (state.extractedWeight != null) {
-                    final String scannedId = state.extractedWeight!.trim();
+                  if (state.extractedCodes != null &&
+                      state.extractedCodes!.isNotEmpty) {
+                    final String scannedId = state.extractedCodes!.first.trim();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
-                        scannedId,
+                        state.extractedCodes!,
                         state.base64Image,
                         state.captureTime?.toIso8601String(),
                       ),
@@ -90,7 +91,6 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                 },
               ),
 
-              // Listener 2: Watch the result of the Status Update API
               // Listener 2: Watch the result of the Status Update API
               BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
                 listener: (context, state) {
@@ -212,7 +212,10 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                                                               'SS 1.0 mm':
                                                                   project.ss10,
                                                             },
-                                                            laserCuttingStatus:project.laserCuttingStatus?? ''
+                                                            laserCuttingStatus:
+                                                                project
+                                                                    .laserCuttingStatus ??
+                                                                '',
                                                           ),
                                                     ),
                                                   );

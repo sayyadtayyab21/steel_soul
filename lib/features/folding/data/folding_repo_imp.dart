@@ -38,7 +38,7 @@ class FoldingRepoImp extends BaseApiRepository implements FoldingRepo{
     );
     log('Folding requesting...:$requestConfig');
     final response = await post(requestConfig);
-    log('...................................$response');
+    log('Folding Response: $response');
     return response.process((r)=> right(r.data!));
 
   }
@@ -97,39 +97,12 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String cap
       HttpHeaders.contentTypeHeader: 'application/json',
     },
   );
-  log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$requestConfig');
+  log('Text Scanner Upload Request: $requestConfig');
 
   final response = await post(requestConfig);
+  log('Text Scanner Upload Response: $response');
   return response.process((r) => right(r.data!));
 }
-
-
-//   @override
-// AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
-//   final requestConfig = RequestConfig(
-//     url: Urls.scannerCubit,
-//     parser: (json) {
-//       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-//       return TextScannerModel.fromJson(data);
-//     },
-//     reqParams: {
-//       'files': [
-//         {
-//           'filedata': base64DataUri,
-//           // 'filename': 'scan_${DateTime.now().millisecondsSinceEpoch}.jpg', // Add this
-//         }
-//       ],
-//     },
-//     headers: {
-//       HttpHeaders.contentTypeHeader: 'application/json',
-//       // Ensure the authorization header is correctly passed if not handled globally
-//     },
-//   );
-
-//   final response = await post(requestConfig);
-//   return response.process((r) => right(r.data!));
-// }
-
 
 
 @override
@@ -167,7 +140,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri,String cap
 
 @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+  List<String> scannerPanelId,
   String? file,
   String? timeOfScan
 ) async {
@@ -194,7 +167,7 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
     },
   );
 
-  log('.....................................$requestConfig');
+  log('Panel Status Request: $requestConfig');
 
   // 4. Execute the post
   final response = await post(requestConfig);

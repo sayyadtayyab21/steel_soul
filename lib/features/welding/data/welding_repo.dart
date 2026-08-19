@@ -21,7 +21,7 @@ abstract interface class WeldingRepo{
   );
 
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+  List<String> scannerPanelId,
   String? file,
   String? timeOfScan,
   );

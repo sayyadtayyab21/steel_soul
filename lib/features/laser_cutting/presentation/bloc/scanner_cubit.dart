@@ -24,7 +24,7 @@ Future<void> extractWeight(File file) async {
     emit(state.copyWith(
       isExtracting: true, 
       error: null, 
-      extractedWeight: null,
+      extractedCodes: null,
       capturedImage: file,
       captureTime: now,
       base64Image: null,
@@ -48,11 +48,11 @@ Future<void> extractWeight(File file) async {
         isExtracting: false,
         error: Failure(error: l.error, title: 'Extraction Failed'),
       )),
-      (r) => emit(state.copyWith(
-        isExtracting: false,
-        extractedWeight: r.ocrData.text,
-        base64Image: r.baseImage,
-      )),
+     (r) => emit(state.copyWith(
+  isExtracting: false,
+  extractedCodes: r.ocrData.texts, // was: extractedWeight: r.ocrData.text
+  base64Image: r.baseImage,
+)),
     );
   } catch (e) {
     emit(state.copyWith(
@@ -68,14 +68,12 @@ Future<void> extractWeight(File file) async {
 class ScannerState with _$ScannerState {
   const factory ScannerState({
     required bool isExtracting,
-    String? extractedWeight,
+    List<String>? extractedCodes, // renamed + typed as list
     DateTime? captureTime,
     File? capturedImage,
     Failure? error,
     String? base64Image,
   }) = _ScannerState;
 
-  factory ScannerState.initial() => const ScannerState(
-        isExtracting: false,
-      );
+  factory ScannerState.initial() => const ScannerState(isExtracting: false);
 }

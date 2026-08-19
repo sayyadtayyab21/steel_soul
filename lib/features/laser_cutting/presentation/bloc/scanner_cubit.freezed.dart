@@ -18,7 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ScannerState {
   bool get isExtracting => throw _privateConstructorUsedError;
-  String? get extractedWeight => throw _privateConstructorUsedError;
+  List<String>? get extractedCodes =>
+      throw _privateConstructorUsedError; // renamed + typed as list
   DateTime? get captureTime => throw _privateConstructorUsedError;
   File? get capturedImage => throw _privateConstructorUsedError;
   Failure? get error => throw _privateConstructorUsedError;
@@ -40,7 +41,7 @@ abstract class $ScannerStateCopyWith<$Res> {
   @useResult
   $Res call({
     bool isExtracting,
-    String? extractedWeight,
+    List<String>? extractedCodes,
     DateTime? captureTime,
     File? capturedImage,
     Failure? error,
@@ -66,7 +67,7 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
   @override
   $Res call({
     Object? isExtracting = null,
-    Object? extractedWeight = freezed,
+    Object? extractedCodes = freezed,
     Object? captureTime = freezed,
     Object? capturedImage = freezed,
     Object? error = freezed,
@@ -79,11 +80,11 @@ class _$ScannerStateCopyWithImpl<$Res, $Val extends ScannerState>
                     ? _value.isExtracting
                     : isExtracting // ignore: cast_nullable_to_non_nullable
                         as bool,
-            extractedWeight:
-                freezed == extractedWeight
-                    ? _value.extractedWeight
-                    : extractedWeight // ignore: cast_nullable_to_non_nullable
-                        as String?,
+            extractedCodes:
+                freezed == extractedCodes
+                    ? _value.extractedCodes
+                    : extractedCodes // ignore: cast_nullable_to_non_nullable
+                        as List<String>?,
             captureTime:
                 freezed == captureTime
                     ? _value.captureTime
@@ -135,7 +136,7 @@ abstract class _$$ScannerStateImplCopyWith<$Res>
   @useResult
   $Res call({
     bool isExtracting,
-    String? extractedWeight,
+    List<String>? extractedCodes,
     DateTime? captureTime,
     File? capturedImage,
     Failure? error,
@@ -161,7 +162,7 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isExtracting = null,
-    Object? extractedWeight = freezed,
+    Object? extractedCodes = freezed,
     Object? captureTime = freezed,
     Object? capturedImage = freezed,
     Object? error = freezed,
@@ -174,11 +175,11 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
                 ? _value.isExtracting
                 : isExtracting // ignore: cast_nullable_to_non_nullable
                     as bool,
-        extractedWeight:
-            freezed == extractedWeight
-                ? _value.extractedWeight
-                : extractedWeight // ignore: cast_nullable_to_non_nullable
-                    as String?,
+        extractedCodes:
+            freezed == extractedCodes
+                ? _value._extractedCodes
+                : extractedCodes // ignore: cast_nullable_to_non_nullable
+                    as List<String>?,
         captureTime:
             freezed == captureTime
                 ? _value.captureTime
@@ -209,17 +210,26 @@ class __$$ScannerStateImplCopyWithImpl<$Res>
 class _$ScannerStateImpl implements _ScannerState {
   const _$ScannerStateImpl({
     required this.isExtracting,
-    this.extractedWeight,
+    final List<String>? extractedCodes,
     this.captureTime,
     this.capturedImage,
     this.error,
     this.base64Image,
-  });
+  }) : _extractedCodes = extractedCodes;
 
   @override
   final bool isExtracting;
+  final List<String>? _extractedCodes;
   @override
-  final String? extractedWeight;
+  List<String>? get extractedCodes {
+    final value = _extractedCodes;
+    if (value == null) return null;
+    if (_extractedCodes is EqualUnmodifiableListView) return _extractedCodes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  // renamed + typed as list
   @override
   final DateTime? captureTime;
   @override
@@ -231,7 +241,7 @@ class _$ScannerStateImpl implements _ScannerState {
 
   @override
   String toString() {
-    return 'ScannerState(isExtracting: $isExtracting, extractedWeight: $extractedWeight, captureTime: $captureTime, capturedImage: $capturedImage, error: $error, base64Image: $base64Image)';
+    return 'ScannerState(isExtracting: $isExtracting, extractedCodes: $extractedCodes, captureTime: $captureTime, capturedImage: $capturedImage, error: $error, base64Image: $base64Image)';
   }
 
   @override
@@ -241,8 +251,10 @@ class _$ScannerStateImpl implements _ScannerState {
             other is _$ScannerStateImpl &&
             (identical(other.isExtracting, isExtracting) ||
                 other.isExtracting == isExtracting) &&
-            (identical(other.extractedWeight, extractedWeight) ||
-                other.extractedWeight == extractedWeight) &&
+            const DeepCollectionEquality().equals(
+              other._extractedCodes,
+              _extractedCodes,
+            ) &&
             (identical(other.captureTime, captureTime) ||
                 other.captureTime == captureTime) &&
             (identical(other.capturedImage, capturedImage) ||
@@ -256,7 +268,7 @@ class _$ScannerStateImpl implements _ScannerState {
   int get hashCode => Object.hash(
     runtimeType,
     isExtracting,
-    extractedWeight,
+    const DeepCollectionEquality().hash(_extractedCodes),
     captureTime,
     capturedImage,
     error,
@@ -275,7 +287,7 @@ class _$ScannerStateImpl implements _ScannerState {
 abstract class _ScannerState implements ScannerState {
   const factory _ScannerState({
     required final bool isExtracting,
-    final String? extractedWeight,
+    final List<String>? extractedCodes,
     final DateTime? captureTime,
     final File? capturedImage,
     final Failure? error,
@@ -285,7 +297,7 @@ abstract class _ScannerState implements ScannerState {
   @override
   bool get isExtracting;
   @override
-  String? get extractedWeight;
+  List<String>? get extractedCodes; // renamed + typed as list
   @override
   DateTime? get captureTime;
   @override

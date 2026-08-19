@@ -44,7 +44,7 @@ class LaserCuttingRepoImp extends BaseApiRepository
     );
     log('laser cutting requesting...:$requestConfig');
     final response = await post(requestConfig);
-    log('................................$response');
+    log('Laser cutting response: $response');
     return response.process((r) => right(r.data!));
   }
 
@@ -65,16 +65,16 @@ class LaserCuttingRepoImp extends BaseApiRepository
     );
     log('laser cutting item details requesting...:$requestConfig');
     final response = await post(requestConfig);
-    log('$response');
+    log('Laser cutting item details response: $response');
     return response.process((r) => right(r.data!));
   }
 
  @override
 AsyncValueOf<TextScannerModel> textScannerUpload(
   String base64DataUri, 
-  String captureTime, // 1. Add this named parameter
+  String captureTime, 
 ) async {
-  // 2. Add the time_of_scan to your JSON payload
+  
   final bodyData = jsonEncode({
     'files': [
       {
@@ -82,7 +82,7 @@ AsyncValueOf<TextScannerModel> textScannerUpload(
         'time_of_scan': captureTime, // Include time here if it's per file
       },
     ],
-    // 'time_of_scan': captureTime, // OR include it here if it's for the whole request
+   
   });
 
   final requestConfig = RequestConfig(
@@ -95,37 +95,14 @@ AsyncValueOf<TextScannerModel> textScannerUpload(
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
   );
   
-  log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$requestConfig');
+  log('Text scanner request: $requestConfig');
 
   final response = await post(requestConfig);
+    log('Text scanner response: $response');
   return response.process((r) => right(r.data!));
+
 }
-  //   @override
-  // AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
-  //   final requestConfig = RequestConfig(
-  //     url: Urls.scannerCubit,
-  //     parser: (json) {
-  //       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-  //       return TextScannerModel.fromJson(data);
-  //     },
-  //     reqParams: {
-  //       'files': [
-  //         {
-  //           'filedata': base64DataUri,
-  //           // 'filename': 'scan_${DateTime.now().millisecondsSinceEpoch}.jpg', // Add this
-  //         }
-  //       ],
-  //     },
-  //     headers: {
-  //       HttpHeaders.contentTypeHeader: 'application/json',
-  //       // Ensure the authorization header is correctly passed if not handled globally
-  //     },
-  //   );
-
-  //   final response = await post(requestConfig);
-  //   return response.process((r) => right(r.data!));
-  // }
-
+ 
   @override
   AsyncValueOf<List<SacnnerDetailsModel>> fetchLaserCuttingScanDetails(
     String project,
@@ -147,63 +124,25 @@ AsyncValueOf<TextScannerModel> textScannerUpload(
       },
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     );
-    log('laser cutting scan details requesting...:$requestConfig');
+    log('Laser cutting scan details requesting...:$requestConfig');
     final response = await post(requestConfig);
-    log('$response');
+    log('Laser cutting scan details response: $response');
     return response.process((r) => right(r.data!));
   }
 
-  // @override
-  // AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  //   // String project, String unitId,
-  //   String scannerPanelId,
-  //   String? file
-  // ) async {
-  //   final requestConfig = RequestConfig(
-  //     url: Urls.getPanel,
-  //     parser: (json) {
-  //       // The JSON structure is: {"message": {"status": "success", "message": "..."}}
-  //       // We extract the Map inside 'message'
-  //       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
 
-  //       // Pass that map to your fromJson factory
-  //       return PanelStatusModel.fromJson(data);
-  //     },
-  //     reqParams: {
-  //       'section_name': 'Laser Cutting',
-  //       // 'project_id': project,
-  //       // 'unit_id': unitId,
-
-  //       'scanned_panel_id': scannerPanelId,
-  //       'file': file,
-  //     },
-  //     headers: {
-  //       HttpHeaders.contentTypeHeader: 'application/json'
-  //     },
-  //   );
-
-  //   log('.....................................$requestConfig');
-
-  //   final response = await post(requestConfig);
-
-  //   log('Response for Panel Status: $response');
-
-  //   // response.process usually handles the Left/Right (Failure/Success) conversion
-  //   return response.process((r) => right(r.data!));
-  // }
-
-  @override
+ @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
-  String? file, 
-  String? timeOfScan, // Add this optional parameter
+  List<String> scannerPanelIds,   // <-- changed from String to List<String>
+  String? file,
+  String? timeOfScan,
 ) async {
   // 1. Create the payload map
   final Map<String, dynamic> payload = {
     'section_name': 'Laser Cutting',
-    'scanned_panel_id': scannerPanelId,
+    'scanned_panel_id': scannerPanelIds, // list is serialized as a JSON array
     'file': file, // This is your base64 string
-    'time_of_scan': timeOfScan, // Now correctly assigned
+    'time_of_scan': timeOfScan,
   };
 
   final requestConfig = RequestConfig(
@@ -217,14 +156,13 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
   );
 
-  log('.....................................$requestConfig');
+  log('Laser cutting panel details request: $requestConfig');
 
   final response = await post(requestConfig);
-  log('Response for Panel Status: $response');
+  log('Laser cutting panel details response: $response');
 
   return response.process((r) => right(r.data!));
 }
-
 
 @override
 AsyncValueOf<UpdateSheetModel> updateSheetCount(
@@ -255,9 +193,9 @@ AsyncValueOf<UpdateSheetModel> updateSheetCount(
     },
   );
 
-    log('.....................................$requestConfig');
+    log('Update sheet count request: $requestConfig');
   final response = await post(requestConfig);
-  log('Response for Panel Status: $response');
+  log('Update sheet count response: $response');
   
   return response.process((r) => right(r.data!));
 }

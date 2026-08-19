@@ -46,7 +46,7 @@ class WeldingRepoImp extends BaseApiRepository
     );
     log('welding requesting...:$requestConfig');
     final response = await post(requestConfig);
-    log('................................$response');
+    log('welding response: $response');
     return response.process((r) => right(r.data!));
   }
 
@@ -67,7 +67,7 @@ class WeldingRepoImp extends BaseApiRepository
     );
     log('welding item details requesting...:$requestConfig');
     final response = await post(requestConfig);
-    log('$response');
+    log('welding item details response: $response');
     return response.process((r) => right(r.data!));
   }
 
@@ -97,36 +97,14 @@ AsyncValueOf<TextScannerModel> textScannerUpload(
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
   );
   
-  log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$requestConfig');
+  log('Text scanner upload request: $requestConfig');
 
   final response = await post(requestConfig);
+  log('Response for Text Scanner Upload: $response');
   return response.process((r) => right(r.data!));
 }
-  //   @override
-  // AsyncValueOf<TextScannerModel> textScannerUpload(String base64DataUri) async {
-  //   final requestConfig = RequestConfig(
-  //     url: Urls.scannerCubit,
-  //     parser: (json) {
-  //       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
-  //       return TextScannerModel.fromJson(data);
-  //     },
-  //     reqParams: {
-  //       'files': [
-  //         {
-  //           'filedata': base64DataUri,
-  //           // 'filename': 'scan_${DateTime.now().millisecondsSinceEpoch}.jpg', // Add this
-  //         }
-  //       ],
-  //     },
-  //     headers: {
-  //       HttpHeaders.contentTypeHeader: 'application/json',
-  //       // Ensure the authorization header is correctly passed if not handled globally
-  //     },
-  //   );
-
-  //   final response = await post(requestConfig);
-  //   return response.process((r) => right(r.data!));
-  // }
+ 
+  
 
   @override
   AsyncValueOf<List<SacnnerDetailsModel>> fetchLaserCuttingScanDetails(
@@ -151,52 +129,15 @@ AsyncValueOf<TextScannerModel> textScannerUpload(
     );
     log('welding scan details requesting...:$requestConfig');
     final response = await post(requestConfig);
-    log('$response');
+    log('welding scan details response: $response');
     return response.process((r) => right(r.data!));
   }
 
-  // @override
-  // AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  //   // String project, String unitId,
-  //   String scannerPanelId,
-  //   String? file
-  // ) async {
-  //   final requestConfig = RequestConfig(
-  //     url: Urls.getPanel,
-  //     parser: (json) {
-  //       // The JSON structure is: {"message": {"status": "success", "message": "..."}}
-  //       // We extract the Map inside 'message'
-  //       final Map<String, dynamic> data = json['message'] as Map<String, dynamic>;
 
-  //       // Pass that map to your fromJson factory
-  //       return PanelStatusModel.fromJson(data);
-  //     },
-  //     reqParams: {
-  //       'section_name': 'Welding',
-  //       // 'project_id': project,
-  //       // 'unit_id': unitId,
-
-  //       'scanned_panel_id': scannerPanelId,
-  //       'file': file,
-  //     },
-  //     headers: {
-  //       HttpHeaders.contentTypeHeader: 'application/json'
-  //     },
-  //   );
-
-  //   log('.....................................$requestConfig');
-
-  //   final response = await post(requestConfig);
-
-  //   log('Response for Panel Status: $response');
-
-  //   // response.process usually handles the Left/Right (Failure/Success) conversion
-  //   return response.process((r) => right(r.data!));
-  // }
 
   @override
 AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
-  String scannerPanelId,
+  List<String> scannerPanelId,
   String? file, 
   String? timeOfScan, // Add this optional parameter
 ) async {
@@ -219,7 +160,7 @@ AsyncValueOf<PanelStatusModel> fetchLaserCuttingPanelDetails(
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
   );
 
-  log('.....................................$requestConfig');
+  log('Panel status request: $requestConfig');
 
   final response = await post(requestConfig);
   log('Response for Panel Status: $response');
@@ -255,9 +196,9 @@ AsyncValueOf<UpdateSheetModel> updateSheetCount(
     },
   );
 
-    log('.....................................$requestConfig');
+    log('Update sheet count request: $requestConfig');
   final response = await post(requestConfig);
-  log('Response for Panel Status: $response');
+  log('Response for Update Sheet Count: $response');
   
   return response.process((r) => right(r.data!));
 }

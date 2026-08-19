@@ -72,11 +72,11 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                     }
                   }
 
-                  if (state.extractedWeight != null) {
-                    final String scannedId = state.extractedWeight!.trim();
+                  if (state.extractedCodes != null) {
+                    final List<String> scannedIds = state.extractedCodes!.map((s) => s.trim()).toList();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
-                        scannedId,
+                        scannedIds,
                         state.base64Image,
                         state.captureTime?.toIso8601String(),
                       ),

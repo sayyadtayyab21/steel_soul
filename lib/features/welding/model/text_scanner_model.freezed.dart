@@ -285,8 +285,8 @@ OcrData _$OcrDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$OcrData {
-  @JsonKey(name: 'text')
-  String? get text => throw _privateConstructorUsedError;
+  @JsonKey(name: 'texts')
+  List<String> get texts => throw _privateConstructorUsedError;
 
   /// Serializes this OcrData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -302,7 +302,7 @@ abstract class $OcrDataCopyWith<$Res> {
   factory $OcrDataCopyWith(OcrData value, $Res Function(OcrData) then) =
       _$OcrDataCopyWithImpl<$Res, OcrData>;
   @useResult
-  $Res call({@JsonKey(name: 'text') String? text});
+  $Res call({@JsonKey(name: 'texts') List<String> texts});
 }
 
 /// @nodoc
@@ -319,14 +319,14 @@ class _$OcrDataCopyWithImpl<$Res, $Val extends OcrData>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? text = freezed}) {
+  $Res call({Object? texts = null}) {
     return _then(
       _value.copyWith(
-            text:
-                freezed == text
-                    ? _value.text
-                    : text // ignore: cast_nullable_to_non_nullable
-                        as String?,
+            texts:
+                null == texts
+                    ? _value.texts
+                    : texts // ignore: cast_nullable_to_non_nullable
+                        as List<String>,
           )
           as $Val,
     );
@@ -341,7 +341,7 @@ abstract class _$$OcrDataImplCopyWith<$Res> implements $OcrDataCopyWith<$Res> {
   ) = __$$OcrDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'text') String? text});
+  $Res call({@JsonKey(name: 'texts') List<String> texts});
 }
 
 /// @nodoc
@@ -357,14 +357,14 @@ class __$$OcrDataImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? text = freezed}) {
+  $Res call({Object? texts = null}) {
     return _then(
       _$OcrDataImpl(
-        text:
-            freezed == text
-                ? _value.text
-                : text // ignore: cast_nullable_to_non_nullable
-                    as String?,
+        texts:
+            null == texts
+                ? _value._texts
+                : texts // ignore: cast_nullable_to_non_nullable
+                    as List<String>,
       ),
     );
   }
@@ -373,18 +373,25 @@ class __$$OcrDataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$OcrDataImpl implements _OcrData {
-  const _$OcrDataImpl({@JsonKey(name: 'text') this.text});
+  const _$OcrDataImpl({
+    @JsonKey(name: 'texts') required final List<String> texts,
+  }) : _texts = texts;
 
   factory _$OcrDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$OcrDataImplFromJson(json);
 
+  final List<String> _texts;
   @override
-  @JsonKey(name: 'text')
-  final String? text;
+  @JsonKey(name: 'texts')
+  List<String> get texts {
+    if (_texts is EqualUnmodifiableListView) return _texts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_texts);
+  }
 
   @override
   String toString() {
-    return 'OcrData(text: $text)';
+    return 'OcrData(texts: $texts)';
   }
 
   @override
@@ -392,12 +399,13 @@ class _$OcrDataImpl implements _OcrData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OcrDataImpl &&
-            (identical(other.text, text) || other.text == text));
+            const DeepCollectionEquality().equals(other._texts, _texts));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, text);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_texts));
 
   /// Create a copy of OcrData
   /// with the given fields replaced by the non-null parameter values.
@@ -414,14 +422,15 @@ class _$OcrDataImpl implements _OcrData {
 }
 
 abstract class _OcrData implements OcrData {
-  const factory _OcrData({@JsonKey(name: 'text') final String? text}) =
-      _$OcrDataImpl;
+  const factory _OcrData({
+    @JsonKey(name: 'texts') required final List<String> texts,
+  }) = _$OcrDataImpl;
 
   factory _OcrData.fromJson(Map<String, dynamic> json) = _$OcrDataImpl.fromJson;
 
   @override
-  @JsonKey(name: 'text')
-  String? get text;
+  @JsonKey(name: 'texts')
+  List<String> get texts;
 
   /// Create a copy of OcrData
   /// with the given fields replaced by the non-null parameter values.

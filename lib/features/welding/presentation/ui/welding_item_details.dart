@@ -106,10 +106,10 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
                       Navigator.of(context, rootNavigator: true).pop();
                     }
                   }
-                  if (state.extractedWeight != null) {
+                  if (state.extractedCodes != null) {
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
-                        state.extractedWeight!.trim(),
+                        state.extractedCodes!,
                         state.base64Image,
                         state.captureTime?.toIso8601String(),
                       ),
@@ -269,141 +269,6 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
           );
         },
       ),
-    );
-  }
-
-  // Widget _buildSheetCounterSection(BuildContext context) {
-  //   return Container(
-  //     padding: const EdgeInsets.all(8),
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(12),
-  //       boxShadow: const [
-  //         BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-  //       ],
-  //       border: Border.all(color: Colors.grey[200]!),
-  //     ),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           'Project Sheet Inventory',
-  //           style: UrbanistTextStyles.bodyMedium.copyWith(
-  //             fontWeight: FontWeight.bold,
-  //           ),
-  //         ),
-  //         const SizedBox(height: 6),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             _buildCounterItem(
-  //               'Full Sheet',
-  //               fullSheetCount,
-  //               // fullSheetCount,
-  //               (val) => setState(() => fullSheetCount = val),
-  //             ),
-  //             _buildCounterItem(
-  //               'Half Sheet',
-  //               halfSheetCount,
-  //               (val) => setState(() => halfSheetCount = val),
-  //             ),
-  //             _buildCounterItem(
-  //               'Quarter Sheet',
-  //               quarterSheetCount,
-  //               (val) => setState(() => quarterSheetCount = val),
-  //             ),
-  //           ],
-  //         ),
-  //         const SizedBox(height: 16),
-  //         SizedBox(
-  //           width: double.infinity,
-  //           height: 48,
-  //           child: ElevatedButton(
-  //             style: ElevatedButton.styleFrom(
-  //               backgroundColor: const Color(0xFF5FD6FF),
-  //               shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(8),
-  //               ),
-  //               elevation: 0,
-  //             ),
-  //             onPressed: () {
-  //               context.read<LaserCuttiingUpdateSheetCubit>().request(
-  //                 Quad(
-  //                   widget.id,
-  //                   fullSheetCount,
-  //                   halfSheetCount,
-  //                   quarterSheetCount,
-  //                 ),
-  //               );
-  //             },
-  //             child:
-  //                 BlocBuilder<
-  //                   LaserCuttiingUpdateSheetCubit,
-  //                   LaserCuttiingUpdateSheetCubitState
-  //                 >(
-  //                   builder: (context, state) {
-  //                     return state.maybeWhen(
-  //                       loading: () => const SizedBox(
-  //                         height: 20,
-  //                         width: 20,
-  //                         child: CircularProgressIndicator(
-  //                           color: Colors.white,
-  //                           strokeWidth: 2,
-  //                         ),
-  //                       ),
-  //                       orElse: () => const Text(
-  //                         'SAVE SHEET COUNTS',
-  //                         style: TextStyle(
-  //                           color: Colors.white,
-  //                           fontWeight: FontWeight.bold,
-  //                         ),
-  //                       ),
-  //                     );
-  //                   },
-  //                 ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  Widget _buildCounterItem(String label, int value, Function(int) onChanged) {
-    return Column(
-      children: [
-        Text(label, style: UrbanistTextStyles.bodySmall.copyWith(fontSize: 12)),
-        const SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(0xFF5FD6FF)),
-          ),
-          child: Row(
-            children: [
-              IconButton(
-                visualDensity: VisualDensity.compact,
-                icon: const Icon(
-                  Icons.remove,
-                  size: 18,
-                  color: Color(0xFF5FD6FF),
-                ),
-                onPressed: () => value > 0 ? onChanged(value - 1) : null,
-              ),
-              Text(
-                '$value',
-                style: UrbanistTextStyles.bodyMedium.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              IconButton(
-                visualDensity: VisualDensity.compact,
-                icon: const Icon(Icons.add, size: 18, color: Color(0xFF5FD6FF)),
-                onPressed: () => onChanged(value + 1),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 

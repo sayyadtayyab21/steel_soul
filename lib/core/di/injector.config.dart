@@ -174,6 +174,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1073.ScannerCubit>(
       () => _i1073.ScannerCubit(gh<_i292.PackingRepo>()),
     );
+    gh.factory<_i368.ScannerCubit>(
+      () => _i368.ScannerCubit(gh<_i926.WeldingRepo>()),
+    );
     gh.lazySingleton<_i158.LaserCuttingBlocProvider>(
       () => _i158.LaserCuttingBlocProvider(gh<_i137.LaserCuttingRepo>()),
     );
@@ -185,9 +188,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i955.ScannerCubit>(
       () => _i955.ScannerCubit(gh<_i137.LaserCuttingRepo>()),
-    );
-    gh.factory<_i368.ScannerCubit>(
-      () => _i368.ScannerCubit(gh<_i137.LaserCuttingRepo>()),
     );
     gh.factory<_i482.ScannerCubit>(
       () => _i482.ScannerCubit(gh<_i372.FoldingRepo>()),

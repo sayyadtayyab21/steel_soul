@@ -6,14 +6,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path/path.dart' as p;
 import 'package:steel_soul/core/model/failure.dart';
-import 'package:steel_soul/features/laser_cutting/data/laser_cutting_repo.dart';
+import 'package:steel_soul/features/welding/data/welding_repo.dart';
+
 
 part 'scanner_cubit.freezed.dart';
 @injectable
 
 class ScannerCubit extends Cubit<ScannerState> {
   ScannerCubit(this.repo) : super(ScannerState.initial());
-  final LaserCuttingRepo repo;
+  final WeldingRepo repo;
 // Inside ScannerCubit.dart
 
 Future<void> extractWeight(File file) async {
@@ -24,7 +25,7 @@ Future<void> extractWeight(File file) async {
     emit(state.copyWith(
       isExtracting: true, 
       error: null, 
-      extractedWeight: null,
+      extractedCodes: null,
       capturedImage: file,
       captureTime: now,
       base64Image: null,
@@ -50,7 +51,7 @@ Future<void> extractWeight(File file) async {
       )),
       (r) => emit(state.copyWith(
         isExtracting: false,
-        extractedWeight: r.ocrData.text,
+        extractedCodes: r.ocrData.texts,
         base64Image: r.baseImage,
       )),
     );
@@ -68,7 +69,7 @@ Future<void> extractWeight(File file) async {
 class ScannerState with _$ScannerState {
   const factory ScannerState({
     required bool isExtracting,
-    String? extractedWeight,
+    List<String>? extractedCodes,
     DateTime? captureTime,
     File? capturedImage,
     Failure? error,
