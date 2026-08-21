@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/features/riveting/model/riveting_item_model.dart';
 import 'package:steel_soul/features/riveting/presentation%20/bloc/bloc_provider.dart';
@@ -93,23 +94,26 @@ class _RivetingItemDetailsState extends State<RivetingItemDetails> {
               BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
                 listener: (context, state) {
                   state.whenOrNull(
-                    success: (data) {
-                      _onRefresh(context); // Refresh items after scan success
-                      _showStatusSnackBar(
-                        context,
-                        // 'Success',
-                        data.message ?? 'Panel successfully updated',
-                        Colors.green,
-                      );
-                    },
-                    failure: (error) {
-                      _showStatusSnackBar(
-                        context,
-                        // 'Match Failed',
-                        error.error,
-                        Colors.red,
-                      );
-                    },
+                   success: (data) {
+  _onRefresh(context);
+  PanelResultDailog.showScanResult(
+    context,
+    status: data.status,
+    total: data.computedTotal,
+    success: data.computedSuccess,
+    failed: data.computedFailed,
+    results: data.allResults
+        .map((r) => PanelResultData(
+              panelId: r.panelId,
+              message: r.message,
+              isSuccess: r.status == 'success',
+            ))
+        .toList(),
+  );
+},
+failure: (error) {
+  PanelResultDailog.showScanResult(context, fallbackMessage: error.error);
+},
                   );
                 },
               ),

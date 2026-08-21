@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/powder_coating/presentation/ui/powder_coating_item_details.dart';
@@ -45,14 +46,15 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              PowderCoatingBlocProvider.get().fetchLaserList()..request(),
+          create:
+              (_) =>
+                  PowderCoatingBlocProvider.get().fetchLaserList()..request(),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         // 3. Panel Status Cubit (Handles matching the scan to a specific panel)
         BlocProvider(
-          create: (_) =>
-              PowderCoatingBlocProvider.get().fetchLaserPanelStatus(),
+          create:
+              (_) => PowderCoatingBlocProvider.get().fetchLaserPanelStatus(),
         ),
       ],
       child: Builder(
@@ -72,7 +74,8 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                   }
 
                   if (state.extractedCodes != null) {
-                    final List<String> scannedIds = state.extractedCodes!.map((s) => s.trim()).toList();
+                    final List<String> scannedIds =
+                        state.extractedCodes!.map((s) => s.trim()).toList();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         scannedIds,
@@ -99,23 +102,29 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      // Refresh the list so the UI reflects the change
                       _onRefresh(context);
-
-                      // Show success feedback with Blur effect
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Panel Matched Successfully',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Error',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -141,81 +150,89 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
                     _searchBar(),
                     const SizedBox(height: 10),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
+                      child: BlocBuilder<
+                        LaserCuttingCubit,
+                        LaserCuttingCubitState
+                      >(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            loading:
+                                () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                             failure: (e) => Center(child: Text(e.error)),
                             success: (projects) {
                               // Filter logic
-                              final filteredProjects = projects.where((
-                                project,
-                              ) {
-                                final id =
-                                    project.projectId?.toLowerCase() ?? '';
-                                return id.contains(_searchQuery.toLowerCase());
-                              }).toList();
+                              final filteredProjects =
+                                  projects.where((project) {
+                                    final id =
+                                        project.projectId?.toLowerCase() ?? '';
+                                    return id.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
                               // Wrap the list in RefreshIndicator
                               return RefreshIndicator(
                                 color: Color(0xFFffb23f),
                                 onRefresh: () => _onRefresh(context),
-                                child: filteredProjects.isEmpty
-                                    ? ListView(
-                                        // Using ListView so pull-to-refresh still works when empty
-                                        children: const [
-                                          SizedBox(height: 100),
-                                          Center(
-                                            child: Text('No projects found'),
-                                          ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        itemCount: filteredProjects.length,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(), // Ensures pull-to-refresh always works
-                                        itemBuilder: (context, index) {
-                                          final project =
-                                              filteredProjects[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6,
+                                child:
+                                    filteredProjects.isEmpty
+                                        ? ListView(
+                                          // Using ListView so pull-to-refresh still works when empty
+                                          children: const [
+                                            SizedBox(height: 100),
+                                            Center(
+                                              child: Text('No projects found'),
                                             ),
-                                            child: PowderCoatingCards(
-                                              id: project.projectId ?? '',
-                                              date: project.date ?? '',
-                                              scan: project.status ?? '',
-                                              time: project.time ?? '',
-                                              onTap: () async {
-                                                // 1. Wait for the user to return from the next screen
-                                                await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        PowderCoatingItemDetails(
-                                                          id:
-                                                              project
-                                                                  .projectId ??
-                                                              '',
-                                                        ),
-                                                  ),
-                                                );
-
-                                                // 2. This code runs AFTER the user presses "Back"
-                                                if (context.mounted) {
-                                                  debugPrint(
-                                                    'Back in PowderCoatingScreen. Refreshing...',
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: filteredProjects.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(), // Ensures pull-to-refresh always works
+                                          itemBuilder: (context, index) {
+                                            final project =
+                                                filteredProjects[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 6,
+                                              ),
+                                              child: PowderCoatingCards(
+                                                id: project.projectId ?? '',
+                                                date: project.date ?? '',
+                                                scan: project.status ?? '',
+                                                time: project.time ?? '',
+                                                onTap: () async {
+                                                  // 1. Wait for the user to return from the next screen
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (
+                                                            _,
+                                                          ) => PowderCoatingItemDetails(
+                                                            id:
+                                                                project
+                                                                    .projectId ??
+                                                                '',
+                                                          ),
+                                                    ),
                                                   );
-                                                  _onRefresh(context);
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+
+                                                  // 2. This code runs AFTER the user presses "Back"
+                                                  if (context.mounted) {
+                                                    debugPrint(
+                                                      'Back in PowderCoatingScreen. Refreshing...',
+                                                    );
+                                                    _onRefresh(context);
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
                           );
@@ -314,15 +331,16 @@ class _PowderCoatingScreenState extends State<PowderCoatingScreen> {
         decoration: InputDecoration(
           hintText: 'Search Project ID',
           prefixIcon: const Icon(Icons.search, color: Color(0xFFffb23f)),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
-                )
-              : null,
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

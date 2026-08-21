@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
@@ -10,6 +8,7 @@ import 'package:steel_soul/features/folding/presentation/bloc/scanner_cubit.dart
 import 'package:steel_soul/features/folding/presentation/ui/folding_item_details.dart';
 import 'package:steel_soul/features/folding/presentation/widgets/folding_card.dart';
 import 'package:steel_soul/features/folding/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -56,12 +55,12 @@ class _FoldingScreenState extends State<FoldingScreen> {
       child: Builder(
         builder: (context) {
           return MultiBlocListener(
-           listeners: [
+            listeners: [
               // Listener 1: Watch the OCR/Scanner process
               BlocListener<ScannerCubit, ScannerState>(
                 listener: (context, state) {
                   if (state.isExtracting) {
-                    _showLoadingDialog(context);
+                    PanelResultDailog.showLoading(context);
                   } else {
                     // Safely pop the loading dialog
                     if (Navigator.of(context, rootNavigator: true).canPop()) {
@@ -70,7 +69,8 @@ class _FoldingScreenState extends State<FoldingScreen> {
                   }
 
                   if (state.extractedCodes != null) {
-                    final List<String> scannedIds = state.extractedCodes!.map((s) => s.trim()).toList();
+                    final List<String> scannedIds =
+                        state.extractedCodes!.map((s) => s.trim()).toList();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         scannedIds,
@@ -97,23 +97,29 @@ class _FoldingScreenState extends State<FoldingScreen> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      // Refresh the list so the UI reflects the change
                       _onRefresh(context);
-
-                      // Show success feedback with Blur effect
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Panel Matched Successfully',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Error',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -136,78 +142,86 @@ class _FoldingScreenState extends State<FoldingScreen> {
                     _searchBar(),
                     const SizedBox(height: 10),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
+                      child: BlocBuilder<
+                        LaserCuttingCubit,
+                        LaserCuttingCubitState
+                      >(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            loading:
+                                () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                             failure: (e) => Center(child: Text(e.error)),
                             success: (projects) {
                               // Filter logic
-                              final filteredProjects = projects.where((
-                                project,
-                              ) {
-                                final id =
-                                    project.projectId?.toLowerCase() ?? '';
-                                return id.contains(_searchQuery.toLowerCase());
-                              }).toList();
+                              final filteredProjects =
+                                  projects.where((project) {
+                                    final id =
+                                        project.projectId?.toLowerCase() ?? '';
+                                    return id.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
                               // Wrap the list in RefreshIndicator
                               return RefreshIndicator(
                                 color: const Color(0xFF5FD6FF),
                                 onRefresh: () => _onRefresh(context),
-                                child: filteredProjects.isEmpty
-                                    ? ListView(
-                                        // Using ListView so pull-to-refresh still works when empty
-                                        children: const [
-                                          SizedBox(height: 100),
-                                          Center(
-                                            child: Text('No projects found'),
-                                          ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        itemCount: filteredProjects.length,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(), // Ensures pull-to-refresh always works
-                                        itemBuilder: (context, index) {
-                                          final project =
-                                              filteredProjects[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6,
+                                child:
+                                    filteredProjects.isEmpty
+                                        ? ListView(
+                                          // Using ListView so pull-to-refresh still works when empty
+                                          children: const [
+                                            SizedBox(height: 100),
+                                            Center(
+                                              child: Text('No projects found'),
                                             ),
-                                            child: FoldingCard(
-                                              id: project.projectId ?? '',
-                                              date: project.date ?? '',
-                                                 scan: project.status ?? '',
-                                                  time:project.time??'',
-                                              onTap: () async{
-                                               await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        FoldingItemDetails(
-                                                          id:
-                                                              project
-                                                                  .projectId ??
-                                                              '',
-                                                        ),
-                                                  ),
-                                                );
-                                                if (context.mounted) {
-                                                  debugPrint(
-                                                    'Returned from details, refreshing items...',
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: filteredProjects.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(), // Ensures pull-to-refresh always works
+                                          itemBuilder: (context, index) {
+                                            final project =
+                                                filteredProjects[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 6,
+                                              ),
+                                              child: FoldingCard(
+                                                id: project.projectId ?? '',
+                                                date: project.date ?? '',
+                                                scan: project.status ?? '',
+                                                time: project.time ?? '',
+                                                onTap: () async {
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (
+                                                            _,
+                                                          ) => FoldingItemDetails(
+                                                            id:
+                                                                project
+                                                                    .projectId ??
+                                                                '',
+                                                          ),
+                                                    ),
                                                   );
-                                                  _onRefresh(context);
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                                  if (context.mounted) {
+                                                    debugPrint(
+                                                      'Returned from details, refreshing items...',
+                                                    );
+                                                    _onRefresh(context);
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
                           );
@@ -225,46 +239,6 @@ class _FoldingScreenState extends State<FoldingScreen> {
     );
   }
 
-  void _showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
-  }
-
-  void _showBlurredStatusDialog(
-    BuildContext context,
-    String title,
-    String message,
-    Color color,
-  ) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            title: Text(
-              title,
-              style: UrbanistTextStyles.heading3.copyWith(color: color),
-            ),
-            content: Text(message, style: UrbanistTextStyles.bodyMedium),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   Widget _searchBar() {
     return Container(
       decoration: BoxDecoration(
@@ -277,15 +251,16 @@ class _FoldingScreenState extends State<FoldingScreen> {
         decoration: InputDecoration(
           hintText: 'Search Project ID',
           prefixIcon: const Icon(Icons.search, color: Color(0xFFff7f7e)),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
-                )
-              : null,
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -295,33 +270,6 @@ class _FoldingScreenState extends State<FoldingScreen> {
       ),
     );
   }
-
-  void _showStatusSnackBar(BuildContext context, String message, Color color) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Row(
-        children: [
-          Icon(
-            color == Colors.green ? Icons.check_circle : Icons.error,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              message,
-              style: UrbanistTextStyles.bodyMedium.copyWith(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-      backgroundColor: color,
-      behavior: SnackBarBehavior.floating, // Makes it float above the UI
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.all(16),
-      duration: const Duration(seconds: 3),
-    ),
-  );
-}
 
   Widget _backButton(BuildContext context) {
     return Container(

@@ -12,6 +12,7 @@ import 'package:steel_soul/features/laser_cutting/model/scanner_details_model.da
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class LaserScanDetails extends StatefulWidget {
@@ -26,7 +27,6 @@ class LaserScanDetails extends StatefulWidget {
   @override
   State<LaserScanDetails> createState() => _LaserScanDetailsState();
 }
-// ... (imports remain the same)
 
 class _LaserScanDetailsState extends State<LaserScanDetails> {
   Future<void> _handleRefresh(BuildContext context) async {
@@ -38,6 +38,11 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
     await context.read<LaserCuttingScanCubit>().stream.firstWhere(
       (state) => !state.isLoading,
     );
+  }
+
+  Future<void> _onRefresh(BuildContext context) async {
+    context.read<LaserCuttingItemsCubit>().request(widget.projectId);
+    await Future.delayed(const Duration(milliseconds: 500));
   }
 
   @override
@@ -66,7 +71,7 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                 listener: (context, state) {
                   // 1. Handle Loading Dialog logic
                   if (state.isExtracting) {
-                    _showLoadingDialog(context);
+                    PanelResultDailog.showLoading(context);
                   } else {
                     // Pop the loading dialog when extraction stops
                     if (Navigator.of(context, rootNavigator: true).canPop()) {
@@ -75,19 +80,15 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                   }
 
                   // 2. Handle Success (Text Extracted + Image Available)
-                  if (state.extractedCodes != null && state.extractedCodes!.isNotEmpty) {
-              
-                    try {
-                      context.read<LaserCuttingPanelCubit>().request(
-                        Triple(
-                          state.extractedCodes!,
-                          state.base64Image,
-                          state.captureTime?.toIso8601String(),
-                        ),
-                      );
-                    } catch (e, st) {
-                      log('Panel request failed: $e\n$st');
-                    }
+                  if (state.extractedCodes != null &&
+                      state.extractedCodes!.isNotEmpty) {
+                    context.read<LaserCuttingPanelCubit>().request(
+                      Triple(
+                        state.extractedCodes!,
+                        state.base64Image,
+                        state.captureTime?.toIso8601String(),
+                      ),
+                    );
                     context.read<ScannerCubit>().reset();
                   }
                   // 3. Handle Errors
@@ -106,24 +107,29 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      // Refresh the list first
-                      context.read<LaserCuttingScanCubit>().request(
-                        Pair<String, String>(widget.projectId, widget.unit),
-                      );
-                      // Show the Blur Dialog
-                      _showStatusSnackBar(
+                      _onRefresh(context);
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Scan Successful',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Error',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -257,129 +263,6 @@ class _LaserScanDetailsState extends State<LaserScanDetails> {
           );
         },
       ),
-    );
-  }
-
-  Widget _buildSummaryBox({
-    required String label,
-    required String value,
-    required List<Color> colors,
-    required Color borderColor,
-  }) {
-    return Expanded(
-      child: Container(
-        height: 60,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: colors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: borderColor),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-            ),
-            Text(
-              value,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showStatusSnackBar(BuildContext context, String message, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              color == Colors.green ? Icons.check_circle : Icons.error,
-              color: Colors.white,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                message,
-                style: UrbanistTextStyles.bodyMedium.copyWith(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: color,
-        behavior: SnackBarBehavior.floating, // Makes it float above the UI
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  void _showBlurredStatusDialog(
-    BuildContext context,
-    String title,
-    String message,
-    Color color,
-  ) {
-    showDialog(
-      context: context,
-      barrierDismissible: true, // Allow tapping outside to close
-      builder: (BuildContext context) {
-        return BackdropFilter(
-          filter: ColorFilter.mode(
-            Colors.black.withOpacity(0.2),
-            BlendMode.darken,
-          ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: 5,
-              sigmaY: 5,
-            ), // Adjust blur intensity here
-            child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              title: Text(
-                title,
-                style: UrbanistTextStyles.heading3.copyWith(color: color),
-              ),
-              content: Text(message, style: UrbanistTextStyles.bodyMedium),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  // Simple loading helper
-  void _showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
     );
   }
 

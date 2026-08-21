@@ -11,6 +11,7 @@ import 'package:steel_soul/features/folding/presentation/bloc/scanner_cubit.dart
 import 'package:steel_soul/features/folding/presentation/ui/folding_scan_details.dart';
 import 'package:steel_soul/features/folding/presentation/widgets/folding_item_cards.dart';
 import 'package:steel_soul/features/folding/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -91,23 +92,26 @@ class _FoldingItemDetailsState extends State<FoldingItemDetails> {
               BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
                 listener: (context, state) {
                   state.whenOrNull(
-                    success: (data) {
-                      _onRefresh(context); // Refresh items after scan success
-                      _showStatusSnackBar(
-                        context,
-                        // 'Success',
-                        data.message ?? 'Panel successfully updated',
-                        Colors.green,
-                      );
-                    },
-                    failure: (error) {
-                      _showStatusSnackBar(
-                        context,
-                        // 'Match Failed',
-                        error.error,
-                        Colors.red,
-                      );
-                    },
+                   success: (data) {
+  _onRefresh(context);
+  PanelResultDailog.showScanResult(
+    context,
+    status: data.status,
+    total: data.computedTotal,
+    success: data.computedSuccess,
+    failed: data.computedFailed,
+    results: data.allResults
+        .map((r) => PanelResultData(
+              panelId: r.panelId,
+              message: r.message,
+              isSuccess: r.status == 'success',
+            ))
+        .toList(),
+  );
+},
+failure: (error) {
+  PanelResultDailog.showScanResult(context, fallbackMessage: error.error);
+},
                   );
                 },
               ),

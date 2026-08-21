@@ -11,6 +11,7 @@ import 'package:steel_soul/features/folding/model/scanner_details_model.dart';
 import 'package:steel_soul/features/folding/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/folding/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/folding/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -73,7 +74,8 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                   }
 
                   if (state.extractedCodes != null) {
-                    final List<String> scannedIds = state.extractedCodes!.map((s) => s.trim()).toList();
+                    final List<String> scannedIds =
+                        state.extractedCodes!.map((s) => s.trim()).toList();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         scannedIds,
@@ -96,24 +98,28 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      // Refresh the list first
-                      context.read<LaserCuttingScanCubit>().request(
-                        Pair<String, String>(widget.projectId, widget.unit),
-                      );
-                      // Show the Blur Dialog
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // "Success",
-                        data.message ?? 'Scan Successful',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // "Error",
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -222,7 +228,12 @@ class _FoldingScanDetailsState extends State<FoldingScanDetails> {
                                 );
                               }
                               return RefreshIndicator(
-                                color: const Color.fromARGB(255, 255, 126, 56), // Matches your app theme
+                                color: const Color.fromARGB(
+                                  255,
+                                  255,
+                                  126,
+                                  56,
+                                ), // Matches your app theme
                                 onRefresh: () => _handleRefresh(context),
                                 child: ListView.builder(
                                   itemCount: scannedItems.length,

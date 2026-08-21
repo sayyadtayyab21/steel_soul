@@ -6,6 +6,7 @@ import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
 import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/buildbadge/summarybox.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/features/powder_coating/model/scanner_details_model.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/bloc_provider.dart';
@@ -75,7 +76,8 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                   }
 
                   if (state.extractedCodes != null) {
-                    final List<String> scannedIds = state.extractedCodes!.map((s) => s.trim()).toList();
+                    final List<String> scannedIds =
+                        state.extractedCodes!.map((s) => s.trim()).toList();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         scannedIds,
@@ -98,24 +100,28 @@ class _PowderCoatingScanDetailsState extends State<PowderCoatingScanDetails> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      // Refresh the list first
-                      context.read<LaserCuttingScanCubit>().request(
-                        Pair<String, String>(widget.projectId, widget.unit),
-                      );
-                      // Show the Blur Dialog
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Scan Successful',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Error',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );

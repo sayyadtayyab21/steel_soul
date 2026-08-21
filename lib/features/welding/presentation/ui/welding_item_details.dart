@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
-import 'package:steel_soul/core/model/quad.dart';
+
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 import 'package:steel_soul/features/welding/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/welding/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/welding/presentation/ui/welding_scan_details.dart';
 import 'package:steel_soul/features/welding/presentation/widgets/scanner_button.dart';
 import 'package:steel_soul/features/welding/presentation/widgets/welding_item_cards.dart';
-
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -29,10 +29,10 @@ class WeldingItemDetails extends StatefulWidget {
   int quarterProjectSheetCount;
 
   @override
-  State<WeldingItemDetails> createState() => _LaserItemDetailsState();
+  State<WeldingItemDetails> createState() => _WeldingItemDetailsState();
 }
 
-class _LaserItemDetailsState extends State<WeldingItemDetails> {
+class _WeldingItemDetailsState extends State<WeldingItemDetails> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
@@ -66,30 +66,31 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
   @override
   Widget build(BuildContext context) {
     log(
-      'Building WeldingItemDetails for project: ${widget.fullProjectSheetCount}',
+      'Building WeldingItemDetails for fullProjectSheetCount: ${widget.fullProjectSheetCount}',
     );
     log(
-      'Building WeldingItemDetails for project: ${widget.halfProjectSheetCount}',
+      'Building WeldingItemDetails for halfProjectSheetCount: ${widget.halfProjectSheetCount}',
     );
     log(
-      'Building WeldingItemDetails for project: ${widget.quarterProjectSheetCount}',
+      'Building WeldingItemDetails for quarterProjectSheetCount: ${widget.quarterProjectSheetCount}',
     );
     log('Building WeldingItemDetails for project: ${widget.id}');
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              WeldingBlocProvider.get().fetchLaserItemsList()
-                ..request(widget.id),
+          create:
+              (_) =>
+                  WeldingBlocProvider.get().fetchLaserItemsList()
+                    ..request(widget.id),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         BlocProvider(
           create: (_) => WeldingBlocProvider.get().fetchLaserPanelStatus(),
         ),
         BlocProvider(
-          create: (_) =>
-              WeldingBlocProvider.get().fetchLaserUpdateSheetStatus(),
+          create:
+              (_) => WeldingBlocProvider.get().fetchLaserUpdateSheetStatus(),
         ),
       ],
       child: Builder(
@@ -124,14 +125,30 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
                   state.whenOrNull(
                     success: (data) {
                       _onRefresh(context);
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        data.message ?? 'Panel updated',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
-                    failure: (error) =>
-                        _showStatusSnackBar(context, error.error, Colors.red),
+                    failure: (error) {
+                      PanelResultDailog.showScanResult(
+                        context,
+                        fallbackMessage: error.error,
+                      );
+                    },
                   );
                 },
               ),
@@ -152,8 +169,12 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
                         Colors.green,
                       );
                     },
-                    failure: (error) =>
-                        _showStatusSnackBar(context, error.error, Colors.red),
+                    failure:
+                        (error) => _showStatusSnackBar(
+                          context,
+                          error.error,
+                          Colors.red,
+                        ),
                   );
                 },
               ),
@@ -173,23 +194,23 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
                   children: [
                     _searchBar(),
                     const SizedBox(height: 10),
-                    // _buildSheetCounterSection(innerContext),
-                    // const SizedBox(height: 10),
+                  
                     Expanded(
-                      child:
-                          BlocBuilder<
-                            LaserCuttingItemsCubit,
-                            LaserCuttingItemsCubitState
-                          >(
-                            builder: (context, state) {
-                              return state.when(
-                                initial: () => const SizedBox(),
-                                loading: () => const Center(
+                      child: BlocBuilder<
+                        LaserCuttingItemsCubit,
+                        LaserCuttingItemsCubitState
+                      >(
+                        builder: (context, state) {
+                          return state.when(
+                            initial: () => const SizedBox(),
+                            loading:
+                                () => const Center(
                                   child: CircularProgressIndicator(),
                                 ),
-                                failure: (e) => Center(child: Text(e.error)),
-                                success: (items) {
-                                  final filteredItems = items
+                            failure: (e) => Center(child: Text(e.error)),
+                            success: (items) {
+                              final filteredItems =
+                                  items
                                       .where(
                                         (item) => (item.unitCode ?? '')
                                             .toLowerCase()
@@ -199,67 +220,69 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
                                       )
                                       .toList();
 
-                                  return RefreshIndicator(
-                                    color: const Color.fromARGB(255, 255, 152, 92),
-                                    onRefresh: () => _onRefresh(context),
-                                    child: filteredItems.isEmpty
+                              return RefreshIndicator(
+                                color: const Color.fromARGB(255, 255, 152, 92),
+                                onRefresh: () => _onRefresh(context),
+                                child:
+                                    filteredItems.isEmpty
                                         ? ListView(
-                                            children: const [
-                                              Center(
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 50,
-                                                  ),
-                                                  child: Text('No items found'),
+                                          children: const [
+                                            Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 50,
                                                 ),
+                                                child: Text('No items found'),
                                               ),
-                                            ],
-                                          )
+                                            ),
+                                          ],
+                                        )
                                         : ListView.builder(
-                                            itemCount: filteredItems.length,
-                                            physics:
-                                                const AlwaysScrollableScrollPhysics(),
-                                            itemBuilder: (context, index) {
-                                              final item = filteredItems[index];
-                                              return Padding(
-                                                padding: const EdgeInsets.only(
-                                                  bottom: 8,
-                                                ),
-                                                child: WeldingItemCards(
-                                                  id: item.unitCode ?? '',
-                                                  scan:
-                                                      item.status ??
-                                                      '',
-                                                  totalPanels:
-                                                      item.totalPanels ?? 0,
-                                                  scannedPanels:
-                                                      item.scannedPanels ?? 0,
-                                                  onTap: () async {
-                                                    await Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (_) =>
-                                                            WeldingScanDetails(
-                                                              projectId:
-                                                                  widget.id,
-                                                              unit:
-                                                                  item.unitCode ??
-                                                                  '',
-                                                            ),
-                                                      ),
-                                                    );
-                                                    if (context.mounted)
-                                                      _onRefresh(context);
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                  );
-                                },
+                                          itemCount: filteredItems.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            final item = filteredItems[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 8,
+                                              ),
+                                              child: WeldingItemCards(
+                                                id: item.unitCode ?? '',
+                                                scan: item.status ?? '',
+                                                totalPanels:
+                                                    item.totalPanels ?? 0,
+                                                scannedPanels:
+                                                    item.scannedPanels ?? 0,
+                                                onTap: () async {
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (
+                                                            _,
+                                                          ) => WeldingScanDetails(
+                                                            projectId:
+                                                                widget.id,
+                                                            unit:
+                                                                item.unitCode ??
+                                                                '',
+                                                          ),
+                                                    ),
+                                                  );
+                                                  if (context.mounted) {
+                                                    _onRefresh(context);
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
-                          ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -283,16 +306,21 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
         onChanged: (value) => setState(() => _searchQuery = value),
         decoration: InputDecoration(
           hintText: 'Search Unit Code',
-          prefixIcon: const Icon(Icons.search, color: const Color.fromARGB(255, 255, 152, 92),),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () => setState(() {
-                    _searchController.clear();
-                    _searchQuery = '';
-                  }),
-                )
-              : null,
+          prefixIcon: const Icon(
+            Icons.search,
+            color: const Color.fromARGB(255, 255, 152, 92),
+          ),
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed:
+                        () => setState(() {
+                          _searchController.clear();
+                          _searchQuery = '';
+                        }),
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -312,8 +340,9 @@ class _LaserItemDetailsState extends State<WeldingItemDetails> {
       ),
       child: IconButton(
         icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () =>
-            Navigator.pop(context, _hasChanges), // Notify parent if changed
+        onPressed:
+            () =>
+                Navigator.pop(context, _hasChanges), // Notify parent if changed
       ),
     );
   }

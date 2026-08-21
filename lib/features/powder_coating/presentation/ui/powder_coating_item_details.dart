@@ -1,17 +1,15 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
-
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 import 'package:steel_soul/features/powder_coating/model/powder_coating_item_model.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/powder_coating/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/powder_coating/presentation/ui/powder_coating_scan_details.dart';
 import 'package:steel_soul/features/powder_coating/presentation/widgets/powder_coating_item_cards.dart';
 import 'package:steel_soul/features/powder_coating/presentation/widgets/scanner_button.dart';
-
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class PowderCoatingItemDetails extends StatefulWidget {
@@ -45,14 +43,15 @@ class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              PowderCoatingBlocProvider.get().fetchLaserItemsList()
-                ..request(widget.id),
+          create:
+              (_) =>
+                  PowderCoatingBlocProvider.get().fetchLaserItemsList()
+                    ..request(widget.id),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         BlocProvider(
-          create: (_) =>
-              PowderCoatingBlocProvider.get().fetchLaserPanelStatus(),
+          create:
+              (_) => PowderCoatingBlocProvider.get().fetchLaserPanelStatus(),
         ),
       ],
       child: Builder(
@@ -70,7 +69,8 @@ class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
                   }
 
                   if (state.extractedCodes != null) {
-                    final List<String> scannedIds = state.extractedCodes!.map((s) => s.trim()).toList();
+                    final List<String> scannedIds =
+                        state.extractedCodes!.map((s) => s.trim()).toList();
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         scannedIds,
@@ -95,20 +95,29 @@ class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      _onRefresh(context); // Refresh items after scan success
-                      _showStatusSnackBar(
+                      _onRefresh(context);
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Panel successfully updated',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Match Failed',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -142,26 +151,29 @@ class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
                     const SizedBox(height: 20),
 
                     Expanded(
-                      child: BlocBuilder<LaserCuttingItemsCubit, LaserCuttingItemsCubitState>(
+                      child: BlocBuilder<
+                        LaserCuttingItemsCubit,
+                        LaserCuttingItemsCubitState
+                      >(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            failure: (e) =>
-                                const Center(child: Text('//.message')),
+                            loading:
+                                () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                            failure:
+                                (e) => const Center(child: Text('//.message')),
                             success: (List<PowderCoatingItemModel> projects) {
                               // 1. Filter the list based on the search query
-                              final filteredProjects = projects.where((
-                                project,
-                              ) {
-                                final unitCode =
-                                    project.unitCode?.toLowerCase() ?? '';
-                                return unitCode.contains(
-                                  _searchQuery.toLowerCase(),
-                                );
-                              }).toList();
+                              final filteredProjects =
+                                  projects.where((project) {
+                                    final unitCode =
+                                        project.unitCode?.toLowerCase() ?? '';
+                                    return unitCode.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
                               // 2. Handle the empty state if no results match the search
                               if (filteredProjects.isEmpty) {
@@ -199,12 +211,14 @@ class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
                                           await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (_) =>
-                                                  PowderCoatingScanDetails(
-                                                    projectId: widget.id,
-                                                    unit:
-                                                        project.unitCode ?? '',
-                                                  ),
+                                              builder:
+                                                  (_) =>
+                                                      PowderCoatingScanDetails(
+                                                        projectId: widget.id,
+                                                        unit:
+                                                            project.unitCode ??
+                                                            '',
+                                                      ),
                                             ),
                                           );
                                           if (context.mounted) {
@@ -280,25 +294,26 @@ class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
   ) {
     showDialog(
       context: context,
-      builder: (context) => BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            title,
-            style: UrbanistTextStyles.heading3.copyWith(color: color),
-          ),
-          content: Text(message, style: UrbanistTextStyles.bodyMedium),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
+      builder:
+          (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Text(
+                title,
+                style: UrbanistTextStyles.heading3.copyWith(color: color),
+              ),
+              content: Text(message, style: UrbanistTextStyles.bodyMedium),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -314,15 +329,16 @@ class _PowderCoatingItemDetailsState extends State<PowderCoatingItemDetails> {
         decoration: InputDecoration(
           hintText: 'Search Unit Code',
           prefixIcon: const Icon(Icons.search, color: Color(0xFFffb23f)),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
-                )
-              : null,
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

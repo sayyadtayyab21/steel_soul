@@ -10,6 +10,7 @@ import 'package:steel_soul/features/packing/presentation/bloc/scanner_cubit.dart
 import 'package:steel_soul/features/packing/presentation/ui/packing_scan_details.dart';
 import 'package:steel_soul/features/packing/presentation/widgets/packing_item_cards.dart';
 import 'package:steel_soul/features/packing/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -44,9 +45,10 @@ class _PackingItemDetailsState extends State<PackingItemDetails> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              PackingBlocProvider.get().fetchLaserItemsList()
-                ..request(widget.id),
+          create:
+              (_) =>
+                  PackingBlocProvider.get().fetchLaserItemsList()
+                    ..request(widget.id),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         BlocProvider(
@@ -93,20 +95,29 @@ class _PackingItemDetailsState extends State<PackingItemDetails> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      _onRefresh(context); // Refresh items after scan success
-                      _showStatusSnackBar(
+                      _onRefresh(context);
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Panel successfully updated',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Match Failed',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -129,82 +140,91 @@ class _PackingItemDetailsState extends State<PackingItemDetails> {
                     _searchBar(),
                     const SizedBox(height: 20),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingItemsCubit, LaserCuttingItemsCubitState>(
+                      child: BlocBuilder<
+                        LaserCuttingItemsCubit,
+                        LaserCuttingItemsCubitState
+                      >(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            loading:
+                                () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                             failure: (e) => Center(child: Text(e.error)),
                             success: (List<PackingItemModel> items) {
                               // 3. APPLY SEARCH FILTER
-                              final filteredItems = items.where((item) {
-                                final unitCode =
-                                    item.unitCode?.toLowerCase() ?? '';
-                                return unitCode.contains(
-                                  _searchQuery.toLowerCase(),
-                                );
-                              }).toList();
+                              final filteredItems =
+                                  items.where((item) {
+                                    final unitCode =
+                                        item.unitCode?.toLowerCase() ?? '';
+                                    return unitCode.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
                               // 4. WRAP IN REFRESH INDICATOR
                               return RefreshIndicator(
                                 color: const Color(0xFF5FD6FF),
                                 onRefresh: () => _onRefresh(context),
-                                child: filteredItems.isEmpty
-                                    ? ListView(
-                                        children: [
-                                          const SizedBox(height: 100),
-                                          Center(
-                                            child: Text(
-                                              _searchQuery.isEmpty
-                                                  ? 'No items found'
-                                                  : 'No matching unit code found',
+                                child:
+                                    filteredItems.isEmpty
+                                        ? ListView(
+                                          children: [
+                                            const SizedBox(height: 100),
+                                            Center(
+                                              child: Text(
+                                                _searchQuery.isEmpty
+                                                    ? 'No items found'
+                                                    : 'No matching unit code found',
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        itemCount: filteredItems.length,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          final item = filteredItems[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6,
-                                            ),
-                                            child: PackingItemCards(
-                                              id: item.unitCode ?? '',
-                                              scan: item.status ?? '',
-                                              totalPanels:
-                                                  item.totalPanels ?? 0,
-                                              scannedPanels:
-                                                  item.scannedPanels ?? 0,
-                                              onTap: () async {
-                                                await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        PackingScanDetails(
-                                                          projectId: widget.id,
-                                                          unit:
-                                                              item.unitCode ??
-                                                              '',
-                                                        ),
-                                                  ),
-                                                );
-                                                if (context.mounted) {
-                                                  debugPrint(
-                                                    'Returned from details, refreshing items...',
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: filteredItems.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            final item = filteredItems[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 6,
+                                              ),
+                                              child: PackingItemCards(
+                                                id: item.unitCode ?? '',
+                                                scan: item.status ?? '',
+                                                totalPanels:
+                                                    item.totalPanels ?? 0,
+                                                scannedPanels:
+                                                    item.scannedPanels ?? 0,
+                                                onTap: () async {
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (
+                                                            _,
+                                                          ) => PackingScanDetails(
+                                                            projectId:
+                                                                widget.id,
+                                                            unit:
+                                                                item.unitCode ??
+                                                                '',
+                                                          ),
+                                                    ),
                                                   );
-                                                  _onRefresh(context);
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                                  if (context.mounted) {
+                                                    debugPrint(
+                                                      'Returned from details, refreshing items...',
+                                                    );
+                                                    _onRefresh(context);
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
                           );
@@ -236,15 +256,16 @@ class _PackingItemDetailsState extends State<PackingItemDetails> {
         decoration: InputDecoration(
           hintText: 'Search Unit Code',
           prefixIcon: const Icon(Icons.search, color: Color(0xFFDB7b6c)),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
-                )
-              : null,
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -298,7 +319,7 @@ class _PackingItemDetailsState extends State<PackingItemDetails> {
           ],
         ),
         backgroundColor: color,
-        behavior: SnackBarBehavior.floating, 
+        behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         margin: const EdgeInsets.all(16),
         duration: const Duration(seconds: 3),
@@ -314,25 +335,26 @@ class _PackingItemDetailsState extends State<PackingItemDetails> {
   ) {
     showDialog(
       context: context,
-      builder: (context) => BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            title,
-            style: UrbanistTextStyles.heading3.copyWith(color: color),
-          ),
-          content: Text(message, style: UrbanistTextStyles.bodyMedium),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
+      builder:
+          (context) => BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Text(
+                title,
+                style: UrbanistTextStyles.heading3.copyWith(color: color),
+              ),
+              content: Text(message, style: UrbanistTextStyles.bodyMedium),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 }

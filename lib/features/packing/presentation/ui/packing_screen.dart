@@ -10,6 +10,7 @@ import 'package:steel_soul/features/packing/presentation/bloc/scanner_cubit.dart
 import 'package:steel_soul/features/packing/presentation/ui/packing_item_details.dart';
 import 'package:steel_soul/features/packing/presentation/widgets/packing_cards.dart';
 import 'package:steel_soul/features/packing/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -67,7 +68,7 @@ class _PackingScreenState extends State<PackingScreen> {
                     }
                   }
 
-                  if (state.extractedCodes!= null) {
+                  if (state.extractedCodes != null) {
                     log('Extracted Codes: ${state.extractedCodes}');
                     final List<String> scannedIds = state.extractedCodes!;
                     log('Scanned IDs: $scannedIds');
@@ -97,23 +98,29 @@ class _PackingScreenState extends State<PackingScreen> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      // Refresh the list so the UI reflects the change
                       _onRefresh(context);
-
-                      // Show success feedback with Blur effect
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Panel Matched Successfully',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Error',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -136,77 +143,86 @@ class _PackingScreenState extends State<PackingScreen> {
                     _searchBar(),
                     const SizedBox(height: 10),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
+                      child: BlocBuilder<
+                        LaserCuttingCubit,
+                        LaserCuttingCubitState
+                      >(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            loading:
+                                () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                             failure: (e) => Center(child: Text(e.error)),
                             success: (List<PackingModel> projects) {
-                              final filteredProjects = projects.where((
-                                project,
-                              ) {
-                                final id =
-                                    project.projectId?.toLowerCase() ?? '';
-                                return id.contains(_searchQuery.toLowerCase());
-                              }).toList();
+                              final filteredProjects =
+                                  projects.where((project) {
+                                    final id =
+                                        project.projectId?.toLowerCase() ?? '';
+                                    return id.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
                               return RefreshIndicator(
                                 color: const Color(0xFF5FD6FF),
                                 onRefresh: () => _onRefresh(context),
-                                child: filteredProjects.isEmpty
-                                    ? ListView(
-                                        children: const [
-                                          SizedBox(height: 100),
-                                          Center(
-                                            child: Text('No projects found'),
-                                          ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        itemCount: filteredProjects.length,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          final project =
-                                              filteredProjects[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6,
+                                child:
+                                    filteredProjects.isEmpty
+                                        ? ListView(
+                                          children: const [
+                                            SizedBox(height: 100),
+                                            Center(
+                                              child: Text('No projects found'),
                                             ),
-                                            child: PackingCards(
-                                              id: project.projectId ?? '',
-                                              date: project.date ?? '',
-                                              scan:
-                                                  project.laserCuttingStatus ??
-                                                  '',
-                                              time: project.time ?? '',
-                                              onTap: () async {
-                                                await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        PackingItemDetails(
-                                                          id:
-                                                              project
-                                                                  .projectId ??
-                                                              '',
-                                                        ),
-                                                  ),
-                                                );
-                                                if (context.mounted) {
-                                                  debugPrint(
-                                                    'Returned from details, refreshing items...',
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: filteredProjects.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            final project =
+                                                filteredProjects[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 6,
+                                              ),
+                                              child: PackingCards(
+                                                id: project.projectId ?? '',
+                                                date: project.date ?? '',
+                                                scan:
+                                                    project
+                                                        .laserCuttingStatus ??
+                                                    '',
+                                                time: project.time ?? '',
+                                                onTap: () async {
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (
+                                                            _,
+                                                          ) => PackingItemDetails(
+                                                            id:
+                                                                project
+                                                                    .projectId ??
+                                                                '',
+                                                          ),
+                                                    ),
                                                   );
-                                                  _onRefresh(context);
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                                  if (context.mounted) {
+                                                    debugPrint(
+                                                      'Returned from details, refreshing items...',
+                                                    );
+                                                    _onRefresh(context);
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
                           );
@@ -307,15 +323,16 @@ class _PackingScreenState extends State<PackingScreen> {
         decoration: InputDecoration(
           hintText: 'Search Project ID',
           prefixIcon: const Icon(Icons.search, color: Color(0xFFDB7b6c)),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
-                )
-              : null,
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

@@ -9,10 +9,10 @@ import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubi
 import 'package:steel_soul/features/laser_cutting/presentation/ui/laser_scan_details.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/widgets/item_cards.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
 class LaserItemDetails extends StatefulWidget {
-
   const LaserItemDetails({
     super.key,
     required this.id,
@@ -113,76 +113,147 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
                   LaserCuttingBlocProvider.get().fetchLaserUpdateSheetStatus(),
         ),
       ],
-      child: MultiBlocListener(
-        listeners: [
-          /// Save Sheet Counts Listener
-          BlocListener<
-            LaserCuttiingUpdateSheetCubit,
-            LaserCuttiingUpdateSheetCubitState
-          >(
-            listener: (context, state) {
-              state.whenOrNull(
-                success: (data) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        // ignore: prefer_single_quotes
-                        data.message ?? "Sheet counts updated successfully",
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.green,
-                      behavior: SnackBarBehavior.floating,
-                      margin: const EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+      child: Builder(
+        builder: (context) {
+          return MultiBlocListener(
+            listeners: [
+              /// Save Sheet Counts Listener
+              BlocListener<
+                LaserCuttiingUpdateSheetCubit,
+                LaserCuttiingUpdateSheetCubitState
+              >(
+                listener: (context, state) {
+                  state.whenOrNull(
+                    success: (data) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            // ignore: prefer_single_quotes
+                            data.message ?? "Sheet counts updated successfully",
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.green,
+                          behavior: SnackBarBehavior.floating,
+                          margin: const EdgeInsets.all(16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      );
+                    },
+                    failure: (error) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            error.error,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          margin: const EdgeInsets.all(16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
-                failure: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        error.error,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      margin: const EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ],
+              ),
 
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            leading: _backButton(context),
-            title: Text(widget.id, style: UrbanistTextStyles.heading3),
-            centerTitle: true,
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                _searchBar(),
-                const SizedBox(height: 10),
-                _buildSheetCounterSection(context),
-                const SizedBox(height: 10),
-                Expanded(child: _buildItemsList()),
-              ],
+              /// Scanner (OCR) Listener — triggers update_panel_status on extraction
+              BlocListener<ScannerCubit, ScannerState>(
+                listener: (context, state) {
+                  if (state.isExtracting) {
+                    PanelResultDailog.showLoading(context);
+                  } else {
+                    if (Navigator.of(context, rootNavigator: true).canPop()) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    }
+                  }
+
+                  if (state.extractedCodes != null &&
+                      state.extractedCodes!.isNotEmpty) {
+                    context.read<LaserCuttingPanelCubit>().request(
+                      Triple(
+                        state.extractedCodes!,
+                        state.base64Image,
+                        state.captureTime?.toIso8601String(),
+                      ),
+                    );
+                    context.read<ScannerCubit>().reset();
+                  }
+
+                  if (state.error != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.error!.error),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+              ),
+
+              /// Panel Status (update_panel_status) Listener
+              BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
+                listener: (context, state) {
+                  state.whenOrNull(
+                    success: (data) {
+                      _onRefresh(context);
+                      PanelResultDailog.showScanResult(
+                        context,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
+                      );
+                    },
+                    failure: (error) {
+                      PanelResultDailog.showScanResult(
+                        context,
+                        fallbackMessage: error.error,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: _backButton(context),
+                title: Text(widget.id, style: UrbanistTextStyles.heading3),
+                centerTitle: true,
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    _searchBar(),
+                    const SizedBox(height: 10),
+                    _buildSheetCounterSection(context),
+                    const SizedBox(height: 10),
+                    Expanded(child: _buildItemsList()),
+                  ],
+                ),
+              ),
+              floatingActionButton: const ScannerButton(),
             ),
-          ),
-          floatingActionButton: const ScannerButton(),
-        ),
+          );
+        },
       ),
     );
   }
@@ -324,7 +395,7 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
                       (v) => fullSheetCount.value = v,
                     ),
               ),
-           
+
               ValueListenableBuilder<int>(
                 valueListenable: halfSheetCount,
                 builder:
@@ -334,7 +405,7 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
                       (v) => halfSheetCount.value = v,
                     ),
               ),
-            
+
               ValueListenableBuilder<int>(
                 valueListenable: quarterSheetCount,
                 builder:
@@ -363,7 +434,6 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-              
                   onPressed:
                       (type == null || widget.laserCuttingStatus == 'Completed')
                           ? null
@@ -395,65 +465,63 @@ class _LaserItemDetailsState extends State<LaserItemDetails> {
       ),
     );
   }
-Widget _buildCounterItem(String label, int value, Function(int)? onChanged) {
-  return Expanded(
-    child: Column(
-      children: [
-        Text(
-          label,
-          style: UrbanistTextStyles.bodySmall.copyWith(fontSize: 12),
-          overflow: TextOverflow.ellipsis,
-        ),
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(0xFF5FD6FF)),
+
+  Widget _buildCounterItem(String label, int value, Function(int)? onChanged) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            label,
+            style: UrbanistTextStyles.bodySmall.copyWith(fontSize: 12),
+            overflow: TextOverflow.ellipsis,
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InkWell(
-                onTap: onChanged == null
-                    ? null
-                    : () => value > 0 ? onChanged(value - 1) : null,
-                child: const Padding(
-                  padding: EdgeInsets.all(6),
-                  child: Icon(
-                    Icons.remove,
-                    size: 16,
-                    color: Color(0xFF5FD6FF),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: const Color(0xFF5FD6FF)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                  onTap:
+                      onChanged == null
+                          ? null
+                          : () => value > 0 ? onChanged(value - 1) : null,
+                  child: const Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Icon(
+                      Icons.remove,
+                      size: 16,
+                      color: Color(0xFF5FD6FF),
+                    ),
                   ),
                 ),
-              ),
-    
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: Text(
-                  '$value',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-    
-              InkWell(
-                onTap: onChanged == null ? null : () => onChanged(value + 1),
-                child: const Padding(
-                  padding: EdgeInsets.all(6),
-                  child: Icon(
-                    Icons.add,
-                    size: 16,
-                    color: Color(0xFF5FD6FF),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    '$value',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),
-            ],
+
+                InkWell(
+                  onTap: onChanged == null ? null : () => onChanged(value + 1),
+                  child: const Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Icon(Icons.add, size: 16, color: Color(0xFF5FD6FF)),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 
   Widget _searchBar() {
     return Container(

@@ -10,6 +10,7 @@ import 'package:steel_soul/features/packing/model/scanner_details_model.dart';
 import 'package:steel_soul/features/packing/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/packing/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/packing/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
 
@@ -29,23 +30,26 @@ class PackingScanDetails extends StatefulWidget {
 
 class _PackingScanDetailsState extends State<PackingScanDetails> {
   Future<void> _handleRefresh(BuildContext context) async {
-context.read<LaserCuttingScanCubit>().request(
-Pair<String, String>(widget.projectId, widget.unit),
-);
+    context.read<LaserCuttingScanCubit>().request(
+      Pair<String, String>(widget.projectId, widget.unit),
+    );
 
-// Wait until the cubit is no longer loading
-await context.read<LaserCuttingScanCubit>().stream.firstWhere(
-(state) => !state.isLoading,
-);
-}
+    // Wait until the cubit is no longer loading
+    await context.read<LaserCuttingScanCubit>().stream.firstWhere(
+      (state) => !state.isLoading,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              PackingBlocProvider.get().fetchLaserScanList()
-                ..request(Pair<String, String>(widget.projectId, widget.unit)),
+          create:
+              (_) =>
+                  PackingBlocProvider.get().fetchLaserScanList()..request(
+                    Pair<String, String>(widget.projectId, widget.unit),
+                  ),
         ),
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
         // This provides the Panel Status Cubit to the tree
@@ -98,24 +102,28 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      // Refresh the list first
-                      context.read<LaserCuttingScanCubit>().request(
-                        Pair<String, String>(widget.projectId, widget.unit),
-                      );
-                      // Show the Blur Dialog
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Scan Successful',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Error',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -159,15 +167,16 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                       builder: (context, state) {
                         return state.maybeWhen(
                           success: (items) {
-                            final scannedList = items
-                                .cast<SacnnerDetailsModel>();
+                            final scannedList =
+                                items.cast<SacnnerDetailsModel>();
                             final int total = scannedList.length;
-                            final int scanned = scannedList
-                                .where(
-                                  (item) =>
-                                      item.laserCuttingStatus == 'Scanned',
-                                )
-                                .length;
+                            final int scanned =
+                                scannedList
+                                    .where(
+                                      (item) =>
+                                          item.laserCuttingStatus == 'Scanned',
+                                    )
+                                    .length;
 
                             return Row(
                               children: [
@@ -204,44 +213,43 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
                     ),
                     const SizedBox(height: 16),
                     Expanded(
-                      child:
-                          BlocBuilder<
-                            LaserCuttingScanCubit,
-                            LaserCuttingScanCubitState
-                          >(
-                            builder: (context, state) {
-                              return state.when(
-                                initial: () => const SizedBox(),
-                                loading: () => const Center(
+                      child: BlocBuilder<
+                        LaserCuttingScanCubit,
+                        LaserCuttingScanCubitState
+                      >(
+                        builder: (context, state) {
+                          return state.when(
+                            initial: () => const SizedBox(),
+                            loading:
+                                () => const Center(
                                   child: CircularProgressIndicator(),
                                 ),
-                                failure: (e) =>
-                                    Center(child: Text('//${e.error}')),
-                                success: (items) {
-                                  final scannedItems = items
-                                      .cast<SacnnerDetailsModel>();
-                                  if (scannedItems.isEmpty) {
-                                    return const Center(
-                                      child: Text('No items found'),
+                            failure: (e) => Center(child: Text('//${e.error}')),
+                            success: (items) {
+                              final scannedItems =
+                                  items.cast<SacnnerDetailsModel>();
+                              if (scannedItems.isEmpty) {
+                                return const Center(
+                                  child: Text('No items found'),
+                                );
+                              }
+                              return RefreshIndicator(
+                                color: Colors.brown,
+                                onRefresh: () => _handleRefresh(context),
+                                child: ListView.builder(
+                                  itemCount: scannedItems.length,
+                                  itemBuilder: (context, index) {
+                                    return _buildScanDetailCard(
+                                      context,
+                                      scannedItems[index],
                                     );
-                                  }
-                                  return RefreshIndicator(
-                                    color: Colors.brown,
-                                    onRefresh: () => _handleRefresh(context),
-                                    child: ListView.builder(
-                                      itemCount: scannedItems.length,
-                                      itemBuilder: (context, index) {
-                                        return _buildScanDetailCard(
-                                          context,
-                                          scannedItems[index],
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
+                                  },
+                                ),
                               );
                             },
-                          ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -336,9 +344,8 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
 
   Widget _buildScanDetailCard(BuildContext context, SacnnerDetailsModel item) {
     final bool isScanned = item.laserCuttingStatus == 'Scanned';
-    final Color statusColor = isScanned
-        ? const Color(0xff3db678)
-        : const Color(0xff858585);
+    final Color statusColor =
+        isScanned ? const Color(0xff3db678) : const Color(0xff858585);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),

@@ -6,6 +6,7 @@ import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart' show Pair;
 import 'package:steel_soul/core/model/triple.dart';
 import 'package:steel_soul/features/buildbadge/summarybox.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 import 'package:steel_soul/features/riveting/model/scanner_details_model.dart';
 
 import 'package:steel_soul/features/riveting/presentation%20/bloc/bloc_provider.dart';
@@ -91,27 +92,26 @@ await context.read<LaserCuttingScanCubit>().stream.firstWhere(
               BlocListener<LaserCuttingPanelCubit, LaserCuttingPanelCubitState>(
                 listener: (context, state) {
                   state.whenOrNull(
-                    success: (data) {
-                      // Refresh the list first
-                      context.read<LaserCuttingScanCubit>().request(
-                        Pair<String, String>(widget.projectId, widget.unit),
-                      );
-                      // Show the Blur Dialog
-                      _showStatusSnackBar(
-                        context,
-                        // 'Success',
-                        data.message ?? 'Scan Successful',
-                        Colors.green,
-                      );
-                    },
-                    failure: (error) {
-                      _showStatusSnackBar(
-                        context,
-                        // 'Error',
-                        error.error,
-                        Colors.red,
-                      );
-                    },
+                   success: (data) {
+
+  PanelResultDailog.showScanResult(
+    context,
+    status: data.status,
+    total: data.computedTotal,
+    success: data.computedSuccess,
+    failed: data.computedFailed,
+    results: data.allResults
+        .map((r) => PanelResultData(
+              panelId: r.panelId,
+              message: r.message,
+              isSuccess: r.status == 'success',
+            ))
+        .toList(),
+  );
+},
+failure: (error) {
+  PanelResultDailog.showScanResult(context, fallbackMessage: error.error);
+},
                   );
                 },
               ),

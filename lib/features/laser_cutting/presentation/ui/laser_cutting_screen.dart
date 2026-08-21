@@ -9,6 +9,7 @@ import 'package:steel_soul/features/laser_cutting/model/laser_cutting_model.dart
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/laser_cutting/presentation/widgets/scanner_button.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 import 'laser_item_details.dart';
 import '../widgets/laser_card.dart';
 import 'package:steel_soul/styles/urbanist_text_styles.dart';
@@ -60,7 +61,7 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
               BlocListener<ScannerCubit, ScannerState>(
                 listener: (context, state) {
                   if (state.isExtracting) {
-                    _showLoadingDialog(context);
+                    PanelResultDailog.showLoading(context);
                   } else {
                     // Safely pop the loading dialog
                     if (Navigator.of(context, rootNavigator: true).canPop()) {
@@ -70,15 +71,12 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
 
                   if (state.extractedCodes != null &&
                       state.extractedCodes!.isNotEmpty) {
-                        log('Extracted Codes: ${state.extractedCodes}');
-            
                     context.read<LaserCuttingPanelCubit>().request(
                       Triple(
                         state.extractedCodes!,
                         state.base64Image,
                         state.captureTime?.toIso8601String(),
                       ),
-                      
                     );
                     context.read<ScannerCubit>().reset();
                   }
@@ -100,17 +98,29 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                   state.whenOrNull(
                     success: (data) {
                       _onRefresh(context);
-
-                      // REPLACED DIALOG WITH SNACKBAR
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        data.message ?? 'Panel Matched Successfully',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      // REPLACED DIALOG WITH SNACKBAR
-                      _showStatusSnackBar(context, error.error, Colors.red);
+                      PanelResultDailog.showScanResult(
+                        context,
+                        fallbackMessage: error.error,
+                      );
                     },
                   );
                 },
@@ -190,7 +200,7 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
                                                     '',
                                                 time: project.time ?? '',
                                                 onTap: () async {
-                                                  final result = await Navigator.push(
+                                                  await Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                       builder:
@@ -249,45 +259,6 @@ class _LaserCuttingScreenState extends State<LaserCuttingScreen> {
           );
         },
       ),
-    );
-  }
-
-  // --- UI Helpers (Mirroring LaserScanDetails) ---
-
-  void _showStatusSnackBar(BuildContext context, String message, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              color == Colors.green ? Icons.check_circle : Icons.error,
-              color: Colors.white,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                message,
-                style: UrbanistTextStyles.bodyMedium.copyWith(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: color,
-        behavior: SnackBarBehavior.floating, // Makes it float above the UI
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  void _showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
     );
   }
 

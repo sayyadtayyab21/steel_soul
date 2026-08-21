@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/pair.dart';
 import 'package:steel_soul/core/model/triple.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 
 import 'package:steel_soul/features/riveting/presentation%20/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/riveting/presentation%20/bloc/scanner_cubit.dart';
@@ -96,23 +97,29 @@ class _RivetingScreenState extends State<RivetingScreen> {
                 listener: (context, state) {
                   state.whenOrNull(
                     success: (data) {
-                      // Refresh the list so the UI reflects the change
                       _onRefresh(context);
-
-                      // Show success feedback with Blur effect
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Success',
-                        data.message ?? 'Panel Matched Successfully',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        // 'Error',
-                        error.error,
-                        Colors.red,
+                        fallbackMessage: error.error,
                       );
                     },
                   );
@@ -135,78 +142,86 @@ class _RivetingScreenState extends State<RivetingScreen> {
                     _searchBar(),
                     const SizedBox(height: 10),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
+                      child: BlocBuilder<
+                        LaserCuttingCubit,
+                        LaserCuttingCubitState
+                      >(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            loading:
+                                () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                             failure: (e) => Center(child: Text(e.error)),
                             success: (projects) {
                               // Filter logic
-                              final filteredProjects = projects.where((
-                                project,
-                              ) {
-                                final id =
-                                    project.projectId?.toLowerCase() ?? '';
-                                return id.contains(_searchQuery.toLowerCase());
-                              }).toList();
+                              final filteredProjects =
+                                  projects.where((project) {
+                                    final id =
+                                        project.projectId?.toLowerCase() ?? '';
+                                    return id.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
                               // Wrap the list in RefreshIndicator
                               return RefreshIndicator(
                                 color: const Color(0xFF5FD6FF),
                                 onRefresh: () => _onRefresh(context),
-                                child: filteredProjects.isEmpty
-                                    ? ListView(
-                                        // Using ListView so pull-to-refresh still works when empty
-                                        children: const [
-                                          SizedBox(height: 100),
-                                          Center(
-                                            child: Text('No projects found'),
-                                          ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        itemCount: filteredProjects.length,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(), // Ensures pull-to-refresh always works
-                                        itemBuilder: (context, index) {
-                                          final project =
-                                              filteredProjects[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6,
+                                child:
+                                    filteredProjects.isEmpty
+                                        ? ListView(
+                                          // Using ListView so pull-to-refresh still works when empty
+                                          children: const [
+                                            SizedBox(height: 100),
+                                            Center(
+                                              child: Text('No projects found'),
                                             ),
-                                            child: RivetingCards(
-                                              id: project.projectId ?? '',
-                                              date: project.date ?? '',
-                                              scan: project.status ?? '',
-                                              time: project.time ?? '',
-                                              onTap: () async {
-                                                await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        RivetingItemDetails(
-                                                          id:
-                                                              project
-                                                                  .projectId ??
-                                                              '',
-                                                        ),
-                                                  ),
-                                                );
-                                                if (context.mounted) {
-                                                  debugPrint(
-                                                    'Returned from details, refreshing items...',
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: filteredProjects.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(), // Ensures pull-to-refresh always works
+                                          itemBuilder: (context, index) {
+                                            final project =
+                                                filteredProjects[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 6,
+                                              ),
+                                              child: RivetingCards(
+                                                id: project.projectId ?? '',
+                                                date: project.date ?? '',
+                                                scan: project.status ?? '',
+                                                time: project.time ?? '',
+                                                onTap: () async {
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (
+                                                            _,
+                                                          ) => RivetingItemDetails(
+                                                            id:
+                                                                project
+                                                                    .projectId ??
+                                                                '',
+                                                          ),
+                                                    ),
                                                   );
-                                                  _onRefresh(context);
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                                  if (context.mounted) {
+                                                    debugPrint(
+                                                      'Returned from details, refreshing items...',
+                                                    );
+                                                    _onRefresh(context);
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
                           );
@@ -305,15 +320,16 @@ class _RivetingScreenState extends State<RivetingScreen> {
         decoration: InputDecoration(
           hintText: 'Search Project ID',
           prefixIcon: const Icon(Icons.search, color: Color(0xFF3181ff)),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
-                )
-              : null,
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

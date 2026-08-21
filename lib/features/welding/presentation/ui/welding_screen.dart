@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steel_soul/core/di/injector.dart';
 import 'package:steel_soul/core/model/model.dart';
+import 'package:steel_soul/features/panel_result_dialog.dart';
 import 'package:steel_soul/features/welding/model/welding_projects_model.dart';
 import 'package:steel_soul/features/welding/presentation/bloc/bloc_provider.dart';
 import 'package:steel_soul/features/welding/presentation/bloc/scanner_cubit.dart';
 import 'package:steel_soul/features/welding/presentation/widgets/scanner_button.dart';
-
 
 import 'welding_item_details.dart';
 import '../widgets/welding_cards.dart';
@@ -42,8 +42,7 @@ class _LaserCuttingScreenState extends State<WeldingScreen> {
       providers: [
         // 1. Project List Cubit
         BlocProvider(
-          create: (_) =>
-              WeldingBlocProvider.get().fetchLaserList()..request(),
+          create: (_) => WeldingBlocProvider.get().fetchLaserList()..request(),
         ),
         // 2. Scanner Cubit (Handles Image Picking & OCR)
         BlocProvider(create: (context) => $sl.get<ScannerCubit>()),
@@ -98,17 +97,29 @@ class _LaserCuttingScreenState extends State<WeldingScreen> {
                   state.whenOrNull(
                     success: (data) {
                       _onRefresh(context);
-
-                      // REPLACED DIALOG WITH SNACKBAR
-                      _showStatusSnackBar(
+                      PanelResultDailog.showScanResult(
                         context,
-                        data.message ?? 'Panel Matched Successfully',
-                        Colors.green,
+                        status: data.status,
+                        total: data.computedTotal,
+                        success: data.computedSuccess,
+                        failed: data.computedFailed,
+                        results:
+                            data.allResults
+                                .map(
+                                  (r) => PanelResultData(
+                                    panelId: r.panelId,
+                                    message: r.message,
+                                    isSuccess: r.status == 'success',
+                                  ),
+                                )
+                                .toList(),
                       );
                     },
                     failure: (error) {
-                      // REPLACED DIALOG WITH SNACKBAR
-                      _showStatusSnackBar(context, error.error, Colors.red);
+                      PanelResultDailog.showScanResult(
+                        context,
+                        fallbackMessage: error.error,
+                      );
                     },
                   );
                 },
@@ -120,10 +131,7 @@ class _LaserCuttingScreenState extends State<WeldingScreen> {
                 backgroundColor: Colors.white,
                 elevation: 0,
                 leading: _backButton(context),
-                title: Text(
-                  'Welding',
-                  style: UrbanistTextStyles.heading3,
-                ),
+                title: Text('Welding', style: UrbanistTextStyles.heading3),
                 centerTitle: true,
               ),
               body: Padding(
@@ -133,89 +141,99 @@ class _LaserCuttingScreenState extends State<WeldingScreen> {
                     _searchBar(),
                     const SizedBox(height: 10),
                     Expanded(
-                      child: BlocBuilder<LaserCuttingCubit, LaserCuttingCubitState>(
+                      child: BlocBuilder<
+                        LaserCuttingCubit,
+                        LaserCuttingCubitState
+                      >(
                         builder: (context, state) {
                           return state.when(
                             initial: () => const SizedBox(),
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            loading:
+                                () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                             failure: (e) => Center(child: Text(e.error)),
                             success: (List<WeldingProjectsModel> projects) {
-                              final filteredProjects = projects.where((
-                                project,
-                              ) {
-                                final id =
-                                    project.projectId?.toLowerCase() ?? '';
-                                return id.contains(_searchQuery.toLowerCase());
-                              }).toList();
+                              final filteredProjects =
+                                  projects.where((project) {
+                                    final id =
+                                        project.projectId?.toLowerCase() ?? '';
+                                    return id.contains(
+                                      _searchQuery.toLowerCase(),
+                                    );
+                                  }).toList();
 
                               return RefreshIndicator(
                                 color: const Color.fromARGB(255, 255, 152, 92),
                                 onRefresh: () => _onRefresh(context),
-                                child: filteredProjects.isEmpty
-                                    ? ListView(
-                                        children: const [
-                                          SizedBox(height: 100),
-                                          Center(
-                                            child: Text('No projects found'),
-                                          ),
-                                        ],
-                                      )
-                                    : ListView.builder(
-                                        itemCount: filteredProjects.length,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          final project =
-                                              filteredProjects[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 6,
+                                child:
+                                    filteredProjects.isEmpty
+                                        ? ListView(
+                                          children: const [
+                                            SizedBox(height: 100),
+                                            Center(
+                                              child: Text('No projects found'),
                                             ),
-                                            child: WeldingCards(
-                                              id: project.projectId ?? '',
-                                              date: project.date ?? '',
-                                              scan:
-                                                  project.status ??
-                                                  '',
-                                              time: project.time??'' ,
-                                              onTap: () async {
-                                                // We wait for the result
-                                                final result = await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) => WeldingItemDetails(
-                                                      id:
-                                                          project.projectId ??
-                                                          '',
-                                                      fullProjectSheetCount:
-                                                          project
-                                                              .fullSheetCount ??
-                                                          0,
-                                                      halfProjectSheetCount:
-                                                          project
-                                                              .halfSheetCount ??
-                                                          0,
-                                                      quarterProjectSheetCount:
-                                                          project
-                                                              .quarterSheetCount ??
-                                                          0,
+                                          ],
+                                        )
+                                        : ListView.builder(
+                                          itemCount: filteredProjects.length,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            final project =
+                                                filteredProjects[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 6,
+                                              ),
+                                              child: WeldingCards(
+                                                id: project.projectId ?? '',
+                                                date: project.date ?? '',
+                                                scan: project.status ?? '',
+                                                time: project.time ?? '',
+                                                onTap: () async {
+                                                  // We wait for the result
+                                                  final result = await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (
+                                                            _,
+                                                          ) => WeldingItemDetails(
+                                                            id:
+                                                                project
+                                                                    .projectId ??
+                                                                '',
+                                                            fullProjectSheetCount:
+                                                                project
+                                                                    .fullSheetCount ??
+                                                                0,
+                                                            halfProjectSheetCount:
+                                                                project
+                                                                    .halfSheetCount ??
+                                                                0,
+                                                            quarterProjectSheetCount:
+                                                                project
+                                                                    .quarterSheetCount ??
+                                                                0,
+                                                          ),
                                                     ),
-                                                  ),
-                                                );
+                                                  );
 
-                                                // If we return, we MUST refresh the main list to get the new '1' counts from server
-                                                if (context.mounted) {
-                                                  context
-                                                      .read<LaserCuttingCubit>()
-                                                      .request();
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                                  // If we return, we MUST refresh the main list to get the new '1' counts from server
+                                                  if (context.mounted) {
+                                                    context
+                                                        .read<
+                                                          LaserCuttingCubit
+                                                        >()
+                                                        .request();
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                               );
                             },
                           );
@@ -283,16 +301,20 @@ class _LaserCuttingScreenState extends State<WeldingScreen> {
         onChanged: (value) => setState(() => _searchQuery = value),
         decoration: InputDecoration(
           hintText: 'Search Project ID',
-          prefixIcon: const Icon(Icons.search, color: const Color.fromARGB(255, 255, 152, 92),),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear, size: 20),
-                  onPressed: () {
-                    _searchController.clear();
-                    setState(() => _searchQuery = '');
-                  },
-                )
-              : null,
+          prefixIcon: const Icon(
+            Icons.search,
+            color: const Color.fromARGB(255, 255, 152, 92),
+          ),
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() => _searchQuery = '');
+                    },
+                  )
+                  : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
